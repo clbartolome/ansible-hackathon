@@ -1,0 +1,49 @@
+.card {
+  border: 1px solid #d3d3d3;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 180px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  background-color: #f9f9f9;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card.above-limit {
+
+  font-weight: bold;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    background-color: rgba(255, 0, 0, 0);
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.2);
+  }
+}
+
+.card h3 {
+  margin: 10px 0;
+  font-size: 1em;
+  color: #333;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 1.5em;
+  color: #b34700;
+}
+
+.card small {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.8em;
+  color: #888;
+}
