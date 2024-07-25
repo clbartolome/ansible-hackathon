@@ -1,0 +1,38 @@
+[
+    {
+        "currency": "USD",
+        "title": "Dolar estadounidense (USD) / Euro (EUR)",
+        "value": 1.0888,
+        "limit": 0.5
+    },
+    {
+        "currency": "JPY",
+        "title": "Yen japones (JPY) / Euro (EUR)",
+        "value": 170.80,
+        "limit": 200
+    },
+    {
+        "currency": "GBP",
+        "title": "Libra esterlina (GBP) / Euro (EUR)",
+        "value": 0.84215,
+        "limit": 0.95
+    },
+    {
+        "currency": "CHF",
+        "title": "Franco suizo (CHF) / Euro (EUR)",
+        "value": 0.9671,
+        "limit": 10
+    },
+    {
+        "currency": "CNY",
+        "title": "Yuan renminbi chino (CNY) / Euro (EUR)",
+        "value": 7.9191,
+        "limit": 8
+    },
+    {
+        "currency": "MXN",
+        "title": "Peso mexicano (MXN) / Euro (EUR)",
+        "value": 19.6457,
+        "limit": 20
+    }
+]
