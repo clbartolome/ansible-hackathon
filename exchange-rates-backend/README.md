@@ -54,7 +54,7 @@ Exchange rates are described in `exchange_rates.json`.
   ```sh
   curl -X GET http://127.0.0.1:5000/exchange_rates
   ```
-- Update the Limit of a Currency
+- Update the value of a Currency
   ```sh
   curl -X PUT http://127.0.0.1:5000/exchange_rates \
     -H "Content-Type: application/json" \
