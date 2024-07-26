@@ -12,7 +12,7 @@ Application configuration is provided in the file `public/config/config.json`. V
 
 If running this application locally override this file values if needed.
 
-In case of using Podman, Docker, Kubernetes, OpenShift... mount a directory with your `config.json` file in `app/build/config`.
+In case of using Podman, Docker, Kubernetes, OpenShift... mount a directory with your `config.json` file in `/app/build/config`.
 
 ## Installation
 
