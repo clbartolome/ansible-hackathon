@@ -20,8 +20,8 @@ asciidoc:
     release-version: master
     page-pagination: true
   extensions:
-    - ./guide/lib/tab-block.js
-    - ./guide/lib/remote-include-processor.js
+    - ./lib/tab-block.js
+    - ./lib/remote-include-processor.js
 
 ui:
   bundle:
