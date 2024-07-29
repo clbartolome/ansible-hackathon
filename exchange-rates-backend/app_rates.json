@@ -3,7 +3,7 @@
         "currency": "USD",
         "title": "Dolar estadounidense (USD) / Euro (EUR)",
         "value": 1.0888,
-        "limit": 0.5
+        "limit": 1.2
     },
     {
         "currency": "JPY",

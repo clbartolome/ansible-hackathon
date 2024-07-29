@@ -53,7 +53,7 @@ objects:
           deployment: "backend-${USER}"
       spec:
         containers:
-        - image: quay.io/calopezb/exchange-rates-back:1.0.0
+        - image: quay.io/calopezb/exchange-rates-back:1.0.1
           imagePullPolicy: Always
           name: "backend-${USER}"
           ports:
@@ -132,7 +132,7 @@ objects:
           deployment: "frontend-${USER}"
       spec:
         containers:
-        - image: quay.io/calopezb/exchange-rates-front:1.0.0
+        - image: quay.io/calopezb/exchange-rates-front:1.0.1
           imagePullPolicy: IfNotPresent
           name: "frontend-${USER}"
           ports:

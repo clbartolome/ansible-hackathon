@@ -1,0 +1,26 @@
+[
+    {
+        "currency": "USD",
+        "value": 1.0888
+    },
+    {
+        "currency": "JPY",
+        "value": 170.80
+    },
+    {
+        "currency": "GBP",
+        "value": 0.84215
+    },
+    {
+        "currency": "CHF",
+        "value": 0.9671
+    },
+    {
+        "currency": "CNY",
+        "value": 7.9191
+    },
+    {
+        "currency": "MXN",
+        "value": 19.6457
+    }
+]

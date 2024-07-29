@@ -9,7 +9,7 @@ import { getConfig } from '../globalConfig';
 const ExchangeRateList = () => {
   const [exchangeRates, setExchangeRates] = useState([]);
   const apiUrl =  getConfig().REACT_APP_BACKEND || 'http://127.0.0.1:5000';
-  const ratesPath = '/exchange_rates';
+  const ratesPath = '/app_rates';
 
   const fetchExchangeRates = useCallback(() => {
     axios.get(`${apiUrl}${ratesPath}`)

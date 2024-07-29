@@ -8,23 +8,37 @@ app = Flask(__name__)
 # Enable CORS for all routes
 CORS(app)
 
-# Load exchange rates from file
-def load_exchange_rates():
-    with open('exchange_rates.json', 'r') as file:
+# Load app rates from file
+def load_app_rates():
+    with open('app_rates.json', 'r') as file:
+        return json.load(file)
+
+# Load bce rates from file
+def load_bce_rates():
+    with open('bce_rates.json', 'r') as file:
         return json.load(file)
 
 # Save exchange rates to file
-def save_exchange_rates(exchange_rates):
-    with open('exchange_rates.json', 'w') as file:
-        json.dump(exchange_rates, file, indent=4)
+def save_app_rates(app_rates):
+    with open('app_rates.json', 'w') as file:
+        json.dump(app_rates, file, indent=4)
 
-exchange_rates = load_exchange_rates()
+app_rates = load_app_rates()
+bce_rates = load_bce_rates()
 
-@app.route('/exchange_rates', methods=['GET'])
-def get_exchange_rates():
-    return jsonify(exchange_rates)
+@app.route('/app_rates', methods=['GET'])
+def get_app_rates():
+    return jsonify(app_rates)
 
-@app.route('/exchange_rates', methods=['PUT'])
+@app.route('/bce_rates/<currency>', methods=['GET'])
+def get_bce_rate(currency):
+    rate = next((item for item in bce_rates if item["currency"] == currency), None)
+    if rate:
+        return jsonify(rate)
+    else:
+        return jsonify({"error": "Currency not found"}), 404
+
+@app.route('/app_rates', methods=['PUT'])
 def update_exchange_rate():
     data = request.json
     currency = data.get('currency')
@@ -32,7 +46,7 @@ def update_exchange_rate():
     new_limit = data.get('limit')
     new_title = data.get('title')
 
-    for rate in exchange_rates:
+    for rate in app_rates:
         if rate['currency'] == currency:
             if new_value is not None:
                 rate['value'] = new_value
@@ -40,7 +54,7 @@ def update_exchange_rate():
                 rate['limit'] = new_limit
             if new_title is not None:
                 rate['title'] = new_title
-            save_exchange_rates(exchange_rates)
+            save_app_rates(app_rates)
             return jsonify({"message": "Exchange rate updated successfully"}), 200
 
     return jsonify({"error": "Currency not found"}), 404

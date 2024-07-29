@@ -1,7 +1,7 @@
 
 # Exchange Rates Application - Backend (Flask)
 
-Exchange rates are described in `exchange_rates.json`.
+Exchange rates are described in `app_rates.json`.
 
 ## Requirements
 
@@ -28,15 +28,15 @@ Exchange rates are described in `exchange_rates.json`.
 
 ## Endpoints
 
-### Get Exchange Rates
+### Get App Rates
 
-- **URL**: `/exchange_rates`
+- **URL**: `/app_rates`
 - **HTTP Method**: `GET`
-- **Description**: Retrieves the stored exchange rates (currency, value and limit).
+- **Description**: Retrieves the stored app rates (title, currency, value and limit).
 
-### Update an Exchange Rate
+### Update an App Rate
 
-- **URL**: `/exchange_rates`
+- **URL**: `/app_rates`
 - **HTTP Method**: `PUT`
 - **Description**: Updates the value and/or limit of a specific currency.
 - **Request Body**:
@@ -48,15 +48,22 @@ Exchange rates are described in `exchange_rates.json`.
     }
     ```
 
+### Get BCE Rate
+
+- **URL**: `/bce_rates/<currency>`
+- **HTTP Method**: `GET`
+- **Description**: Retrieves the selected BCE rate (currency and value) or 404 Error if does not exists.
+
+
 ### Examples using `curl`
 
 - Get Exchange Rates:
   ```sh
-  curl -X GET http://127.0.0.1:5000/exchange_rates
+  curl -X GET http://127.0.0.1:5000/app_rates
   ```
 - Update the value of a Currency
   ```sh
-  curl -X PUT http://127.0.0.1:5000/exchange_rates \
+  curl -X PUT http://127.0.0.1:5000/app_rates \
     -H "Content-Type: application/json" \
     -d '{
       "currency": "GBP",
