@@ -13,7 +13,7 @@ content:
     - url: git@github.com:clbartolome/ansible-hackathon.git
       tags: []
       branches: [init-guide]
-      start_path: documentation
+      start_path: guide/documentation
 
 asciidoc:
   attributes:
