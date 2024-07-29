@@ -18,4 +18,4 @@ Run the development mode:
 gulp
 ```
 
-Server is available at [http:localhost:3000](http:localhost:3000) 
+Server is available at [http:localhost:3000](http:localhost:3000)  
