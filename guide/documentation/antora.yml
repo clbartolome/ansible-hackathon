@@ -1,6 +1,6 @@
-name: ansible-helm-lifecycle
-title: Ansible Helm Lifecycle Guide
-version: master
+name: ansible-hackathon
+title: Ansible Hackathon
+version: init-guide
 nav:
   - modules/ROOT/nav.adoc
 
