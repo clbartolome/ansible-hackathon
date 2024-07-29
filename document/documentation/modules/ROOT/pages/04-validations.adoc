@@ -1,0 +1,555 @@
+= Validations
+
+Now that the namespace has been created and the test *base-chart* has been installed, we can start performing some tests to be sure the *base-chart* is working as expected.
+
+The first thing that we should do is create a task to download the *base-chart* code and read the scenario1 values so we can perform some validations.
+
+WARNING: Visit *User Configuration section* to configure your username if you haven't set it up yet!
+
+TIP: Take a look at *3. Testing Environment* > *Run Workflow Manually* to review how to test the Workflow manually.
+
+[tabs, subs="attributes+,+macros"]	
+====	
+Steps::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to clone *base-chart* repository (you can use /tmp/basechart as destination).
+* Add a new task to read the values of the scenario1 in */tmp/base-chart/test/scenario1/values.yaml* as variables.
+* Commit your changes.
+
+TIP: Use the collection *https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html[ansible.builtin.git]* to clone the repository.
+
+TIP: Use the collection *https://docs.ansible.com/ansible/latest/collections/ansible/builtin/include_vars_module.html[ansible.builtin.include_vars]* read variables from a *yaml* file.
+
+--	
+Solution::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to clone *base-chart* repository:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Clone Base Chart remote repository
+  ansible.builtin.git:
+    repo: http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git
+    dest: /tmp/base-chart
+    version: master
+----	
+
+* Add a new task to read the values of the scenario1 in */tmp/base-chart/test/scenario1/values.yaml* as variables:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Read scenario values
+  ansible.builtin.include_vars:
+    file: "/tmp/base-chart/test/scenario1/values.yaml"
+    name: scenario
+----	
+
+* The playbook would be like:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    # TODO: Test - Deployment --> Get deployment
+
+    # TODO: Test - Deployment --> Validate the number of replicas is correct
+
+    # TODO: Test - Application Size - S or default
+
+    # TODO: Test - Route --> Get route
+
+    # TODO: Test - Route --> Send request to the route when route is defined and enabled
+    
+    # TODO: Test - Route --> Validate route is working when is defined and enabled
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert: 
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"
+----	
+
+* Commit your changes.
+====
+
+[#replicas]
+== Replicas
+
+In this test we're going to validate if the number of replicas we defined in our scenario1 is the same as the number of replicas that we have in the *base-chart* that we've installed.
+
+To achive that we're going to read the deployment object and check the running replicas.
+
+[tabs, subs="attributes+,+macros"]	
+====	
+Steps::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to get the *deployment* that it is running in your test namespace.
+* Add a new task to compare the running *deployment* replicas with the defined in the scenario1 values (set the already defined variable *failed* as true if it is different).
+* Commit your changes.
+
+TIP: Use the collection *https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html[kubernetes.core.k8s]* to get the deployment.
+
+--	
+Solution::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to get the *deployment* that it is running in your test namespace:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Test - Deployment --> Get deployment
+  kubernetes.core.k8s_info:
+    api_version: apps/v1
+    kind: Deployment
+    namespace: "%USER%-base-chart"
+    label_selectors:
+      - app=scenario1
+  ignore_errors: true
+  register: scenario_deployment
+----	
+
+* Add a new task to compare the running *deployment* replicas with the defined in the scenario1 values (set the already defined variable *failed* as true if it is different):
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Test - Deployment --> Validate the number of replicas is correct
+  ansible.builtin.set_fact:
+    failed: true
+  when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+----	
+
+The playbook would be like:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    - name: Test - Deployment --> Get deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      ignore_errors: true
+      register: scenario_deployment
+
+    - name: Test - Deployment --> Validate the number of replicas is correct
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+
+    # TODO: Test - Application Size - S or default
+
+    # TODO: Test - Route --> Get route
+
+    # TODO: Test - Route --> Send request to the route when route is defined and enabled
+    
+    # TODO: Test - Route --> Validate route is working when is defined and enabled
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert: 
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"
+----	
+
+* Commit your changes.
+====
+
+[#route]
+== Route
+
+In the scenario1 we've enabled the creatrion of a route with *deploy.route.enabled: true*, so we should validate if a route has been created.
+
+To achive that we have different options, we could read the route object and check if exists but we're going one step forward and also validate if we can connect to our application through the route.
+
+[tabs, subs="attributes+,+macros"]	
+====	
+Steps::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to get the *route* that should exist in your test namespace.
+* Add a new task to send a request to the route, get the url from the route we've get on previous step.
+* Add a new task to validate the previous step response code is 200 (set the already defined variable *failed* as true if it is different).
+* Commit your changes.
+
+TIP: Use the collection *https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html[kubernetes.core.k8s]* to get the route.
+
+TIP: Use the collection *https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html[ansible.builtin.uri]* to send the request.
+
+CAUTION: Ignore errors while getting the route, the route creation could be disabled in future scenarios...
+
+--	
+Solution::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to get the *route* that should exist in your test namespace:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Test - Route --> Get route
+  kubernetes.core.k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    namespace: "%USER%-base-chart"
+    label_selectors:
+      - app=scenario1
+  register: scenario_route
+  ignore_errors: true
+----	
+
+* Add a new task to send a request to the route, get the url from the route we've get on previous step:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Test - Route --> Send request to the route when route is defined and enabled
+  ansible.builtin.uri:
+    url: "http://{{ scenario_route.resources[0].spec.host }}"
+    method: GET
+    status_code: 200
+    return_content: yes       
+  ignore_errors: true  
+  register: route_response   
+  when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length > 0
+----	
+
+* Add a new task to validate the previous step response code is *200* (set the already defined variable *failed* as true if it is different):
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Test - Route --> Validate route is working when is defined and enabled
+  ansible.builtin.set_fact:
+    failed: true
+  when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length > 0 and route_response.status != 200
+----	
+
+The playbook would be like:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    - name: Test - Deployment --> Get deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      ignore_errors: true
+      register: scenario_deployment
+
+    - name: Test - Deployment --> Validate the number of replicas is correct
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+
+    # TODO: Test - Application Size - S or default
+
+    - name: Test - Route --> Get route
+      kubernetes.core.k8s_info:
+        api_version: route.openshift.io/v1
+        kind: Route
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      register: scenario_route
+      ignore_errors: true
+
+    - name: Test - Route --> Send request to the route when route is defined and enabled
+      ansible.builtin.uri:
+        url: "http://{{ scenario_route.resources[0].spec.host }}"
+        method: GET
+        status_code: 200
+        return_content: yes       
+      ignore_errors: true  
+      register: route_response   
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length > 0
+    
+    - name: Test - Route --> Validate route is working when is defined and enabled
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length > 0 and route_response.status != 200
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert: 
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"
+----
+
+* Commit your changes.
+====
+
+[#size]
+== Size
+
+To simplify application resources (memory and CPU) the *base-chart* will preconfigure a set of sizes (XS, S, M, L,...) so application teams don't have to worry about anything else but to choose one. On the operation teams side, that will allow them to manage and track the resources utlization (a label with the size is included in all chart resources).
+
+Currently the *base-chart* only includes the size *S* and that is the one we're going to valide in this scenario. In *Gitea* > *base-chart/chart/template/_helpers.tpl* is where the size is implemented:
+
+[source,yml,subs="attributes+,+macros"]	
+----	
+{{- define "base.resources" -}}
+{{- $size := default "S" .Values.size -}}
+resources:
+{{- if eq $size "S" }}
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+{{- else }}
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+{{- end}}
+{{- end -}}
+----	
+
+As you can see the expected resources for *S* are:
+
+[cols="^,^", options="header"]
+|===
+|Property |Value
+
+|request.cpu
+|100m
+|request.memory
+|256Mi
+|limit.cpu
+|100m
+|limit.memory
+|256Mi
+
+|===
+
+The scenario1 is configured with the size *S* so we have to validate that the installed deployment have the expected configuration for both limit and request.
+
+[tabs, subs="attributes+,+macros"]	
+====	
+Steps::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to validate that the *S* size resources are the same as the installed ones (set the already defined variable *failed* as true if it is different).
+
+* Commit your changes.
+
+NOTE: We don't need to get the deployment because we already got it in the replicas validation.
+
+TIP: Remember that *S* is also the default size.
+
+--	
+Solution::	
++	
+--	
+* Go to *Gitea* and open *helm-ansible-pipeline* repository.
+* Open the playbook *02-validate-test-scenario.yml* and edit it.
+* Add a new task to validate that the *S* size resources are the same as the installed ones (set the already defined variable *failed* as true if it is different):
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+- name: Test - Application Size - S or default
+  ansible.builtin.set_fact:
+    failed: true
+  when: (scenario.size is undefined or scenario.size == "S") and not
+        (scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.cpu == "100m" and
+        scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.memory == "256Mi" and
+        scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.cpu == "100m" and
+        scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.memory == "256Mi")
+----
+
+The final version of the Playbook should be like:
+
+[.console-input]
+[source,yml,subs="attributes+,+macros"]	
+----	
+---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    - name: Test - Deployment --> Get deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      ignore_errors: true
+      register: scenario_deployment
+
+    - name: Test - Deployment --> Validate the number of replicas is correct
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+
+    - name: Test - Application Size - S or default
+      ansible.builtin.set_fact:
+        failed: true
+      when: (scenario.size is undefined or scenario.size == "S") and not
+            (scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.cpu == "100m" and
+            scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.memory == "256Mi" and
+            scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.cpu == "100m" and
+            scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.memory == "256Mi")
+
+    - name: Test - Route --> Get route
+      kubernetes.core.k8s_info:
+        api_version: route.openshift.io/v1
+        kind: Route
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      register: scenario_route
+      ignore_errors: true
+
+    - name: Test - Route --> Send request to the route when route is defined and enabled
+      ansible.builtin.uri:
+        url: "http://{{ scenario_route.resources[0].spec.host }}"
+        method: GET
+        status_code: 200
+        return_content: yes       
+      ignore_errors: true  
+      register: route_response   
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length > 0
+    
+    - name: Test - Route --> Validate route is working when is defined and enabled
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length > 0 and route_response.status != 200
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert: 
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"
+----	
+
+* Commit your changes.
+====      
+
+        
+
+        
+
+        
+
+
+
+
+
+          

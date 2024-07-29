@@ -1,0 +1,19 @@
+= Lab Configuration
+:page-layout: home
+:!sectids:
+
+All the applications and services that you are going to use during this laboratory has been already deployed and configured. In the top of this page you will find buttons to access all applications:
+
+image::user_buttons.png[]
+
+The only task that you have to do before start working is to get and configure your user. In order to do that open Etherpad application and write your name next to a *student id* to reserve it:
+
+image::user_etherpad.png[]
+
+During this laboratory exercises you will see % USER % in some files and URLs and you will have to replace it with your *assigned student*. 
+
+You must introduce your *student* and press *enter* on the input field on this web site navigation top bar:
+
+image::user_config.png[]
+
+*Let's start with the lab %USER% !!!*

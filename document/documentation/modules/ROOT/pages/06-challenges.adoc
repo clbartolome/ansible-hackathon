@@ -1,0 +1,73 @@
+= Challenges 
+
+First of all, *CONGRATULATIONS %USER%* for getting to this point of the Lab!! 
+
+You should already have a good understanding of what we are trying to achieve and therefore it is time for us to get closer to what our *base-chart's lifecycle* would look like in real scenarios.
+
+We would like to propose a series of challenges that we consider important for the management of the base-chart. In any case, if you want to continue in another way, perfect! But please keep us informed so we can learn too!
+
+[#validations]
+== Aditional Validations
+
+We've included some validations in previous sections but there are more resources managed by the *base-chart* that we should validate:
+
+. Labels.
+. Deployment:
+.. Strategy.
+.. Ports.
+.. Liveness and readiness probes.
+.. Environment variables.
+.. Volumes.
+. Service.
+. Route:
+.. Host.
+.. TLS configuration.
+. ConfigMap.
+. Secret.
+
+TIP: Take a look at the *Multiple Scenarios* challenge to simplify the testing of all the resources.
+
+[#scenarios]
+== Multiple Scenarios
+
+Currently as part of the *base-chart* pipeline we're just installing one scenario. The idea would be to install different scenarios at the same time and perform validations on parallel.
+
+This is an example diagram of how the pipeline could look like:
+
+image::6-challenges-parallel.jpg[]
+
+CAUTION: Be careful with the error management. Would be interesting to, instead of just failing, print a list of all scenarios errors or send a notification with all errors?
+
+
+[#sizes]
+== New Sizes
+
+The *base-chart* have just the size *S* configured, it is time to include more sizes so we can adapt the deployment to the application performance requirements.
+
+Find below a table with some sizes:
+
+[cols="^,^,^", options="header"]
+|===
+|Size |Property |Value
+.4+^.^|XS
+|request.cpu|50m
+|request.memory|128Mi
+|limit.cpu|50m
+|limit.memory|128Mi
+.4+^.^|S 
+|request.cpu|100m
+|request.memory|256Mi
+|limit.cpu|100m
+|limit.memory|256Mi
+.4+^.^|M
+|request.cpu|500m
+|request.memory|512Mi
+|limit.cpu|500m
+|limit.memory|512Mi
+.4+^.^|L
+|request.cpu|1
+|request.memory|1Gi
+|limit.cpu|1
+|limit.memory|1Gi
+
+|===
