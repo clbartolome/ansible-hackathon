@@ -18,6 +18,7 @@ jobs:
         with:
           antora_playbook: site.yml
           site_sources_path: guide
+          antora_docsearch_enabled: true
       - name: "Upload generated site"
         uses: actions/upload-artifact@v1.0.0
         with:
