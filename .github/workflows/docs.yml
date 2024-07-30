@@ -35,7 +35,7 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: site
-          path: "${{ github.workspace }}/${{ env.SITE_DIR }}"
+          path: "${{ github.workspace }}/guide/${{ env.SITE_DIR }}"
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.2.1
         with:
