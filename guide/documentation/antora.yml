@@ -1,0 +1,7 @@
+name: ansible-hackathon
+title: Ansible Hackathon
+version: master
+nav:
+  - modules/ROOT/nav.adoc
+
+start_page: ROOT:index.adoc

@@ -1,0 +1,8 @@
+* xref:index.adoc[Bienvenido]
+* xref:user-configuration.adoc[Configuración Inicial]
+
+* xref:01-challenge-1.adoc[2. Reto 1]
+
+* xref:02-challenge-2.adoc[3. Reto 2]
+
+

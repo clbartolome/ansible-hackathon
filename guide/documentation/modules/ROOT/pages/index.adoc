@@ -1,0 +1,10 @@
+= Bienvenidos al Ansible Hackathon
+:page-layout: home
+:!sectids:
+ifndef::lab[]
+:lab-name: Java
+endif::[]
+
+== Introducción
+
+# Pendiente de añadir contenido

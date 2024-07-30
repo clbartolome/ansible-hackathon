@@ -1,0 +1,33 @@
+runtime:
+  cache_dir: ./.cache/antora
+
+site:
+  title: Ansible Hackathon
+  url: https://clbartolome.github.io/ansible-hackathon
+  start_page: ansible-hackathon::index.adoc
+
+content:
+  sources:
+    # - url: ./
+    #   start_path: documentation
+    - url: git@github.com:clbartolome/ansible-hackathon.git
+      tags: []
+      branches: [master]
+      start_path: guide/documentation
+
+asciidoc:
+  attributes:
+    release-version: master
+    page-pagination: true
+  extensions:
+    - ./lib/tab-block.js
+    - ./lib/remote-include-processor.js
+
+ui:
+  bundle:
+    url: https://github.com/redhat-scholars/course-ui/releases/download/v0.1.8/ui-bundle.zip
+    snapshot: true
+  supplemental_files: ./supplemental-ui
+
+output:
+  dir: ./gh-pages
