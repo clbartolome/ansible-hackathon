@@ -1,19 +1,13 @@
-= Lab Configuration
+= Configuración Inicial
 :page-layout: home
 :!sectids:
 
-All the applications and services that you are going to use during this laboratory has been already deployed and configured. In the top of this page you will find buttons to access all applications:
+Todas las aplicaciones y servicios que vas a utilizar durante este laboratorio ya han sido desplegados y configurados. En la parte superior de esta página encontrarás botones para acceder a todas las aplicaciones:
 
 image::user_buttons.png[]
 
-The only task that you have to do before start working is to get and configure your user. In order to do that open Etherpad application and write your name next to a *student id* to reserve it:
-
-image::user_etherpad.png[]
-
-During this laboratory exercises you will see % USER % in some files and URLs and you will have to replace it with your *assigned student*. 
-
-You must introduce your *student* and press *enter* on the input field on this web site navigation top bar:
+Al comienzo del hackathon, los organizadores te proporcionarán tu id de grupo. Lo único que tienes que hacer, es introducir tu *grupo* y pulsar *enter* en el campo de la barra de navegación superior de esta página:
 
 image::user_config.png[]
 
-*Let's start with the lab %USER% !!!*
+*Comencemos, %USER% !!!*

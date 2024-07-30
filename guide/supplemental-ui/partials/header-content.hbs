@@ -6,12 +6,8 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
-      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
       document.getElementById('aap_url').href = "https://aap-lab." + server;
       document.getElementById('gitea_url').href = "http://gitea." + server;
-      document.getElementById('nexus_url').href = "http://nexus." + server;
-      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
     
 
     if (user) {
@@ -76,13 +72,10 @@
         <div class="navbar-item" id="navbar-form-project-filled" >
           <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
         </div> 
-      
-        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
-        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
         <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
-        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
-        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+
     </div>
   </nav>
 </header>

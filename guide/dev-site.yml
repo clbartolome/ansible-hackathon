@@ -7,9 +7,9 @@ site:
   start_page: ansible-hackathon::index.adoc
 content:
   sources:
-    - url: .
+    - url: ../
       branches: HEAD
-      start_path: guide
+      start_path: guide/documentation
 asciidoc:
   attributes:
     #title: OpenShift Starter Guides(Dev Mode)

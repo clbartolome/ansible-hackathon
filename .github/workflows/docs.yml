@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - init-guide
+    paths: 
+      - guide
 env:
   SITE_DIR: "gh-pages"
 jobs:

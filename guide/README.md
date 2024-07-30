@@ -1,8 +1,8 @@
-# Ansible Helm Lifecycle Lab
+# Ansible Hackathon
 
 Created from Red Hat Scholars [template](https://github.com/redhat-scholars/courseware-template).
 
-Guide [link](https://clbartolome.github.io/ansible-helm-lifecycle-guide/ansible-helm-lifecycle/index.html)
+Guide [link](https://clbartolome.github.io/ansible-hackathon/)
 
 ## Run locally
 

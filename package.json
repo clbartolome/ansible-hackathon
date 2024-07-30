@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "rhs-openshift-admins-devops": "file:guide"
+  }
+}
