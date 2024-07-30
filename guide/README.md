@@ -12,7 +12,7 @@ Install dependencies:
 npm install
 ```
 
-Run the development mode:
+Run the development mode: 
 
 ```sh
 gulp
