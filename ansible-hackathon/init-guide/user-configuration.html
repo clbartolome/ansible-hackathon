@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lab Configuration :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/user-configuration.html">
+    <link rel="prev" href="index.html">
+    <link rel="next" href="01-overview.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('USER');
+
+      const server = urlParams.get('SERVER');
+      
+      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
+      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
+      document.getElementById('aap_url').href = "https://aap-lab." + server;
+      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('nexus_url').href = "http://nexus." + server;
+      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
+    
+
+    if (user) {
+        showUser( user );
+      } else {
+        showUserForm();
+      }
+    } );
+
+
+    function showUser( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "none";
+      document.getElementById('navbar-form-project-filled').style.display = "flex";
+      document.getElementById('project').textContent = user;
+      document.getElementById('projectfield2').value = user;
+    }
+
+    function showUserForm( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "flex";
+      document.getElementById('navbar-form-project-filled').style.display = "none";
+    }
+
+    function goWithUser() {
+      elUserInput = document.getElementById('projectfield');
+      elClusterInput = document.getElementById('clusterfield2');
+      urlParams = new URLSearchParams(window.location.search);
+      server = urlParams.get('SERVER');
+      window.location.search = ( 'SERVER=' + server + '&USER=' + elUserInput.value);
+    }
+
+  </script>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://clbartolome.github.io/ansible-hackathon">Ansible Hackathon</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+
+         <div class="navbar-item" id="navbar-form-project-empty">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+
+          <form action="javascript:void(0);" onsubmit="goWithUser();">
+            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
+          </form>
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i onclick="recycle();" style="color: green;" class="fa fa-user" aria-hidden="true"></i></span>
+          <span class="navbar-text" id="project"></span>
+          
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" >
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
+        </div> 
+      
+        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
+        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+        <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
+        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
+        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ansible-hackathon" data-version="init-guide">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Hackathon</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="user-configuration.html">Lab Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="01-overview.html">1. Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-first_execution.html">2. First Execution</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03-testing_environment.html">3. Testing Environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04-validations.html">4. Validations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05-notification.html">5. Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06-challenges.html">6. Challenges</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Hackathon</span>
+    <span class="version">init-guide</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Hackathon</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">init-guide</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Hackathon</a></li>
+    <li><a href="user-configuration.html">Lab Configuration</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/init-guide/guide/documentation/modules/ROOT/pages/user-configuration.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Lab Configuration</h1>
+<div class="paragraph">
+<p>All the applications and services that you are going to use during this laboratory has been already deployed and configured. In the top of this page you will find buttons to access all applications:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/user_buttons.png" alt="user buttons">
+</div>
+</div>
+<div class="paragraph">
+<p>The only task that you have to do before start working is to get and configure your user. In order to do that open Etherpad application and write your name next to a <strong>student id</strong> to reserve it:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/user_etherpad.png" alt="user etherpad">
+</div>
+</div>
+<div class="paragraph">
+<p>During this laboratory exercises you will see % USER % in some files and URLs and you will have to replace it with your <strong>assigned student</strong>.</p>
+</div>
+<div class="paragraph">
+<p>You must introduce your <strong>student</strong> and press <strong>enter</strong> on the input field on this web site navigation top bar:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/user_config.png" alt="user config">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Let&#8217;s start with the lab %USER% !!!</strong></p>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="index.html" class="query-params-link">Welcome</a></span>
+  <span class="next"><a href="01-overview.html" class="query-params-link">1. Overview</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

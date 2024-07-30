@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Overview :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/01-overview.html">
+    <link rel="prev" href="user-configuration.html">
+    <link rel="next" href="02-first_execution.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('USER');
+
+      const server = urlParams.get('SERVER');
+      
+      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
+      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
+      document.getElementById('aap_url').href = "https://aap-lab." + server;
+      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('nexus_url').href = "http://nexus." + server;
+      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
+    
+
+    if (user) {
+        showUser( user );
+      } else {
+        showUserForm();
+      }
+    } );
+
+
+    function showUser( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "none";
+      document.getElementById('navbar-form-project-filled').style.display = "flex";
+      document.getElementById('project').textContent = user;
+      document.getElementById('projectfield2').value = user;
+    }
+
+    function showUserForm( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "flex";
+      document.getElementById('navbar-form-project-filled').style.display = "none";
+    }
+
+    function goWithUser() {
+      elUserInput = document.getElementById('projectfield');
+      elClusterInput = document.getElementById('clusterfield2');
+      urlParams = new URLSearchParams(window.location.search);
+      server = urlParams.get('SERVER');
+      window.location.search = ( 'SERVER=' + server + '&USER=' + elUserInput.value);
+    }
+
+  </script>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://clbartolome.github.io/ansible-hackathon">Ansible Hackathon</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+
+         <div class="navbar-item" id="navbar-form-project-empty">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+
+          <form action="javascript:void(0);" onsubmit="goWithUser();">
+            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
+          </form>
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i onclick="recycle();" style="color: green;" class="fa fa-user" aria-hidden="true"></i></span>
+          <span class="navbar-text" id="project"></span>
+          
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" >
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
+        </div> 
+      
+        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
+        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+        <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
+        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
+        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ansible-hackathon" data-version="init-guide">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Hackathon</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user-configuration.html">Lab Configuration</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="01-overview.html">1. Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-first_execution.html">2. First Execution</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03-testing_environment.html">3. Testing Environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04-validations.html">4. Validations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05-notification.html">5. Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06-challenges.html">6. Challenges</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Hackathon</span>
+    <span class="version">init-guide</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Hackathon</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">init-guide</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Hackathon</a></li>
+    <li><a href="01-overview.html">1. Overview</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/init-guide/guide/documentation/modules/ROOT/pages/01-overview.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Overview</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Yor credentials for logging in into every application are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>User: <strong>%USER%</strong></p>
+</li>
+<li>
+<p>Password: <strong>%USER%</strong></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gitea"><a class="anchor" href="#gitea"></a>Gitea</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Gitea is a web-based collaborative software platform for hosting software development version control using Git, as well as other collaborative features like bug tracking, code review, kanban boards, tickets, and wikis.</p>
+</div>
+<div class="paragraph">
+<p>Login into Gitea and take a look at these three repositories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>base-chart</strong>: Helm Chart used in this laboratory to deploy applications and whose lifecycle we are going to work on.</p>
+</li>
+<li>
+<p><strong>helm-ansible-pipeline</strong>: Contains the templates that form the <strong>base-chart</strong> pipeline (workflow) in Ansible Automation Platform.</p>
+</li>
+<li>
+<p><strong>demo-app</strong>: Web application to demonstrate the deployment of an application using the chart. Shows the versions of the application and the Helm chart used for its deployment.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+During the laboratory you will have to make changes to this repositories. Laboratory instructions asume you are using Gitea web site, but you can clone these 3 repositories if you feel more comfortable doing and pushing changes in your laptop.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="aap"><a class="anchor" href="#aap"></a>Ansible Automation Platform</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Red Hat Ansible Automation Platform is an automation enterprise solution which enables you with a web-based user interface, a REST API, and a powerful task engine built on top of Ansible. It also containes hundreds of production-ready collections that you can integrate in your own code to save time and effort.</p>
+</div>
+<div class="paragraph">
+<p>You may login using your credentials and go to <strong>Resources</strong> &gt; <strong>Templates</strong> section. You should see the following list of job and workflow templates ready to use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>[JT] Create Test Namespace</strong>: Creates a namespace in OpenShift in which we will install our test scenario a run our validations.</p>
+</li>
+<li>
+<p><strong>[JT] Delete Test Namespace</strong>: Deletes the namespace we created in OpenShift for testing.</p>
+</li>
+<li>
+<p><strong>[JT] Helm Package Nexus</strong>: Packages our <strong>base-chart</strong> Helm and uploads it into our Nexus repository.</p>
+</li>
+<li>
+<p><strong>[JT] Install Test Scenario</strong>: Installs our test scenario in the OpenShift namespace we created.</p>
+</li>
+<li>
+<p><strong>[JT] Notify New Release</strong>: Notifies to our Developers about a new realase of the <strong>base-chart</strong>.</p>
+</li>
+<li>
+<p><strong>[JT] Uninstall Test Scenario</strong>: Uninstalls our test scenario from the OpenShift namespace we created.</p>
+</li>
+<li>
+<p><strong>[JT] Validate Test Scenario</strong>	: Validates our test scenario.</p>
+</li>
+<li>
+<p><strong>[WF] Base Chart Pipeline</strong>: Workflow we will use to deploy, validate and package our <strong>base-chart</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+During the laboratory you will have to make changes in the playbooks that make up the Workflow <strong>[WF] Base Chart Pipeline</strong>. You can find all these playbooks in the <strong>helm-ansible-pipeline</strong> repository in Gitea.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="ocp"><a class="anchor" href="#ocp"></a>OpenShift</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>OpenShift is Red Hat&#8217;s enterprise-ready Kubernetes platform. OpenShift is hosting all the components used in this laboratory (AAP, Gitea, ArgoCD, Nexus, &#8230;&#8203;).</p>
+</div>
+<div class="paragraph">
+<p>As a laboratory student, you have an already created namespace named <strong>%USER%-demo-app</strong> that contains an application used for testing the <strong>base-chart</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Login into OpenShift and go to <strong>topology</strong>, select <strong>%USER%-demo-app</strong> namespace and click the <strong>Open Url</strong> button.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/1-overview-openurl.png" alt="1 overview openurl">
+</div>
+</div>
+<div class="paragraph">
+<p>You should see this:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/1-overview-demoapp.png" alt="1 overview demoapp">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nexus"><a class="anchor" href="#nexus"></a>Nexus</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nexus is an open source repository that supports many artifacts formats like Java, Npm or Helm. In this laboratory we use Nexus to store the <strong>base-chart</strong> Helm Chart packaged version.</p>
+</div>
+<div class="paragraph">
+<p>As part of this laboratory pipeline you will have to upload the chart to your own repository in Nexus.</p>
+</div>
+<div class="paragraph">
+<p>Login into nexus, <strong>sign</strong> in with your <strong>student user</strong> and go to <strong>Browse</strong> &gt; <strong>%USER%</strong> to review the repository that we are going to use to store helm packages.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/1-overview-nexus.png" alt="1 overview nexus">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Initially your <strong>demo-app</strong> is using a Helm Chart deployed by laboratory admins, you will change that in next sections!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="argo"><a class="anchor" href="#argo"></a>Argo CD</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. Follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application state. In this laboratory we use Helm Charts to specify the Kubernetes manifests.</p>
+</div>
+<div class="paragraph">
+<p>Login into Argo CD via <strong>OpenShift</strong> and select <strong>Allow selected permissions</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/1-overview-access-argo.png" alt="1 overview access argo">
+</div>
+</div>
+<div class="paragraph">
+<p>Acces your <strong>demo-app</strong> by clicking in your <strong>%USER%-demo-app</strong> to take a look at the application status and resources' tree:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/1-overview-argoapp.png" alt="1 overview argoapp">
+</div>
+</div>
+<div class="paragraph">
+<p>Click on the <strong>APP DETAILS</strong> button to validate that Argo is pointing to your Gitea repository <strong>demo-app</strong>, <strong>master</strong> branch and the directory <strong>deploy</strong>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/1-overview-argodetails.png" alt="1 overview argodetails">
+</div>
+</div>
+<div class="paragraph">
+<p>There are two key files in that repository:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>deploy/Chart.yaml</strong>: contains the reference to the Helm Chart that Argo CD will use to deploy the application:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">apiVersion: v2
+name: demo-app
+description: Demo App
+type: application
+version: 1.0
+appVersion: "1.0.0"
+dependencies:
+- name: base-chart
+  repository: <a href="http://nexus" class="bare">http://nexus</a>.[cluster-api]/repository/helm/
+  version: 0.0.1</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>deploy/values.yaml</strong>: contains the values applied to the Helm Chart to deploy the application.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">base-chart:
+  global:
+    nameOverride: demo-app
+  runtime: nginx
+  size: S
+  image:
+    name: image-registry.openshift-image-registry.svc:5000/demo-app/demo-app
+    tag: 1.0.0
+  extraLabels:
+    app.kubernetes.io/part-of: demo-app
+
+  deploy:
+    replicas: 1
+    strategy: RollingUpdate
+    ports:
+      - targetPort: 8080
+        protocol: TCP
+        name: http
+        port: 8080
+    route:
+      enabled: true
+      targetPort: http
+      tls:
+        enabled: false
+    configMap:
+      injectEnv: true
+      name: ui-config
+      path: /usr/share/nginx/html/assets/config</code></pre>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="user-configuration.html" class="query-params-link">Lab Configuration</a></span>
+  <span class="next"><a href="02-first_execution.html" class="query-params-link">2. First Execution</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

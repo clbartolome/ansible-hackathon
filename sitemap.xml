@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/01-overview.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/02-first_execution.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/03-testing_environment.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/04-validations.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/05-notification.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/06-challenges.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/index.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+<url>
+<loc>https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/user-configuration.html</loc>
+<lastmod>2024-07-30T04:57:37.831Z</lastmod>
+</url>
+</urlset>

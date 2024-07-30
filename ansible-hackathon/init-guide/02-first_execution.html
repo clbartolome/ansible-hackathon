@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>First Execution :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/02-first_execution.html">
+    <link rel="prev" href="01-overview.html">
+    <link rel="next" href="03-testing_environment.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('USER');
+
+      const server = urlParams.get('SERVER');
+      
+      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
+      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
+      document.getElementById('aap_url').href = "https://aap-lab." + server;
+      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('nexus_url').href = "http://nexus." + server;
+      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
+    
+
+    if (user) {
+        showUser( user );
+      } else {
+        showUserForm();
+      }
+    } );
+
+
+    function showUser( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "none";
+      document.getElementById('navbar-form-project-filled').style.display = "flex";
+      document.getElementById('project').textContent = user;
+      document.getElementById('projectfield2').value = user;
+    }
+
+    function showUserForm( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "flex";
+      document.getElementById('navbar-form-project-filled').style.display = "none";
+    }
+
+    function goWithUser() {
+      elUserInput = document.getElementById('projectfield');
+      elClusterInput = document.getElementById('clusterfield2');
+      urlParams = new URLSearchParams(window.location.search);
+      server = urlParams.get('SERVER');
+      window.location.search = ( 'SERVER=' + server + '&USER=' + elUserInput.value);
+    }
+
+  </script>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://clbartolome.github.io/ansible-hackathon">Ansible Hackathon</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+
+         <div class="navbar-item" id="navbar-form-project-empty">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+
+          <form action="javascript:void(0);" onsubmit="goWithUser();">
+            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
+          </form>
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i onclick="recycle();" style="color: green;" class="fa fa-user" aria-hidden="true"></i></span>
+          <span class="navbar-text" id="project"></span>
+          
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" >
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
+        </div> 
+      
+        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
+        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+        <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
+        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
+        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ansible-hackathon" data-version="init-guide">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Hackathon</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user-configuration.html">Lab Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="01-overview.html">1. Overview</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="02-first_execution.html">2. First Execution</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03-testing_environment.html">3. Testing Environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04-validations.html">4. Validations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05-notification.html">5. Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06-challenges.html">6. Challenges</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Hackathon</span>
+    <span class="version">init-guide</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Hackathon</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">init-guide</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Hackathon</a></li>
+    <li><a href="02-first_execution.html">2. First Execution</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/init-guide/guide/documentation/modules/ROOT/pages/02-first_execution.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">First Execution</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Visit <strong>User Configuration section</strong> to configure your username if you haven&#8217;t set it up yet!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="webhook"><a class="anchor" href="#webhook"></a>Configure Webhook</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have created a Helm Chart named <strong>base-chart</strong> that will help Operation Teams with cluster management and also will help Application Teams with application deployments. In order to make upgrades or fix issues in our <strong>base-chart</strong> we are going to create a pipeline that manages the Helm Chart lifecycle.</p>
+</div>
+<div class="paragraph">
+<p>The first step is creating a webhook in our <strong>AAP Workflow</strong> (pipeline) and configure it in <strong>Gitea base-chart</strong> repository so we can trigger it when new features or fixes are commited in our repository.</p>
+</div>
+<div class="sect2">
+<h3 id="_create_webhook_in_aap"><a class="anchor" href="#_create_webhook_in_aap"></a>Create Webhook in AAP</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into <strong>Ansible Automation Platform</strong> and go to: <strong>Resources</strong> &gt; <strong>Templates</strong> &gt; <strong>[WF] Base Chart Pipeline</strong> and click <strong>edit</strong>.</p>
+</li>
+<li>
+<p>Enable the option <strong>Enable Webhook</strong>.</p>
+</li>
+<li>
+<p>Under <strong>Webhook details</strong> select <strong>GitHub</strong> as <strong>Webhook Service</strong>.</p>
+</li>
+<li>
+<p>Click <strong>Save</strong> to generate the <strong>Webhook Key</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-webhook.png" alt="2 first webhook">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Copy the <strong>Webhook Key</strong> and the <strong>Webhook URL</strong>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configure_webhook_in_gitea"><a class="anchor" href="#_configure_webhook_in_gitea"></a>Configure Webhook in Gitea</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into <strong>Gitea</strong> and open <strong>base-chart</strong> repository.</p>
+</li>
+<li>
+<p>Go to <strong>Settings</strong> (top right corner) &gt; <strong>Webhook</strong> &gt; <strong>Add Webhook</strong> &gt; <strong>Gitea</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-whgit.png" alt="2 first whgit">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configure the following fields:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Target URL</strong>: Copy the <strong>Webhook URL</strong> from AAP.</p>
+</li>
+<li>
+<p><strong>Secret</strong>: Copy the <strong>Webhook Key</strong> from AAP.</p>
+</li>
+<li>
+<p>Keep the rest of settings by default.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Click <strong>Add Webhook</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-giteawh.png" alt="2 first giteawh">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="nexus"><a class="anchor" href="#nexus"></a>Configure Nexus Package Playbook</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Nexus is going to be the repository where we&#8217;re going to upload our packaged <strong>base-chart</strong>. In order to be able to upload it automatically as part of our pipeline, we need to modify the playbook where the chart is packaged and uploaded to point to your student repository in Nexus.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>05-helm-package-nexus.yml</strong>.</p>
+</li>
+<li>
+<p>Replace all content with this:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Helm Package Nexus
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Helm Package
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Package Helm test scenario
+      ansible.builtin.shell: helm package chart
+      args:
+        chdir: /tmp/base-chart
+
+    - name: Load Chart information
+      ansible.builtin.include_vars:
+        file: /tmp/base-chart/chart/Chart.yaml
+
+    - name: Nexus Credentials
+      ansible.builtin.set_fact:
+        nexus_credentials: "%USER%:%USER%"
+
+    - name: Upload Helm Base Chart package to Nexus
+      ansible.builtin.shell: |
+        curl -X 'POST' \
+        'http://{{ nexus_credentials }}@nexus.app-lifecycle-lab.svc:8081/service/rest/v1/components?repository=%USER%' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: multipart/form-data' \
+        -F 'helm.asset=@base-chart-{{ version }}.tgz;type=application/gzip'
+      args:
+        chdir: /tmp/base-chart
+
+    # TODO:  "Populate New Base Chart version {{ version }}"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <strong>Commit Changes</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="chart"><a class="anchor" href="#chart"></a>Update Chart Repository</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now it is time to trigger our <strong>AAP Workflow</strong>. To do so we&#8217;re going to make a change in our <strong>base-chart</strong> repository and that change will automatically trigger the pipeline.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into <strong>Gitea</strong> and open <strong>base-chart</strong> repository.</p>
+</li>
+<li>
+<p>Open the file <strong>chart/Chart.yaml</strong>.</p>
+</li>
+<li>
+<p>Modify <strong>version</strong> to <strong>1.0.0</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-basechart.png" alt="2 first basechart">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click <strong>Commit Changes</strong>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="validate"><a class="anchor" href="#validate"></a>Validate Execution</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Pipeline should be now running in <strong>AAP</strong> and the new version of <strong>base-chart</strong> should be in your student repository in Nexus, let&#8217;s take a look at it.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into <strong>Ansible Automation Platform</strong> and go to: <strong>Views</strong> &gt; <strong>Jobs</strong> &gt; <strong>[WF] Base Chart Pipeline</strong> (last execution):</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-aap-wf.png" alt="2 first aap wf">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Access the <strong>Workflow</strong> to review the execution, all <strong>JobTemplates</strong> should have a green check:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-wf-view.png" alt="2 first wf view">
+</div>
+</div>
+<div class="paragraph">
+<p>Now let&#8217;s login into <strong>Nexus</strong> &gt; <strong>Browse</strong> &gt; <strong>%USER%</strong> to validate that the new version of your <strong>base-chart</strong> has been uploaded.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-nx-chart.png" alt="2 first nx chart">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="app"><a class="anchor" href="#app"></a>Update Application</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Currently your <strong>demo-app</strong> deployment in <strong>ArgoCD</strong> is pointing to an initial version named <strong>base-chart-0.0.1</strong>. In order to update it and use the new version that we&#8217;ve just created, we need to update the deployment files in <strong>ArgoCD</strong>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into <strong>Gitea</strong> and open <strong>demo-app</strong> repository.</p>
+</li>
+<li>
+<p>Open the file <strong>deploy/Chart.yaml</strong> and update:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Repository: change <strong>/helm</strong> with your student id.</p>
+</li>
+<li>
+<p>Version: update to <strong>1.0.0</strong>:</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">apiVersion: v2
+name: demo-app
+description: Demo App
+type: application
+version: 1.0
+appVersion: "1.0.0"
+dependencies:
+- name: base-chart
+  repository: <a href="http://nexus.app-lifecycle-lab.svc:8081/repository/%USER%/" class="bare">http://nexus.app-lifecycle-lab.svc:8081/repository/%USER%/</a>
+  version: 1.0.0</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+<li>
+<p>Login into <strong>ArgoCD</strong> and open your <strong>demo-app</strong> application. <strong>ArgoCD</strong> automatically syncs each 3 minutes but we can manually force <strong>ArgoCD</strong> synchronization by pressing the <strong>REFRESH</strong> button (use the default synchronization values). Now you should see your changes applied in the section <strong>LAST SYNC RESULT</strong>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-argo.png" alt="2 first argo">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Login into OpenShift and go to <strong>Topology</strong> and select your <strong>%USER%-demo-app</strong> namespace.</p>
+</li>
+<li>
+<p>Open your <strong>deployment</strong> clicking on the <strong>NGINX</strong> icon:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-ocp-ov.png" alt="2 first ocp ov">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Click on <strong>demo-app-xxx</strong> pod link to review pod details and validate the pod have a label <strong>helm.sh/chart:base-chart-1.0.0</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-pod-labels.png" alt="2 first pod labels">
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Review the other labels added by the <strong>base-chart</strong> to help on cluster housekeeping tasks.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <strong>URL</strong> button in OpenShift topology view to open your application, the chart version should be <strong>base-chart-1.0.0</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/2-first-demo-app.png" alt="2 first demo app">
+</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+your web browser could be caching previous version. Use <strong>Ctrl + F5</strong> or <strong>Cmd-Shift-R</strong> on MacOS to refresh your cache.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="01-overview.html" class="query-params-link">1. Overview</a></span>
+  <span class="next"><a href="03-testing_environment.html" class="query-params-link">3. Testing Environment</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

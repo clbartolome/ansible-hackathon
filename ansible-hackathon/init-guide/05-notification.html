@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Notifications :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/05-notification.html">
+    <link rel="prev" href="04-validations.html">
+    <link rel="next" href="06-challenges.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('USER');
+
+      const server = urlParams.get('SERVER');
+      
+      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
+      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
+      document.getElementById('aap_url').href = "https://aap-lab." + server;
+      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('nexus_url').href = "http://nexus." + server;
+      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
+    
+
+    if (user) {
+        showUser( user );
+      } else {
+        showUserForm();
+      }
+    } );
+
+
+    function showUser( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "none";
+      document.getElementById('navbar-form-project-filled').style.display = "flex";
+      document.getElementById('project').textContent = user;
+      document.getElementById('projectfield2').value = user;
+    }
+
+    function showUserForm( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "flex";
+      document.getElementById('navbar-form-project-filled').style.display = "none";
+    }
+
+    function goWithUser() {
+      elUserInput = document.getElementById('projectfield');
+      elClusterInput = document.getElementById('clusterfield2');
+      urlParams = new URLSearchParams(window.location.search);
+      server = urlParams.get('SERVER');
+      window.location.search = ( 'SERVER=' + server + '&USER=' + elUserInput.value);
+    }
+
+  </script>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://clbartolome.github.io/ansible-hackathon">Ansible Hackathon</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+
+         <div class="navbar-item" id="navbar-form-project-empty">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+
+          <form action="javascript:void(0);" onsubmit="goWithUser();">
+            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
+          </form>
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i onclick="recycle();" style="color: green;" class="fa fa-user" aria-hidden="true"></i></span>
+          <span class="navbar-text" id="project"></span>
+          
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" >
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
+        </div> 
+      
+        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
+        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+        <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
+        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
+        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ansible-hackathon" data-version="init-guide">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Hackathon</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user-configuration.html">Lab Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="01-overview.html">1. Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-first_execution.html">2. First Execution</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03-testing_environment.html">3. Testing Environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04-validations.html">4. Validations</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="05-notification.html">5. Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06-challenges.html">6. Challenges</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Hackathon</span>
+    <span class="version">init-guide</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Hackathon</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">init-guide</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Hackathon</a></li>
+    <li><a href="05-notification.html">5. Notifications</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/init-guide/guide/documentation/modules/ROOT/pages/05-notification.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Notifications</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>If everything worked as expected it is time to notify other teams so they can update their deployments and take advantage of the new features or fixed errors.</p>
+</div>
+<div class="paragraph">
+<p>In this laboratory we&#8217;re going to use <strong>Slack</strong>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Visit <strong>User Configuration section</strong> to configure your username if you haven&#8217;t set it up yet!
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Take a look at <strong>3. Testing Environment</strong> &gt; <strong>Run Workflow Manually</strong> to review how to test the Workflow manually.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="config"><a class="anchor" href="#config"></a>User Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>As part of this laboratory setup there should be a credential already configured in <strong>AAP</strong> &gt; <strong>Resources</strong> &gt; <strong>Credentials</strong> &gt; <strong>Slack Token</strong>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/5-not-creds.png" alt="5 not creds">
+</div>
+</div>
+<div class="paragraph">
+<p>This credential is exposing the following environment variables in the job template <strong>[JT] Notify New Release</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Slack token: SLACK_TOKEN</p>
+</li>
+<li>
+<p>Slack channel: SLACK_CHANNEL</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+All user will be using the same Slack channel (<strong>#rhte-lab</strong>) and token so please do not modify these values.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="task"><a class="anchor" href="#task"></a>Send Notification</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this section we&#8217;re going to configure the last task or playbook so we send a notification with some basic information.</p>
+</div>
+<div class="paragraph">
+<p>Of course that information could be extended with other information like a git release link, description of the changes, jira tickets, nexus url, aap url,&#8230;&#8203;</p>
+</div>
+<div class="paragraph">
+<p>The first thing we have to do is save the new chart version as a variable so we can read it in the <strong>notify-new-release</strong> task.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset1_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset1_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset1_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>05-helm-package-nexus.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to store the chart version as a variable named <strong>new_version</strong>.</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/set_stats_module.html">ansible.builtin.set_stats</a></strong> to create the variable.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+To get the chart version take a look at a task named <strong>Load Chart information</strong> in that same playbook.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>05-helm-package-nexus.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to store the chart version as a variable named <strong>new_version</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: "Populate New Base Chart version {{ version }}"
+  ansible.builtin.set_stats:
+    data:
+      new_version: "{{ version }}"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The playbook should look like this:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Helm Package Nexus
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Helm Package
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Package Helm test scenario
+      ansible.builtin.shell: helm package chart
+      args:
+        chdir: /tmp/base-chart
+
+    - name: Load Chart information
+      ansible.builtin.include_vars:
+        file: /tmp/base-chart/chart/Chart.yaml
+
+    - name: Nexus Credentials
+      ansible.builtin.set_fact:
+        nexus_credentials: "%USER%:%USER%"
+
+    - name: Upload Helm Base Chart package to Nexus
+      ansible.builtin.shell: |
+        curl -X 'POST' \
+        'http://{{ nexus_credentials }}@nexus.app-lifecycle-lab.svc:8081/service/rest/v1/components?repository=%USER%' \
+        -H 'accept: application/json' \
+        -H 'Content-Type: multipart/form-data' \
+        -F 'helm.asset=@base-chart-{{ version }}.tgz;type=application/gzip'
+      args:
+        chdir: /tmp/base-chart
+
+    - name: "Populate New Base Chart version {{ version }}"
+      ansible.builtin.set_stats:
+        data:
+          new_version: "{{ version }}"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Now that the <strong>new version</strong> is saved as a variable in our Workflow we can send a notification on each new release.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset2_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset2_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset2_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>06-notify-new-release.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to send a notification to <strong>Slack</strong> with:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>token: "{{ lookup('env','SLACK_TOKEN') }}".</p>
+</li>
+<li>
+<p>msg:  the value of the variable <strong>new_version</strong> and your <strong>username</strong>.</p>
+</li>
+<li>
+<p>channel: "{{ lookup('env','SLACK_CHANNEL') }}".</p>
+</li>
+<li>
+<p>Configure the rest as you consider.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/community/general/slack_module.html">community.general.slack</a></strong> to send the notification.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset2_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>06-notify-new-release.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to send a notification to <strong>Slack</strong>:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Notify New Base Chart version
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Notify New Base Chart version
+
+    - name: Send New Base Chart version Slack notification
+      community.general.slack:
+        token: "{{ lookup('env','SLACK_TOKEN') }}"
+        msg: |
+            ### Base Chart Pipeline ###
+            --------------------------------------
+            `Status`: Success.
+            `New Base Chart Version`: {{ new_version }}
+            `Sent by`: %USER%
+            --------------------------------------
+        channel: "{{ lookup('env','SLACK_CHANNEL') }}"
+        color: good
+        username: "Ansible on {{ inventory_hostname }}"
+        link_names: 0
+        parse: 'none'</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="04-validations.html" class="query-params-link">4. Validations</a></span>
+  <span class="next"><a href="06-challenges.html" class="query-params-link">6. Challenges</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

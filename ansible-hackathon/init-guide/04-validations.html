@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Validations :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/04-validations.html">
+    <link rel="prev" href="03-testing_environment.html">
+    <link rel="next" href="05-notification.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('USER');
+
+      const server = urlParams.get('SERVER');
+      
+      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
+      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
+      document.getElementById('aap_url').href = "https://aap-lab." + server;
+      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('nexus_url').href = "http://nexus." + server;
+      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
+    
+
+    if (user) {
+        showUser( user );
+      } else {
+        showUserForm();
+      }
+    } );
+
+
+    function showUser( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "none";
+      document.getElementById('navbar-form-project-filled').style.display = "flex";
+      document.getElementById('project').textContent = user;
+      document.getElementById('projectfield2').value = user;
+    }
+
+    function showUserForm( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "flex";
+      document.getElementById('navbar-form-project-filled').style.display = "none";
+    }
+
+    function goWithUser() {
+      elUserInput = document.getElementById('projectfield');
+      elClusterInput = document.getElementById('clusterfield2');
+      urlParams = new URLSearchParams(window.location.search);
+      server = urlParams.get('SERVER');
+      window.location.search = ( 'SERVER=' + server + '&USER=' + elUserInput.value);
+    }
+
+  </script>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://clbartolome.github.io/ansible-hackathon">Ansible Hackathon</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+
+         <div class="navbar-item" id="navbar-form-project-empty">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+
+          <form action="javascript:void(0);" onsubmit="goWithUser();">
+            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
+          </form>
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i onclick="recycle();" style="color: green;" class="fa fa-user" aria-hidden="true"></i></span>
+          <span class="navbar-text" id="project"></span>
+          
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" >
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
+        </div> 
+      
+        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
+        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+        <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
+        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
+        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ansible-hackathon" data-version="init-guide">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Hackathon</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user-configuration.html">Lab Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="01-overview.html">1. Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-first_execution.html">2. First Execution</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="03-testing_environment.html">3. Testing Environment</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="04-validations.html">4. Validations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05-notification.html">5. Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06-challenges.html">6. Challenges</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Hackathon</span>
+    <span class="version">init-guide</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Hackathon</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">init-guide</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Hackathon</a></li>
+    <li><a href="04-validations.html">4. Validations</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/init-guide/guide/documentation/modules/ROOT/pages/04-validations.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Validations</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now that the namespace has been created and the test <strong>base-chart</strong> has been installed, we can start performing some tests to be sure the <strong>base-chart</strong> is working as expected.</p>
+</div>
+<div class="paragraph">
+<p>The first thing that we should do is create a task to download the <strong>base-chart</strong> code and read the scenario1 values so we can perform some validations.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Visit <strong>User Configuration section</strong> to configure your username if you haven&#8217;t set it up yet!
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Take a look at <strong>3. Testing Environment</strong> &gt; <strong>Run Workflow Manually</strong> to review how to test the Workflow manually.
+</td>
+</tr>
+</table>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset1_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset1_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset1_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to clone <strong>base-chart</strong> repository (you can use /tmp/basechart as destination).</p>
+</li>
+<li>
+<p>Add a new task to read the values of the scenario1 in <strong>/tmp/base-chart/test/scenario1/values.yaml</strong> as variables.</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html">ansible.builtin.git</a></strong> to clone the repository.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/include_vars_module.html">ansible.builtin.include_vars</a></strong> read variables from a <strong>yaml</strong> file.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to clone <strong>base-chart</strong> repository:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Clone Base Chart remote repository
+  ansible.builtin.git:
+    repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+    dest: /tmp/base-chart
+    version: master</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a new task to read the values of the scenario1 in <strong>/tmp/base-chart/test/scenario1/values.yaml</strong> as variables:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Read scenario values
+  ansible.builtin.include_vars:
+    file: "/tmp/base-chart/test/scenario1/values.yaml"
+    name: scenario</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The playbook would be like:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    # TODO: Test - Deployment --&gt; Get deployment
+
+    # TODO: Test - Deployment --&gt; Validate the number of replicas is correct
+
+    # TODO: Test - Application Size - S or default
+
+    # TODO: Test - Route --&gt; Get route
+
+    # TODO: Test - Route --&gt; Send request to the route when route is defined and enabled
+
+    # TODO: Test - Route --&gt; Validate route is working when is defined and enabled
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert:
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="replicas"><a class="anchor" href="#replicas"></a>Replicas</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In this test we&#8217;re going to validate if the number of replicas we defined in our scenario1 is the same as the number of replicas that we have in the <strong>base-chart</strong> that we&#8217;ve installed.</p>
+</div>
+<div class="paragraph">
+<p>To achive that we&#8217;re going to read the deployment object and check the running replicas.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset2_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset2_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset2_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to get the <strong>deployment</strong> that it is running in your test namespace.</p>
+</li>
+<li>
+<p>Add a new task to compare the running <strong>deployment</strong> replicas with the defined in the scenario1 values (set the already defined variable <strong>failed</strong> as true if it is different).</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html">kubernetes.core.k8s</a></strong> to get the deployment.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset2_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to get the <strong>deployment</strong> that it is running in your test namespace:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Test - Deployment --&gt; Get deployment
+  kubernetes.core.k8s_info:
+    api_version: apps/v1
+    kind: Deployment
+    namespace: "%USER%-base-chart"
+    label_selectors:
+      - app=scenario1
+  ignore_errors: true
+  register: scenario_deployment</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a new task to compare the running <strong>deployment</strong> replicas with the defined in the scenario1 values (set the already defined variable <strong>failed</strong> as true if it is different):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Test - Deployment --&gt; Validate the number of replicas is correct
+  ansible.builtin.set_fact:
+    failed: true
+  when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The playbook would be like:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    - name: Test - Deployment --&gt; Get deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      ignore_errors: true
+      register: scenario_deployment
+
+    - name: Test - Deployment --&gt; Validate the number of replicas is correct
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+
+    # TODO: Test - Application Size - S or default
+
+    # TODO: Test - Route --&gt; Get route
+
+    # TODO: Test - Route --&gt; Send request to the route when route is defined and enabled
+
+    # TODO: Test - Route --&gt; Validate route is working when is defined and enabled
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert:
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="route"><a class="anchor" href="#route"></a>Route</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In the scenario1 we&#8217;ve enabled the creatrion of a route with <strong>deploy.route.enabled: true</strong>, so we should validate if a route has been created.</p>
+</div>
+<div class="paragraph">
+<p>To achive that we have different options, we could read the route object and check if exists but we&#8217;re going one step forward and also validate if we can connect to our application through the route.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset3_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset3_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset3_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to get the <strong>route</strong> that should exist in your test namespace.</p>
+</li>
+<li>
+<p>Add a new task to send a request to the route, get the url from the route we&#8217;ve get on previous step.</p>
+</li>
+<li>
+<p>Add a new task to validate the previous step response code is 200 (set the already defined variable <strong>failed</strong> as true if it is different).</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html">kubernetes.core.k8s</a></strong> to get the route.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html">ansible.builtin.uri</a></strong> to send the request.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+Ignore errors while getting the route, the route creation could be disabled in future scenarios&#8230;&#8203;
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset3_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to get the <strong>route</strong> that should exist in your test namespace:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Test - Route --&gt; Get route
+  kubernetes.core.k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    namespace: "%USER%-base-chart"
+    label_selectors:
+      - app=scenario1
+  register: scenario_route
+  ignore_errors: true</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a new task to send a request to the route, get the url from the route we&#8217;ve get on previous step:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Test - Route --&gt; Send request to the route when route is defined and enabled
+  ansible.builtin.uri:
+    url: "http://{{ scenario_route.resources[0].spec.host }}"
+    method: GET
+    status_code: 200
+    return_content: yes
+  ignore_errors: true
+  register: route_response
+  when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length &gt; 0</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a new task to validate the previous step response code is <strong>200</strong> (set the already defined variable <strong>failed</strong> as true if it is different):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Test - Route --&gt; Validate route is working when is defined and enabled
+  ansible.builtin.set_fact:
+    failed: true
+  when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length &gt; 0 and route_response.status != 200</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The playbook would be like:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    - name: Test - Deployment --&gt; Get deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      ignore_errors: true
+      register: scenario_deployment
+
+    - name: Test - Deployment --&gt; Validate the number of replicas is correct
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+
+    # TODO: Test - Application Size - S or default
+
+    - name: Test - Route --&gt; Get route
+      kubernetes.core.k8s_info:
+        api_version: route.openshift.io/v1
+        kind: Route
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      register: scenario_route
+      ignore_errors: true
+
+    - name: Test - Route --&gt; Send request to the route when route is defined and enabled
+      ansible.builtin.uri:
+        url: "http://{{ scenario_route.resources[0].spec.host }}"
+        method: GET
+        status_code: 200
+        return_content: yes
+      ignore_errors: true
+      register: route_response
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length &gt; 0
+
+    - name: Test - Route --&gt; Validate route is working when is defined and enabled
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length &gt; 0 and route_response.status != 200
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert:
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="size"><a class="anchor" href="#size"></a>Size</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To simplify application resources (memory and CPU) the <strong>base-chart</strong> will preconfigure a set of sizes (XS, S, M, L,&#8230;&#8203;) so application teams don&#8217;t have to worry about anything else but to choose one. On the operation teams side, that will allow them to manage and track the resources utlization (a label with the size is included in all chart resources).</p>
+</div>
+<div class="paragraph">
+<p>Currently the <strong>base-chart</strong> only includes the size <strong>S</strong> and that is the one we&#8217;re going to valide in this scenario. In <strong>Gitea</strong> &gt; <strong>base-chart/chart/template/_helpers.tpl</strong> is where the size is implemented:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">{{- define "base.resources" -}}
+{{- $size := default "S" .Values.size -}}
+resources:
+{{- if eq $size "S" }}
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+{{- else }}
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+{{- end}}
+{{- end -}}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As you can see the expected resources for <strong>S</strong> are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-top">Property</th>
+<th class="tableblock halign-center valign-top">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">request.cpu</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">100m</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">request.memory</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">256Mi</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">limit.cpu</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">100m</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top"><p class="tableblock">limit.memory</p></td>
+<td class="tableblock halign-center valign-top"><p class="tableblock">256Mi</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The scenario1 is configured with the size <strong>S</strong> so we have to validate that the installed deployment have the expected configuration for both limit and request.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset4_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset4_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset4_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to validate that the <strong>S</strong> size resources are the same as the installed ones (set the already defined variable <strong>failed</strong> as true if it is different).</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+We don&#8217;t need to get the deployment because we already got it in the replicas validation.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Remember that <strong>S</strong> is also the default size.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset4_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>02-validate-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to validate that the <strong>S</strong> size resources are the same as the installed ones (set the already defined variable <strong>failed</strong> as true if it is different):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">- name: Test - Application Size - S or default
+  ansible.builtin.set_fact:
+    failed: true
+  when: (scenario.size is undefined or scenario.size == "S") and not
+        (scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.cpu == "100m" and
+        scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.memory == "256Mi" and
+        scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.cpu == "100m" and
+        scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.memory == "256Mi")</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The final version of the Playbook should be like:</p>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Validate Helm scenario
+  hosts: all
+  gather_facts: false
+  vars:
+    failed: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Validate Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: Read scenario values
+      ansible.builtin.include_vars:
+        file: "/tmp/base-chart/test/scenario1/values.yaml"
+        name: scenario
+
+    - name: Test - Deployment --&gt; Get deployment
+      kubernetes.core.k8s_info:
+        api_version: apps/v1
+        kind: Deployment
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      ignore_errors: true
+      register: scenario_deployment
+
+    - name: Test - Deployment --&gt; Validate the number of replicas is correct
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario_deployment.resources[0].spec.replicas != scenario.deploy.replicas
+
+    - name: Test - Application Size - S or default
+      ansible.builtin.set_fact:
+        failed: true
+      when: (scenario.size is undefined or scenario.size == "S") and not
+            (scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.cpu == "100m" and
+            scenario_deployment.resources[0].spec.template.spec.containers[0].resources.limits.memory == "256Mi" and
+            scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.cpu == "100m" and
+            scenario_deployment.resources[0].spec.template.spec.containers[0].resources.requests.memory == "256Mi")
+
+    - name: Test - Route --&gt; Get route
+      kubernetes.core.k8s_info:
+        api_version: route.openshift.io/v1
+        kind: Route
+        namespace: "%USER%-base-chart"
+        label_selectors:
+          - app=scenario1
+      register: scenario_route
+      ignore_errors: true
+
+    - name: Test - Route --&gt; Send request to the route when route is defined and enabled
+      ansible.builtin.uri:
+        url: "http://{{ scenario_route.resources[0].spec.host }}"
+        method: GET
+        status_code: 200
+        return_content: yes
+      ignore_errors: true
+      register: route_response
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length &gt; 0
+
+    - name: Test - Route --&gt; Validate route is working when is defined and enabled
+      ansible.builtin.set_fact:
+        failed: true
+      when: scenario.deploy.route is defined and scenario.deploy.route.enabled == true and scenario_route.resources | length &gt; 0 and route_response.status != 200
+
+    - name: Fail scenario if any validation fails
+      ansible.builtin.assert:
+        that: "{{ failed }} == false"
+        fail_msg: "There are errors in the base-chart"
+        success_msg: "All validations worked as expected"</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="03-testing_environment.html" class="query-params-link">3. Testing Environment</a></span>
+  <span class="next"><a href="05-notification.html" class="query-params-link">5. Notifications</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

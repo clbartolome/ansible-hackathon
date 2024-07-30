@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Testing Environment :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/init-guide/03-testing_environment.html">
+    <link rel="prev" href="02-first_execution.html">
+    <link rel="next" href="04-validations.html">
+    <meta name="generator" content="Antora 3.0.0">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<link rel="icon" href="../../_/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () { 
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('USER');
+
+      const server = urlParams.get('SERVER');
+      
+      document.getElementById('etherpad_url').href = "http://etherpad." + server + "/p/ansible-helm-lifecycle-lab";
+      document.getElementById('ocp_url').href = "https://console-openshift-console." + server;
+      document.getElementById('aap_url').href = "https://aap-lab." + server;
+      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('nexus_url').href = "http://nexus." + server;
+      document.getElementById('argo_url').href = "https://openshift-gitops-server-openshift-gitops." + server;
+    
+
+    if (user) {
+        showUser( user );
+      } else {
+        showUserForm();
+      }
+    } );
+
+
+    function showUser( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "none";
+      document.getElementById('navbar-form-project-filled').style.display = "flex";
+      document.getElementById('project').textContent = user;
+      document.getElementById('projectfield2').value = user;
+    }
+
+    function showUserForm( user ) {
+      document.getElementById('navbar-form-project-empty').style.display = "flex";
+      document.getElementById('navbar-form-project-filled').style.display = "none";
+    }
+
+    function goWithUser() {
+      elUserInput = document.getElementById('projectfield');
+      elClusterInput = document.getElementById('clusterfield2');
+      urlParams = new URLSearchParams(window.location.search);
+      server = urlParams.get('SERVER');
+      window.location.search = ( 'SERVER=' + server + '&USER=' + elUserInput.value);
+    }
+
+  </script>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://developers.redhat.com" target="_blank"><img
+          src="../../_/img/header_logo.png" height="40px" alt="Red Hat Developer Program"></a>
+      <a class="navbar-item" href="https://clbartolome.github.io/ansible-hackathon">Ansible Hackathon</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+
+         <div class="navbar-item" id="navbar-form-project-empty">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i style="color: orange;"
+              class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+
+          <form action="javascript:void(0);" onsubmit="goWithUser();">
+            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
+          </form>
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" style="display: none;">
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">&nbsp;<i onclick="recycle();" style="color: green;" class="fa fa-user" aria-hidden="true"></i></span>
+          <span class="navbar-text" id="project"></span>
+          
+        </div>
+
+        <div class="navbar-item" id="navbar-form-project-filled" >
+          <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
+        </div> 
+      
+        <a class="navbar-item" id="etherpad_url" href="" target="_blank">Etherpad</a>
+        <a class="navbar-item" id="ocp_url" href="" target="_blank">OpenShift</a>
+        <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
+        <a class="navbar-item" id="nexus_url" href="" target="_blank">Nexus</a>
+        <a class="navbar-item" id="argo_url" href="" target="_blank">ArgoCD</a>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="ansible-hackathon" data-version="init-guide">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html" class=" query-params-link">Ansible Hackathon</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="index.html">Welcome</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="user-configuration.html">Lab Configuration</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="01-overview.html">1. Overview</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-first_execution.html">2. First Execution</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="03-testing_environment.html">3. Testing Environment</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="04-validations.html">4. Validations</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="05-notification.html">5. Notifications</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="06-challenges.html">6. Challenges</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Ansible Hackathon</span>
+    <span class="version">init-guide</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">Ansible Hackathon</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="index.html">init-guide</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="index.html">Ansible Hackathon</a></li>
+    <li><a href="03-testing_environment.html">3. Testing Environment</a></li>
+  </ul>
+</nav>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/init-guide/guide/documentation/modules/ROOT/pages/03-testing_environment.adoc">Edit this Page</a></div>
+  </div>
+  <div class="content">
+<article class="doc">
+<h1 class="page">Testing Environment</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Visit <strong>User Configuration section</strong> to configure your username if you haven&#8217;t set it up yet!
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In order to execute some validations on our <strong>base-chart</strong> we need to create an ephemeral namespace in OpenShift (will be deleted after testing) and deploy (or install as it is known in Helm) a testing application.</p>
+</div>
+<div class="paragraph">
+<p>There is a <strong>scenario1</strong> already configured in the repository <strong>base-chart/test/scenario1/values.yaml</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">global:
+  nameOverride: scenario1
+runtime: golang
+size: S
+image:
+  name: openshift/hello-openshift
+  tag: latest
+extraLabels:
+  app.kubernetes.io/part-of: test-scenarios
+  test-scenarionumber: "1"
+
+deploy:
+  replicas: 4
+  strategy: RollingUpdate
+  annotations:
+    scenario: "scenario1"
+  ports:
+    - targetPort: 8080
+      protocol: TCP
+      name: http
+      port: 8081
+  route:
+    enabled: false
+  env:
+    - name: RESPONSE
+      value: "scenario 1 works!"</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+For testing purposes we&#8217;re using the image <strong>openshift/hello-openshift</strong> which is an application that exposes a REST endpoint that returns either <strong>Hello OpenShift!</strong> or the value of the environment variable <strong>RESPONSE</strong>. This has nothing to do with our <strong>demo-app</strong>!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="run-manually"><a class="anchor" href="#run-manually"></a>Run Workflow Manually</h3>
+<div class="paragraph">
+<p>Before start working on our pipeline, let&#8217;s take a look at how to manually trigger the Workflow or pipeline in Ansible Automation Platform so we can test that everything we&#8217;re doing is working as expected:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open <strong>Ansible Automation Platform</strong></p>
+</li>
+<li>
+<p>Go to: <strong>Resources</strong> &gt; <strong>Templates</strong> &gt; <strong>[WF] Base Chart Pipeline</strong></p>
+</li>
+<li>
+<p>Click on <strong>Launch</strong></p>
+</li>
+<li>
+<p>You will be automatically redirected to a view of the execution flow:</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/3-wf-view.png" alt="3 wf view">
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+If you have not implemented the <strong>Delete Namespace</strong> task or your test failed before deleting it, remember to manually remove the namespace. Go to <strong>OpenShift</strong> &gt; <strong>Project</strong> &gt; select the testing namespace &gt; <strong>Actions</strong> (top right corner) &gt; <strong>Delete Project</strong>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect1">
+<h2 id="create-ns"><a class="anchor" href="#create-ns"></a>Create Namespace</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Create the namespace where the testing scenario will be deployed and validated.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset1_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset1_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset1_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>00-create-namespace.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a task to create a namespace named <strong>%USER%-base-chart</strong> .</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html">kubernetes.core.k8s</a></strong> to create the namespace.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+Use the object <strong>Project</strong> with api_version <strong>project.openshift.io/v1</strong> to create the namespace.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset1_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>00-create-namespace.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Modify the playbook adding a new task to create a namespace named <strong>%USER%-base-chart</strong>. The playbook would be like:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Create Base Chart namespace
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Create Base Chart namespace
+
+    - name: Create Base Chart test namespace
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: project.openshift.io/v1
+          kind: Project
+          metadata:
+            name: "%USER%-base-chart"
+        state: present</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="install-chart"><a class="anchor" href="#install-chart"></a>Install Chart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Install the <strong>base-chart</strong> in the previous task created namespace.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset2_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset2_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset2_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>01-install-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to clone <strong>base-chart</strong> repository (you can use /tmp/basechart as destination).</p>
+</li>
+<li>
+<p>Add a new task to install the scenario1. Chart is in <strong>/base-chart/chart</strong> and values are in <strong>/base-chart/test/scenario1/values.yaml</strong>.</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/git_module.html">ansible.builtin.git</a></strong> to clone the repository.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/helm_module.html">kubernetes.core.helm</a></strong> to install chart.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Review <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/helm_module.html#parameter-wait">wait</a></strong> parameter to wait until chart is installed before moving forward.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset2_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>01-install-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to clone <strong>base-chart</strong> repository. The playbook would be like:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Install Helm scenario
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Install Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    # TODO: Install Helm test scenario1</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Add a new task to install the scenario1. Chart is in <strong>/base-chart/chart</strong> and values are in <strong>/base-chart/test/scenario1/values.yaml</strong>. The playbook would be like:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Install Helm scenario
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Install Helm scenario
+
+    - name: Clone Base Chart remote repository
+      ansible.builtin.git:
+        repo: <a href="http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git" class="bare">http://gitea.app-lifecycle-lab.svc:3000/%USER%/base-chart.git</a>
+        dest: /tmp/base-chart
+        version: master
+
+    - name: "Install Helm test scenario 1"
+      kubernetes.core.helm:
+        name: "scenario1"
+        chart_ref: "/tmp/base-chart/chart"
+        release_namespace: "%USER%-base-chart"
+        wait: yes
+        values_files:
+          - "/tmp/base-chart/test/scenario1/values.yaml"
+      register: install_output</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="uninstall-chart"><a class="anchor" href="#uninstall-chart"></a>Uninstall Chart</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After performing some validations we will need to uninstall the <strong>base-chart</strong> deployed in previous task.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset3_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset3_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset3_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>03-uninstall-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to uninstall the scenario1.</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Remember to use the already downloaded repository
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/helm_module.html">kubernetes.core.helm</a></strong> to install chart.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset3_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>03-uninstall-test-scenario.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to uninstall the scenario1. The playbook would be like:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Uninstall Helm scenario
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Uninstall Helm scenario
+
+    - name: Uninstall  Helm test scenario
+      kubernetes.core.helm:
+        name: "scenario1"
+        chart_ref: "/tmp/base-chart/test/scenario1/values.yaml"
+        release_namespace: "%USER%-base-chart"
+        state: absent
+        wait: yes</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="delete-ns"><a class="anchor" href="#delete-ns"></a>Delete Namespace</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>After executing all validations and uninstalling the scenario, we have to delete the ephemeral namespace.</p>
+</div>
+<div class="tabset is-loading">
+<div class="ulist tabs">
+<ul>
+<li>
+<p><a id="tabset4_steps"></a>Steps</p>
+</li>
+<li>
+<p><a id="tabset4_solution"></a>Solution</p>
+</li>
+</ul>
+</div>
+<div class="content">
+<div class="tab-pane" aria-labelledby="tabset4_steps">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>04-delete-namespace.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to delete the namespace named <strong>%USER%-base-chart</strong> .</p>
+</li>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Use the collection <strong><a href="https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html">kubernetes.core.k8s</a></strong> to create the namespace.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="tab-pane" aria-labelledby="tabset4_solution">
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <strong>Gitea</strong> and open <strong>helm-ansible-pipeline</strong> repository.</p>
+</li>
+<li>
+<p>Open the playbook <strong>04-delete-namespace.yml</strong> and edit it.</p>
+</li>
+<li>
+<p>Add a new task to delete the namespace named <strong>%USER%-base-chart</strong>. The playbook would be like:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock console-input">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yml hljs" data-lang="yml">---
+- name: Delete Base Chart namespace
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Delete Base Chart namespace
+
+    - name: Delete Base Chart test namespace
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: project.openshift.io/v1
+          kind: Project
+          metadata:
+            name: "%USER%-base-chart"
+        state: absent</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Commit your changes.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="02-first_execution.html" class="query-params-link">2. First Execution</a></span>
+  <span class="next"><a href="04-validations.html" class="query-params-link">4. Validations</a></span>
+</nav>
+</article>
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <a class="rhd-logo" href="https://developers.redhat.com" target="_blank"></div>
+</footer>
+<script src="../../_/js/vendor/clipboard.js"></script>
+<script src="../../_/js/site.js"></script>
+<script async src="../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
