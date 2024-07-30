@@ -1,6 +1,6 @@
 # Ansible Hackathon
 
-Created from Red Hat Scholars [template](https://github.com/redhat-scholars/courseware-template).
+Created from Red Hat Scholars   [template](https://github.com/redhat-scholars/courseware-template).
 
 Guide [link](https://clbartolome.github.io/ansible-hackathon/)
 
