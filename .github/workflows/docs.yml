@@ -1,11 +1,11 @@
-name: docs
+name: generate-guide
 
 on:
   push:
     branches:
       - master
     paths: 
-      - guide
+      - 'guide/**'
 env:
   SITE_DIR: "gh-pages"
 jobs:
