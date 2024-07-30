@@ -1,0 +1,78 @@
+- name: Exchange rate challenge
+  gather_facts: false
+  hosts: localhost
+  collections:
+    - community.general # due to json_query filter (it has jmespath dependency)
+  vars:
+    bce_endpoint: "http://localhost:3000/bce_rates/USD"
+    bde_endpoint: "http://localhost:3000/app_rates"
+    get_usd_limit_json_filter: "[?currency=='USD'].limit"
+    get_usd_value_json_filter: "[?currency=='USD'].value"
+  tasks:
+    - name: Block localhost
+      delegate_to: localhost
+      block:
+        - name: Get BCE USD rate
+          ansible.builtin.uri:
+            url: "{{ bce_endpoint }}"
+            return_content: true
+          register: bce_reply
+
+        - name: Debug bce_reply
+          ansible.builtin.debug:
+            msg: "{{ bce_reply.json }}"
+            verbosity: 3
+
+        - name: Get BCE value
+          ansible.builtin.set_fact:
+            bce_usd_value: "{{ bce_reply.json.value }}"
+
+        - name: Get BDE info
+          ansible.builtin.uri:
+            url: "{{ bde_endpoint }}"
+            return_content: true
+          register: bde_reply
+
+        - name: Debug bde_reply
+          ansible.builtin.debug:
+            msg: "{{ bde_reply.json }}"
+            verbosity: 3
+
+        - name: Get BDE limit
+          ansible.builtin.set_fact:
+            bde_usd_limit: "{{ bde_reply.json | community.general.json_query(get_usd_limit_json_filter) | first | float }}"
+
+        - name: Get BDE current value
+          ansible.builtin.set_fact:
+            bde_usd_value: "{{ bde_reply.json | community.general.json_query(get_usd_value_json_filter) | first | float }}"
+
+        - name: Debug values
+          ansible.builtin.debug:
+            msg: "El valor actual en la web de BDE es {{ bde_usd_value }}. El límite establecido es de {{ bde_usd_limit }}. El BCE reporta un tipo de cambio de {{ bce_usd_value }}"
+
+        - name: Set boolean control var
+          ansible.builtin.set_fact:
+            exceeded_limit: true
+          when: bce_usd_value | float > bde_usd_limit | float
+
+        - name: Set new value rate
+          ansible.builtin.set_fact:
+            new_rate_value: "{{ get_rate_value }}"
+          vars:
+            get_rate_value: |-
+              {%- if exceeded_limit is defined and exceeded_limit is true -%}{{ bde_usd_limit }}{%- else -%}{{ bce_usd_value }}{%- endif -%}          
+
+        - name: Debug new value rate
+          ansible.builtin.debug:
+            msg: "El nuevo valor calculado y que se actualizará en la web de BDE es: {{ new_rate_value }}"
+          
+        - name: Update BDE website
+          ansible.builtin.uri:
+            url: "{{ bde_endpoint }}"
+            method: PUT
+            body_format: json
+            body:
+              currency: "USD"
+              value: "{{ new_rate_value }}"
+          register: update_output
+          failed_when: "'successfully' not in update_output.json.message"

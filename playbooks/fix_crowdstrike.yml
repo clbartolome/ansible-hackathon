@@ -1,0 +1,44 @@
+- name: Fix crowdstrike challenge
+  gather_facts: true
+  gather_subset:
+    - "env"
+  hosts: all
+  vars:
+    affected_timestamp: "2024-07-22 1317 UTC" #CHANGEME
+  tasks:
+    - name: Debug USERPROFILE
+      ansible.builtin.debug:
+        msg: "{{ ansible_facts.env.USERPROFILE }}"
+
+    - name: Find files with .sys extension using powershell wildcards
+      ansible.windows.win_find:
+        paths: "{{ ansible_facts.env.USERPROFILE }}\\Crowdstrike"
+        patterns: ['*.sys']
+      register: find_output
+    
+    - name: Debug matched files
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ find_output.files }}"
+
+    - name: Debug each file's timestamp
+      ansible.builtin.debug:
+        msg: "{{ '%Y-%m-%d %H%M UTC' | strftime(second=(item.creationtime | int), utc=true) }}"
+      loop: "{{ find_output.files }}"
+
+    - name: Create list of dicts including path and created timestamp
+      ansible.builtin.set_fact:
+        files_dict: "{{ files_dict|default([]) + [ {'path': item.path, 'created_timestamp': ('%Y-%m-%d %H%M UTC' | strftime(second=(item.creationtime | int), utc=true)) } ] }}"
+      loop: "{{ find_output.files }}"
+
+    - name: Debug files_dict
+      ansible.builtin.debug:
+        msg: "El fichero {{ item.path }} fue creado en {{ item.created_timestamp }}"
+      loop: "{{ files_dict }}"
+
+    - name: Delete affected file
+      ansible.windows.win_file:
+        path: "{{ item.path }}"
+        state: absent
+      when: item.created_timestamp in affected_timestamp 
+      loop: "{{ files_dict }}"
