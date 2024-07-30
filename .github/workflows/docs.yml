@@ -41,6 +41,6 @@ jobs:
         with:
           # ACCESS_TOKEN: # optional
           GITHUB_TOKEN: "${{ github.token}}"
-          FOLDER: "${{ env.SITE_DIR }}"
+          FOLDER: "guide/${{ env.SITE_DIR }}"
           BRANCH: "gh-pages"
           COMMIT_MESSAGE: "[CI] Publish Documentation for ${{ github.sha }}"
