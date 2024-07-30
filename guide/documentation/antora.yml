@@ -1,6 +1,6 @@
 name: ansible-hackathon
 title: Ansible Hackathon
-version: init-guide
+version: master
 nav:
   - modules/ROOT/nav.adoc
 
