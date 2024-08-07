@@ -21,7 +21,7 @@ spec:
         - name: GITEA_HOSTNAME
           value: "gitea.gitea.svc.cluster.local:3000"
         command:
-        - /bin/bash
+        - /bin/sh
         - '-c'
         args:
         - |-
@@ -38,7 +38,8 @@ spec:
           for i in {1..10};
           do
 
-          echo "-- Creating developer group-$i --"
+          NAME="group-${i}"
+          echo "-- Creating developer $NAME --"
 
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
