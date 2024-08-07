@@ -35,11 +35,9 @@ spec:
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/user/sign_up
 
-          for i in {1..10};
-          do
+          i=0; while [[ $i -lt 10 ]]; do 
 
-          NAME="group-${i}"
-          echo "-- Creating developer $NAME --"
+          echo "-- Creating developer group-$i --"
 
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
@@ -64,7 +62,7 @@ spec:
               exit 1
           fi
 
-          done
+          i=$((i+1)); done
           
         imagePullPolicy: Always
       restartPolicy: Never
