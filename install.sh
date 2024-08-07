@@ -12,21 +12,21 @@ oc new-project gitea
 # App Namespaces
 for i in {1..10};
 do
-  oc new-project group-$i
-  cat <<EOF | kubectl create -f -
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: frontend-cm
-      namespace: group-$i
-      labels:
-        app: exchange
-    data:
-      REACT_CONFIG: |
-        {
-          "REACT_APP_BACKEND": "http://backend.group-$i.apps.${base_domain}"
-        }
-    EOF
+oc new-project group-$i
+cat <<EOF | oc apply -f -
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-cm
+  namespace: group-$i
+  labels:
+    app: exchange
+data:
+  REACT_CONFIG: |
+    {
+      "REACT_APP_BACKEND": "http://backend-group-$i.apps.${base_domain}"
+    }
+EOF
 done
 
 
