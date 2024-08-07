@@ -39,7 +39,7 @@ spec:
 
           echo "-- Creating developer group-$i --"
 
-          RESPONSE=$(curl -v -o /dev/null -s -w "%{http_code}\n" -X POST \
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
             -d '{"email":"'"group-$i@example.com"'","full_name": "'"group-$i"'","login_name": "'"group-$i"'","must_change_password": false,"password": "ansible","restricted": true,"send_notify": false,"username": "'"group-$i"'"}' \
             -H "Content-Type: application/json" \
