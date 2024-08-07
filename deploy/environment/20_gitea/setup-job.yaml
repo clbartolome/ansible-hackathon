@@ -21,7 +21,7 @@ spec:
         - name: GITEA_HOSTNAME
           value: "gitea.gitea.svc.cluster.local:3000"
         command:
-        - /bin/sh
+        - /bin/bash
         - '-c'
         args:
         - |-
@@ -38,18 +38,18 @@ spec:
           for i in {1..10};
           do
 
-            echo "-- Creating developer group-$i --"
+          echo "-- Creating developer group-$i --"
 
-            RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
-              -u gitea:openshift \
-              -d '{"email":"group-$i@example.com","full_name": "group-$i","login_name": "develop","must_change_password": false,"password": "ansible","restricted": true,"send_notify": false,"username": "group-$i"}' \
-              -H "Content-Type: application/json" \
-              http://$GITEA_HOSTNAME/api/v1/admin/users)
+          RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
+            -u gitea:openshift \
+            -d '{"email":"group-$i@example.com","full_name": "group-$i","login_name": "develop","must_change_password": false,"password": "ansible","restricted": true,"send_notify": false,"username": "group-$i"}' \
+            -H "Content-Type: application/json" \
+            http://$GITEA_HOSTNAME/api/v1/admin/users)
 
-            if [ "$RESPONSE" != "201" ]; then
-                echo "Error creating developer group-$i, error code: $RESPONSE"
-                exit 1
-            fi
+          if [ "$RESPONSE" != "201" ]; then
+              echo "Error creating developer group-$i, error code: $RESPONSE"
+              exit 1
+          fi
 
           echo "-- Creating group-$i-hackathon repository --"
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
