@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: backend
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: exchange
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: backend
+spec:
+  port:
+    targetPort: 5000-tcp
+  to:
+    kind: Service
+    name: backend
+    weight: 100
+  wildcardPolicy: None

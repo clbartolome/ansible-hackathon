@@ -1,0 +1,10 @@
+user: ""
+namespace: ""
+
+backend:
+  image: quay.io/calopezb/exchange-rates-back:1.0.1
+  replicas: 1
+
+frontend:
+  image: quay.io/calopezb/exchange-rates-front:1.0.1
+  replicas: 1

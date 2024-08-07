@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: exchange
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/instance: backend
+    app.kubernetes.io/part-of: exchange-rates
+    app.openshift.io/runtime: python
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      deployment: backend
+  template:
+    metadata:
+      labels:
+        deployment: backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ .Values.backend.image }}
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          resources: {}

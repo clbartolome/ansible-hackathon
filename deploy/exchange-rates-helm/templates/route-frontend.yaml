@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: frontend
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: exchange
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: frontend
+spec:
+  port:
+    targetPort: 5000-tcp
+  to:
+    kind: Service
+    name: frontend
+    weight: 100
+  wildcardPolicy: None

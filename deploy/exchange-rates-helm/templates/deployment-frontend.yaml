@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: exchange
+    app.kubernetes.io/component: frontend
+    app.kubernetes.io/instance: frontend
+    app.kubernetes.io/part-of: exchange-rates
+    app.openshift.io/runtime: react
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      deployment: frontend
+  template:
+    metadata:
+      labels:
+        deployment: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: {{ .Values.frontend.image }}
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /app/build/config/config.json
+              name: config-volume
+              subPath: REACT_CONFIG
+      volumes:
+        - name: config-volume
+          configMap:
+            name: frontend-cm
