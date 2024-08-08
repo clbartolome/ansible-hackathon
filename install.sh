@@ -29,6 +29,43 @@ data:
 EOF
 done
 
+# Define parameters for creating users in htpasswd
+
+PASSWORD="ansible"
+OUTPUT_FILE=".htpasswd"
+
+# Create htpasswd file
+
+touch .htpasswd
+
+# Add content to htpasswd
+
+for i in {1..10}
+do
+    USER="group-$i"
+    htpasswd -b $OUTPUT_FILE $USER $PASSWORD
+done
+
+# Create Secret and add htpasswd content
+
+oc create secret generic htpass-secret --from-file=htpasswd=".htpasswd" -n openshift-config
+
+# Create Oauth provider and link to secret
+
+cat <<EOF | oc apply -f -
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  name: cluster
+spec:
+  identityProviders:
+  - name: hackathon
+    mappingMethod: claim
+    type: HTPasswd
+    htpasswd:
+      fileData:
+        name: htpass-secret
+EOF
 
 # GitOps Configuration
 oc adm policy add-cluster-role-to-user cluster-admin  system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller -n openshift-gitops
