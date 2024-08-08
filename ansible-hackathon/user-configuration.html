@@ -6,7 +6,7 @@
     <title>Configuración Inicial :: Ansible Hackathon</title>
     <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/user-configuration.html">
     <link rel="prev" href="index.html">
-    <link rel="next" href="01-challenge-1.html">
+    <link rel="next" href="environment.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -21,8 +21,9 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('aap_url').href = "https://aap-lab." + server;
-      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('aap_url').href = "https://aap-lab.apps." + server;
+      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
+      document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
 
     if (user) {
@@ -88,8 +89,9 @@
           <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
         </div> 
 
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Repositorio</a>
+        <a class="navbar-item" id="ide_url" href="" target="_blank">IDE</a>
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
-        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
 
     </div>
   </nav>
@@ -108,13 +110,16 @@
     <a class="nav-link" href="index.html">Bienvenido</a>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="user-configuration.html">Configuración Inicial</a>
+    <a class="nav-link" href="user-configuration.html">1. Configuración Inicial</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="01-challenge-1.html">2. Reto 1</a>
+    <a class="nav-link" href="environment.html">2. Entorno</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="02-challenge-2.html">3. Reto 2</a>
+    <a class="nav-link" href="01-challenge-1.html">3. Reto 1 TODO</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-challenge-2.html">4. Reto 2 TODO</a>
   </li>
 </ul>
   </li>
@@ -147,7 +152,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Ansible Hackathon</a></li>
-    <li><a href="user-configuration.html">Configuración Inicial</a></li>
+    <li><a href="user-configuration.html">1. Configuración Inicial</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/master/guide/documentation/modules/ROOT/pages/user-configuration.adoc">Edit this Page</a></div>
@@ -156,15 +161,10 @@
 <article class="doc">
 <h1 class="page">Configuración Inicial</h1>
 <div class="paragraph">
-<p>Todas las aplicaciones y servicios que vas a utilizar durante este laboratorio ya han sido desplegados y configurados. En la parte superior de esta página encontrarás botones para acceder a todas las aplicaciones:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="_images/user_buttons.png" alt="user buttons">
-</div>
+<p>Al comienzo del hackathon, los organizadores os proporcionarán vuestro id de grupo.</p>
 </div>
 <div class="paragraph">
-<p>Al comienzo del hackathon, los organizadores te proporcionarán tu id de grupo. Lo único que tienes que hacer, es introducir tu <strong>grupo</strong> y pulsar <strong>enter</strong> en el campo de la barra de navegación superior de esta página:</p>
+<p>Lo único que teneis que hacer, es introducir vuestro <strong>grupo</strong> y pulsar <strong>enter</strong> en el campo de la barra de navegación superior de esta página:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -174,9 +174,21 @@
 <div class="paragraph">
 <p><strong>Comencemos, %USER% !!!</strong></p>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Si tras configurar tu grupo no lo veis actualizado en el mensaje anterior, preguntad a los organizadores.
+</td>
+</tr>
+</table>
+</div>
 <nav class="pagination">
   <span class="prev"><a href="index.html" class="query-params-link">Bienvenido</a></span>
-  <span class="next"><a href="01-challenge-1.html" class="query-params-link">2. Reto 1</a></span>
+  <span class="next"><a href="environment.html" class="query-params-link">2. Entorno</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

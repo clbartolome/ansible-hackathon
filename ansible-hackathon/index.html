@@ -20,8 +20,9 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('aap_url').href = "https://aap-lab." + server;
-      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('aap_url').href = "https://aap-lab.apps." + server;
+      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
+      document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
 
     if (user) {
@@ -87,8 +88,9 @@
           <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
         </div> 
 
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Repositorio</a>
+        <a class="navbar-item" id="ide_url" href="" target="_blank">IDE</a>
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
-        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
 
     </div>
   </nav>
@@ -107,13 +109,16 @@
     <a class="nav-link" href="index.html">Bienvenido</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="user-configuration.html">Configuración Inicial</a>
+    <a class="nav-link" href="user-configuration.html">1. Configuración Inicial</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="01-challenge-1.html">2. Reto 1</a>
+    <a class="nav-link" href="environment.html">2. Entorno</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="02-challenge-2.html">3. Reto 2</a>
+    <a class="nav-link" href="01-challenge-1.html">3. Reto 1 TODO</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="02-challenge-2.html">4. Reto 2 TODO</a>
   </li>
 </ul>
   </li>
@@ -163,7 +168,7 @@
 <h1 class="sect0">Pendiente de añadir contenido</h1>
 
 <nav class="pagination">
-  <span class="next"><a href="user-configuration.html" class="query-params-link">Configuración Inicial</a></span>
+  <span class="next"><a href="user-configuration.html" class="query-params-link">1. Configuración Inicial</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

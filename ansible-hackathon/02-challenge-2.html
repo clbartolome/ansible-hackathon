@@ -20,8 +20,9 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('aap_url').href = "https://aap-lab." + server;
-      document.getElementById('gitea_url').href = "http://gitea." + server;
+      document.getElementById('aap_url').href = "https://aap-lab.apps." + server;
+      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
+      document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
 
     if (user) {
@@ -87,8 +88,9 @@
           <span class="navbar-text" style="margin-left: 1rem; margin-right: 1rem;">|</span>
         </div> 
 
+        <a class="navbar-item" id="gitea_url" href="" target="_blank">Repositorio</a>
+        <a class="navbar-item" id="ide_url" href="" target="_blank">IDE</a>
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
-        <a class="navbar-item" id="gitea_url" href="" target="_blank">Gitea</a>
 
     </div>
   </nav>
@@ -107,13 +109,16 @@
     <a class="nav-link" href="index.html">Bienvenido</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="user-configuration.html">Configuración Inicial</a>
+    <a class="nav-link" href="user-configuration.html">1. Configuración Inicial</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="01-challenge-1.html">2. Reto 1</a>
+    <a class="nav-link" href="environment.html">2. Entorno</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="01-challenge-1.html">3. Reto 1 TODO</a>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="02-challenge-2.html">3. Reto 2</a>
+    <a class="nav-link" href="02-challenge-2.html">4. Reto 2 TODO</a>
   </li>
 </ul>
   </li>
@@ -146,7 +151,7 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Ansible Hackathon</a></li>
-    <li><a href="02-challenge-2.html">3. Reto 2</a></li>
+    <li><a href="02-challenge-2.html">4. Reto 2 TODO</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/master/guide/documentation/modules/ROOT/pages/02-challenge-2.adoc">Edit this Page</a></div>
@@ -154,22 +159,6 @@
   <div class="content">
 <article class="doc">
 <h1 class="page">Reto 2</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Revisa la sección <strong>Configuración Inicial</strong> para configurar tu grupo si aún no lo has hecho.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
 <div class="sect1">
 <h2 id="_test_nav"><a class="anchor" href="#_test_nav"></a>test_nav</h2>
 <div class="sectionbody">
@@ -177,7 +166,7 @@ Revisa la sección <strong>Configuración Inicial</strong> para configurar tu gr
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="01-challenge-1.html" class="query-params-link">2. Reto 1</a></span>
+  <span class="prev"><a href="01-challenge-1.html" class="query-params-link">3. Reto 1 TODO</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">

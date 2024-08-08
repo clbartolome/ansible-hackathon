@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Reto 1 :: Ansible Hackathon</title>
-    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/01-challenge-1.html">
-    <link rel="prev" href="environment.html">
-    <link rel="next" href="02-challenge-2.html">
+    <title>Entorno del Hackathon :: Ansible Hackathon</title>
+    <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/environment.html">
+    <link rel="prev" href="user-configuration.html">
+    <link rel="next" href="01-challenge-1.html">
     <meta name="generator" content="Antora 3.0.0">
     <link rel="stylesheet" href="../_/css/site.css">
 <link rel="icon" href="../_/img/favicon.ico" type="image/x-icon">
@@ -112,10 +112,10 @@
   <li class="nav-item" data-depth="1">
     <a class="nav-link" href="user-configuration.html">1. Configuración Inicial</a>
   </li>
-  <li class="nav-item" data-depth="1">
+  <li class="nav-item is-current-page" data-depth="1">
     <a class="nav-link" href="environment.html">2. Entorno</a>
   </li>
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <a class="nav-link" href="01-challenge-1.html">3. Reto 1 TODO</a>
   </li>
   <li class="nav-item" data-depth="1">
@@ -152,23 +152,144 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Ansible Hackathon</a></li>
-    <li><a href="01-challenge-1.html">3. Reto 1 TODO</a></li>
+    <li><a href="environment.html">2. Entorno</a></li>
   </ul>
 </nav>
-  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/master/guide/documentation/modules/ROOT/pages/01-challenge-1.adoc">Edit this Page</a></div>
+  <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/master/guide/documentation/modules/ROOT/pages/environment.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Reto 1</h1>
+<h1 class="page">Entorno del Hackathon</h1>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Todas las aplicaciones y servicios que vais a necesitar para afrontar los retos que se van a plantear ya han sido desplegados y configurados.</p>
+</div>
+<div class="paragraph">
+<p>A continuacion se indica como acceder, credenciales y algunos consejos. Recomendamos ir accediendo a todos ellos a medida que los reviseis para asegurarnos que todo esta configurado correctamente.</p>
+</div>
+</div>
+</div>
 <div class="sect1">
-<h2 id="_test_nav"><a class="anchor" href="#_test_nav"></a>test_nav</h2>
+<h2>Repositorio de Código</h2>
+<div class="sectionbody">
+<div class="imageblock right">
+<div class="content">
+<img src="_images/gitea.png" alt="Gitea" width="100" height="100">
+</div>
+</div>
+<div class="paragraph">
+<p>Gitea es una plataforma web de software colaborativo para alojar el control de versiones de desarrollo de software utilizando Git.
+Incluye otras funciones colaborativas como seguimiento de errores, revisión de código, tableros kanban, tickets y wikis.</p>
+</div>
+<div class="paragraph">
+<p>Para este Hackathon se ha desplegado una instancia en la que tendreis ya creado un repositorio llamado <code>%USER%-hackathon</code>. Este repositorio será utilizado para almacenar los recursos de Ansible que desarrolleis.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/gitea_repo.png" alt="Sunset">
+</div>
+<div class="title">Figure 1. Ejemplo repositorio</div>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-caution" title="Caution"></i>
+</td>
+<td class="content">
+El repositorio esta configurado como <strong>privado</strong>, tenedlo en cuenta durante el Hackathon pero no lo modifiqueis.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>El acceso a Gitea se realiza a traves del botón <code>Repositorio</code> situado en la barra de menu superior, al lado derecho.</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Vuestros credenciales para acceder a Gitea son:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Usuario: <strong>%USER%</strong></p>
+</li>
+<li>
+<p>Contraseña: <strong>ansible</strong></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2>IDE web</h2>
+<div class="sectionbody">
+<div class="imageblock right">
+<div class="content">
+<img src="_images/devspaces.webp" alt="DevSpaces" width="150" height="150">
+</div>
+</div>
+<div class="paragraph">
+<p>Creado sobre el proyecto de código abierto Eclipse Che, Red Hat OpenShift Dev Spaces utiliza Kubernetes y contenedores para proporcionar a los desarrolladores y otros miembros del equipo de IT un entorno de desarrollo consistente, seguro y sin configuración. La experiencia es tan rápida y familiar como un entorno de desarrollo integrado (IDE) en un portátil.</p>
+</div>
+<div class="paragraph">
+<p>El motivo por el que vamos a utilizar <strong>DevSpaces</strong> como IDE es para poder garantizar el acceso a todos los recursos y sistemas con los que interactuareis durante el Hackathon.</p>
+</div>
+<div class="paragraph">
+<p>El acceso a DevSpaces se realiza a traves del botón <code>IDE</code> situado en la barra de menu superior, al lado derecho.</p>
+</div>
+<div class="paragraph">
+<p>Al pulsar se os redireccionará a una pantalla en la que tendreis que pulsar en #TODO</p>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Vuestros credenciales para acceder al entorno de desarrollo son:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Usuario: <strong>%USER%</strong></p>
+</li>
+<li>
+<p>Contraseña: <strong>ansible</strong></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Al acceder al entorno de desarrollo podreis ver que vuestro proyecto <code>%USER%-hackathon</code> ya esta clonado y listo para empezar a trabajar con él.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2>Ansible Automation Platform</h2>
 <div class="sectionbody">
 
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="environment.html" class="query-params-link">2. Entorno</a></span>
-  <span class="next"><a href="02-challenge-2.html" class="query-params-link">4. Reto 2 TODO</a></span>
+  <span class="prev"><a href="user-configuration.html" class="query-params-link">1. Configuración Inicial</a></span>
+  <span class="next"><a href="01-challenge-1.html" class="query-params-link">3. Reto 1 TODO</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
