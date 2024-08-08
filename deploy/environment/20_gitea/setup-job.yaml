@@ -35,6 +35,8 @@ spec:
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/user/sign_up
 
+          curl -O https://raw.githubusercontent.com/clbartolome/ansible-hackathon/master/devfile.yaml
+
           i=1; while [[ $i -lt 11 ]]; do 
 
           echo "-- Creating developer group-$i --"
@@ -61,6 +63,14 @@ spec:
               echo "Error creating repository group-$i-hackathon, error code: $RESPONSE"
               exit 1
           fi
+
+          git clone http://group-$i:ansible@$GITEA_HOSTNAME/group-$i/group-$i-hackathon
+          sed -e "s/GROUPID/${i}/g" devfile.yaml > group-$i-hackathon/devfile.yaml
+          cd group-$i-hackathon
+          git config user.email "group-$i@example.com"
+          git config user.name "group-$i"
+          git add . && git commit -m "Added devfile.yaml" && git push
+          cd ..
 
           i=$((i+1)); done
           
