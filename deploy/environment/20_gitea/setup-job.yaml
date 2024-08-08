@@ -43,7 +43,7 @@ spec:
 
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
-            -d '{"email":"'"group-$i@example.com"'","full_name": "'"group-$i"'","login_name": "'"group-$i"'","must_change_password": false,"password": "ansible","restricted": true,"send_notify": false,"username": "'"group-$i"'"}' \
+            -d '{"email":"'"group-$i@example.com"'","full_name": "'"group-$i"'","login_name": "'"group-$i"'","must_change_password": false,"password": "ansible","restricted": false,"send_notify": false,"username": "'"group-$i"'"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/admin/users)
 
