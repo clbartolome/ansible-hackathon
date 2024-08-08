@@ -2,6 +2,13 @@
 
 #TODO: Description  
 
+## Installation
+
+Prerequisites:
+- OpenShift cluster with admin rights
+- OpenShift GitOps installed with default configuration
+- Ansible Automation Platform installed in OpenShift as an operator
+
 ## Exchange Rates Application
 
 This application consists of two parts:

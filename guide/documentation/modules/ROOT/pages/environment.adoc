@@ -1,0 +1,59 @@
+= Entorno del Hackathon
+:page-layout: home
+:!sectids:
+ifndef::lab[]
+:lab-name: Java
+endif::[]
+
+Todas las aplicaciones y servicios que vais a necesitar para afrontar los retos que se van a plantear ya han sido desplegados y configurados.
+
+A continuacion se indica como acceder, credenciales y algunos consejos. Recomendamos ir accediendo a todos ellos a medida que los reviseis para asegurarnos que todo esta configurado correctamente.
+
+== Repositorio de Código 
+
+image::gitea.png[Gitea,100,100,role=right]
+
+Gitea es una plataforma web de software colaborativo para alojar el control de versiones de desarrollo de software utilizando Git.
+Incluye otras funciones colaborativas como seguimiento de errores, revisión de código, tableros kanban, tickets y wikis.
+
+Para este Hackathon se ha desplegado una instancia en la que tendreis ya creado un repositorio llamado ``%USER%-hackathon``. Este repositorio será utilizado para almacenar los recursos de Ansible que desarrolleis.
+
+.Ejemplo repositorio
+image::gitea_repo.png[Sunset]
+
+CAUTION: El repositorio esta configurado como *privado*, tenedlo en cuenta durante el Hackathon pero no lo modifiqueis.
+
+El acceso a Gitea se realiza a traves del botón ``Repositorio`` situado en la barra de menu superior, al lado derecho.
+
+[IMPORTANT]
+====
+Vuestros credenciales para acceder a Gitea son:
+
+* Usuario: *%USER%* 
+* Contraseña: *ansible*
+====
+
+== IDE web
+
+image::devspaces.webp[DevSpaces,150,150,role=right]
+
+Creado sobre el proyecto de código abierto Eclipse Che, Red Hat OpenShift Dev Spaces utiliza Kubernetes y contenedores para proporcionar a los desarrolladores y otros miembros del equipo de IT un entorno de desarrollo consistente, seguro y sin configuración. La experiencia es tan rápida y familiar como un entorno de desarrollo integrado (IDE) en un portátil.
+
+El motivo por el que vamos a utilizar *DevSpaces* como IDE es para poder garantizar el acceso a todos los recursos y sistemas con los que interactuareis durante el Hackathon.
+
+El acceso a DevSpaces se realiza a traves del botón ``IDE`` situado en la barra de menu superior, al lado derecho.
+
+Al pulsar se os redireccionará a una pantalla en la que tendreis que pulsar en #TODO
+
+[IMPORTANT]
+====
+Vuestros credenciales para acceder al entorno de desarrollo son:
+
+* Usuario: *%USER%* 
+* Contraseña: *ansible*
+====
+
+Al acceder al entorno de desarrollo podreis ver que vuestro proyecto ``%USER%-hackathon`` ya esta clonado y listo para empezar a trabajar con él.
+
+== Ansible Automation Platform
+

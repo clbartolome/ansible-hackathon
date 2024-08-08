@@ -1,6 +1,5 @@
 = Reto 1
 include::_attributes.adoc[]
 
-WARNING: Revisa la sección *Configuración Inicial* para configurar tu grupo si aún no lo has hecho.
 
 == test_nav
