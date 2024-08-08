@@ -21,8 +21,6 @@ Para este Hackathon se ha desplegado una instancia en la que tendreis ya creado 
 .Ejemplo repositorio
 image::gitea_repo.png[Sunset]
 
-CAUTION: El repositorio esta configurado como *privado*, tenedlo en cuenta durante el Hackathon pero no lo modifiqueis.
-
 El acceso a Gitea se realiza a traves del botón ``Repositorio`` situado en la barra de menu superior, al lado derecho.
 
 [IMPORTANT]
@@ -43,17 +41,32 @@ El motivo por el que vamos a utilizar *DevSpaces* como IDE es para poder garanti
 
 El acceso a DevSpaces se realiza a traves del botón ``IDE`` situado en la barra de menu superior, al lado derecho.
 
-Al pulsar se os redireccionará a una pantalla en la que tendreis que pulsar en #TODO
+Seguid los siguientes pasos para acceder al entorno de desarrollo:
 
+. Pulsar ``log in with OpenShift``:
++
+image::login_ocp.png[400,400]
+. Seleccionar ``Hackathon``:
++
+image::hackathon_login.png[600,600]
+. Acceder con los siguientes credenciales:
++
 [IMPORTANT]
 ====
-Vuestros credenciales para acceder al entorno de desarrollo son:
-
 * Usuario: *%USER%* 
 * Contraseña: *ansible*
 ====
+. Marcar ``user:full`` y pulsar en ``Allow selected permissions``:
++
+image::allow_permissions.png[600,600]
+. Esperar a que carge el IDE:
++
+image::ide_load.png[600,600]
+. Aceptar la opcion ``Yes, trust the authors``:
++
+image::trust_authors.png[600,600]
 
-Al acceder al entorno de desarrollo podreis ver que vuestro proyecto ``%USER%-hackathon`` ya esta clonado y listo para empezar a trabajar con él.
+Una vez cargado el entorno de desarrollo podreis ver que vuestro proyecto ``%USER%-hackathon`` ya esta clonado y listo para empezar a trabajar con él.
 
 == Ansible Automation Platform
 
