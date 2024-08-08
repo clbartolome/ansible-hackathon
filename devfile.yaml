@@ -1,6 +1,6 @@
 schemaVersion: 2.2.2
 metadata:
-  name: ansible-demo
+  name: ansible-hackathon-GROUPID
 starterProjects:
   - name: group-GROUPID-hackathon
     git:
