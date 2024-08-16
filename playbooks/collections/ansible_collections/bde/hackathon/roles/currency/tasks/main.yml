@@ -1,0 +1,71 @@
+# tasks file for currency
+---
+
+- name: "Get BCE rate for {{ loop_currency }}"
+  ansible.builtin.uri:
+    url: "{{ currency_bce_endpoint }}"
+    return_content: true
+  register: bce_reply
+
+- name: Get BDE info
+  ansible.builtin.uri:
+    url: "{{ bde_endpoint }}"
+    return_content: true
+  register: bde_reply
+
+- name: Debug bce_reply
+  ansible.builtin.debug:
+    msg: "{{ bce_reply }}"
+    verbosity: 3
+
+- name: Debug bde_reply
+  ansible.builtin.debug:
+    msg: "{{ bde_reply }}"
+    verbosity: 3
+
+- name: Get BCE value
+  ansible.builtin.set_fact:
+    bce_value: "{{ bce_reply.json.value }}"
+
+- name: Get BDE limit
+  ansible.builtin.set_fact:
+    bde_limit: "{{ bde_reply.json | community.general.json_query(currency_get_limit_json_filter) | first | float }}"
+
+- name: Get BDE current value
+  ansible.builtin.set_fact:
+    bde_value: "{{ bde_reply.json | community.general.json_query(currency_get_value_json_filter) | first | float }}"
+
+- name: Debug values
+  ansible.builtin.debug:
+    msg:
+      - "Divisa: {{ loop_currency }}"
+      - "El valor actual en la web de BDE es {{ bde_value }}."
+      - "El límite establecido es de {{ bde_limit }}."
+      - "El BCE reporta un tipo de cambio de {{ bce_value }}."
+    verbosity: 3
+
+- name: Set new value rate
+  ansible.builtin.set_fact:
+    new_rate_value: "{{ get_rate_value }}"
+  vars:
+    get_rate_value: "{{ (bce_value | float > bde_limit | float) | ternary(bde_limit, bce_value) }}"
+
+- name: Debug new value rate
+  ansible.builtin.debug:
+    msg: "El nuevo valor calculado y que se actualizará en la web de BDE es: {{ new_rate_value }}"
+    verbosity: 3
+
+- name: Update BDE website
+  ansible.builtin.uri:
+    url: "{{ bde_endpoint }}"
+    method: PUT
+    body_format: json
+    body: >
+      {
+        "currency": "{{ loop_currency }}",
+        "value": {{ new_rate_value | float }}
+      }
+  register: update_output
+  when: new_rate_value != bde_value
+  failed_when: "'successfully' not in update_output.json.message"
+...

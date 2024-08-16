@@ -1,0 +1,29 @@
+---
+- name: Exchange rate challenge
+  gather_facts: false
+  hosts: localhost
+  collections:
+    - community.general # due to json_query filter (it has jmespath dependency)
+  vars:
+    bde_endpoint: "http://localhost:3000/app_rates"
+    list_currencies:
+      - USD
+      - JPY
+      - GBP
+      - CHF
+      - CNY
+      - MXN
+  tasks:
+    - name: Include currency role
+      ansible.builtin.include_role:
+        name: bde.hackathon.currency
+        tasks_from: main.yml
+      loop: "{{ list_currencies }}"
+      loop_control:
+        loop_var: loop_currency
+      vars:
+        currency_bce_endpoint: "http://localhost:3000/bce_rates/{{ loop_currency }}"
+        currency_get_limit_json_filter: "[?currency=='{{ loop_currency }}'].limit"
+        currency_get_value_json_filter: "[?currency=='{{ loop_currency }}'].value"
+
+...
