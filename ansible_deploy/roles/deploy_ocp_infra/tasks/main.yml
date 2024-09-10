@@ -17,20 +17,26 @@
         kind: Namespace
         name: "group-{{ item }}"
       register: created_projects
+      when: kk is defined
 
     - name: Create ConfigMaps for each group
       kubernetes.core.k8s:
-        namespace: "group-{{ item }}"
-        api_version: v1
-        definition:
+        apply: yes
+        definition: 
+          apiVersion: v1
           kind: ConfigMap
           metadata:
             name: frontend-cm
-            namespace: "group-{{ item }}"
+            namespace: group-{{ item }}
             labels:
               app: exchange
-          data:
-            REACT_CONFIG: '{"REACT_APP_BACKEND": "http://backend-group-{{ item }}.apps.{{ base_domain }}"}'
+          data: 
+            REACT_CONFIG: "{{ config | to_nice_json(indent=2)}}"
+      vars:
+        config: |-
+            {
+              "REACT_APP_BACKEND": "http://backend-group-{{ item }}.apps.{{ base_domain }}"
+            }
       loop: "{{ range(1, 11) | list }}"
 
     - name: Create htpasswd users

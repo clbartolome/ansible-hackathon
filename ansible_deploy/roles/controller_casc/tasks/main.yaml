@@ -1,3 +1,5 @@
+    - include_tasks: prepare.yaml
+
     - name: Create Organizations
       awx.awx.organization:
         name: "group-{{ item }}"

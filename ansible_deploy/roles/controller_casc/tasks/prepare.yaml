@@ -1,0 +1,46 @@
+    - name: Wait for Ansible Controller Route to be Created
+      kubernetes.core.k8s_info:
+        api_version: route.openshift.io/v1
+        kind: Route
+        name: controller01
+        namespace: aap
+      until:
+        - controller.resources[0].spec.host is defined
+        - controller.resources[0].spec.host != ""
+      retries: 60
+      delay: 10
+      register: controller
+
+    - name: Get Controller password
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: controller01-admin-password
+        namespace: aap
+      register: controller_password
+
+    - name: Set Controller Hostname Information
+      ansible.builtin.set_fact:
+        aap_host: "{{ controller.resources[0].spec.host }}"
+
+    - name: Set Controller Password Information
+      ansible.builtin.set_fact:
+        aap_pass: "{{ controller_password.resources[0].data.password | ansible.builtin.b64decode }}"
+
+    - name: Wait for Ansible Controller API to be ready
+      ansible.builtin.uri:
+        url: "https://{{ controller.resources[0].spec.host }}/api/v2/me"
+        user: "admin"
+        password: "{{ aap_pass }}"
+        method: GET
+        headers:
+          Content-Type: application/json
+        body_format: json
+        validate_certs: false
+        force_basic_auth: true
+        status_code:
+          - 200
+        return_content: true
+      retries: 60
+      delay: 10
+
