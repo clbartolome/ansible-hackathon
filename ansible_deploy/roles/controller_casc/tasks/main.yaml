@@ -2,6 +2,10 @@
 
     - name: Create Organizations
       awx.awx.organization:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "group-{{ item }}"
         description: "group-{{ item }} organization" 
         state: present
@@ -9,6 +13,10 @@
 
     - name: Create Users
       awx.awx.user:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         username: "group-{{ item }}"
         password: "ansible"
         state: present
@@ -17,6 +25,10 @@
 
     - name: Configure RBAC
       awx.awx.role:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         user: "group-{{ item }}"
         role: admin
         organization: "group-{{ item }}"
@@ -25,6 +37,10 @@
 
     - name: Create SCM credential
       awx.awx.credential:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "group-{{ item }} SCM Credential"
         organization: "group-{{ item }}"
         state: present
@@ -36,6 +52,10 @@
 
     - name: Add Windows credential
       awx.awx.credential:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "group-{{ item }}"
         description: "group-{{ item }}"
         organization: "group-{{ item }}"
@@ -48,6 +68,10 @@
 
     - name: Create Projects
       awx.awx.project:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "group-{{ item }}"
         description: "group-{{ item }} project"
         organization: "group-{{ item }}"
@@ -59,6 +83,10 @@
 
     - name: Add Windows inventory
       awx.awx.inventory:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "Windows Inventory for group-{{ item }}"
         description: "Windows Inventory"
         organization: "group-{{ item }}"
@@ -73,6 +101,10 @@
 
     - name: Add inventory for localhost"
       awx.awx.inventory:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "Localhost Inventory for group-{{ item }}"
         description: "Localhost Inventory"
         organization: "group-{{ item }}"
@@ -81,6 +113,10 @@
 
     - name: Add host Windows Inventory
       awx.awx.host:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: "{{ instance.instances[0].public_dns_name }}"
         description: "Windows Host"
         inventory: "Windows Inventory for group-{{ item }}"
@@ -89,6 +125,10 @@
 
     - name: Add host for localhost
       awx.awx.host:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
         name: localhost
         description: "localhost"
         inventory: "Localhost Inventory for group-{{ item }}"
