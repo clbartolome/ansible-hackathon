@@ -1,0 +1,63 @@
+---
+- name: Configure Windows Instance
+  hosts: all
+  gather_facts: yes
+  vars:
+    ansible_user: "Administrator"
+    ansible_password: "{{ admin_password }}"
+    ansible_port: 5985
+    ansible_connection: winrm
+    ansible_winrm_transport: ntlm
+    ansible_become_password: "{{ user_password }}"
+
+  tasks:
+
+    - name: Create Users
+      ansible.windows.win_user:
+        name: "group{{ item }}"
+        password: "{{ user_password }}"
+        home_directory: "C:\\Users\\group{{ item }}"
+        state: present
+        groups:
+          - Users
+          - "Remote Desktop Users"
+      loop: "{{ range(10) | list }}"
+
+    - name: Create User's Profiles
+      community.windows.win_user_profile:
+        username: "group{{ item }}"
+        state: present
+      loop: "{{ range(10) | list }}"
+
+    - name: Create Crowdstrike folders
+      ansible.windows.win_file:
+        path: "C:\\Users\\group{{ item }}\\Crowdstrike"
+        state: directory 
+      loop: "{{ range(10) | list }}"
+
+    - name: Create Crowdstrike Falcon Sensor files
+      ansible.windows.win_file:
+        path: "C:\\Users\\group{{ item.0 }}\\Crowdstrike\\C-{{ '%08d' | format(item.1)}}{{ lookup('community.general.random_string', length=3, numbers=false, special=false, min_lower=3) }}.sys"
+        state: touch
+      loop: "{{ range(10) | product (range(1, 10)) | list }}"
+
+    - name: Get list of all folders
+      ansible.windows.win_find:
+        paths: "C:\\Users\\"
+        recurse: no
+        file_type: directory
+      register: folders_list
+
+    - name: Process each folder to randomly select a file and set the timestamp provided
+      ansible.windows.win_shell: |
+        $files = Get-ChildItem -Path "{{ item }}\\Crowdstrike" -File
+        $randomFile = $files | Get-Random
+        $utcTime = Get-Date -Date "2024-07-22T13:17:00Z"
+        $randomFile.LastWriteTime = $utcTime
+        $randomFile.CreationTime = $utcTime
+        $randomFile.LastAccessTime = $utcTime
+      loop: "{{ folders_list.files | map(attribute='path') | list }}"
+      when: '"group" in item' 
+      args:
+        executable: powershell.exe
+

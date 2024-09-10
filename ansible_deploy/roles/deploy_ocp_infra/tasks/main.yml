@@ -1,0 +1,109 @@
+    - name: Create htpasswd file
+      ansible.builtin.file:
+        path: "{{ output_file }}"
+        state: touch
+
+    - name: Create Gitea Project
+      kubernetes.core.k8s:
+        name: gitea
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Create Group Projects and ConfigMaps
+      loop: "{{ range(1, 11) | list }}"
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: "group-{{ item }}"
+      register: created_projects
+
+    - name: Create ConfigMaps for each group
+      kubernetes.core.k8s:
+        namespace: "group-{{ item }}"
+        api_version: v1
+        definition:
+          kind: ConfigMap
+          metadata:
+            name: frontend-cm
+            namespace: "group-{{ item }}"
+            labels:
+              app: exchange
+          data:
+            REACT_CONFIG: '{"REACT_APP_BACKEND": "http://backend-group-{{ item }}.apps.{{ base_domain }}"}'
+      loop: "{{ range(1, 11) | list }}"
+
+    - name: Create htpasswd users
+      loop: "{{ range(1, 11) | list }}"
+      community.general.htpasswd:
+        path: "{{ output_file }}"
+        name: "group-{{ item }}"
+        password: "{{ password }}"
+        crypt_scheme: "bcrypt"
+
+    - name: Create htpass-secret in OpenShift
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Secret
+        definition:
+          metadata:
+            name: htpass-secret
+            namespace: openshift-config
+          type: Opaque
+          data:
+            htpasswd: "{{ lookup('ansible.builtin.file', output_file) | b64encode }}"
+
+    - name: Create OAuth configuration
+      kubernetes.core.k8s:
+        api_version: config.openshift.io/v1
+        kind: OAuth
+        definition:
+          metadata:
+            name: cluster
+          spec:
+            identityProviders:
+            - name: hackathon
+              mappingMethod: claim
+              type: HTPasswd
+              htpasswd:
+                fileData:
+                  name: htpass-secret
+
+    - name: Assign GitOps cluster-admin role to ArgoCD
+      ansible.builtin.command: >
+        oc adm policy add-cluster-role-to-user cluster-admin 
+        system:serviceaccount:openshift-gitops:openshift-gitops-argocd-application-controller
+        -n openshift-gitops
+
+    - name: Deploy Hackathon Environment via GitOps
+      kubernetes.core.k8s:
+        state: present
+        src: "../deploy/hackathon-environment.yaml"
+
+    - name: Get ArgoCD Route
+      kubernetes.core.k8s_info:
+        name: openshift-gitops-server
+        namespace: openshift-gitops
+        kind: Route
+        api_version: route.openshift.io/v1
+      register: argo_route
+
+    - name: Get ArgoCD Admin Password
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        namespace: openshift-gitops
+        name: openshift-gitops-cluster
+      register: argo_secret
+
+    - name: Decode ArgoCD Admin Password
+      ansible.builtin.set_fact:
+        argo_pass: "{{ argo_secret.resources[0] | community.general.json_query('data.\"admin.password\"') | b64decode }}"
+
+    - name: Print ArgoCD Login Details
+      ansible.builtin.debug:
+        msg: 
+          - "Login into ArgoCD using the following info:"
+          - "URL: https://{{ argo_route.resources[0].spec.host }}"
+          - User: "{{ argo_user }}"
+          - Pass: "{{ argo_pass }}"
