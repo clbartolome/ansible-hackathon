@@ -5,7 +5,7 @@ starterProjects:
   - name: group-GROUPID-hackathon
     git:
       remotes:
-        origin: 'https://gitea-gitea.apps.cluster-97shc-1.dynamic.redhatworkshops.io/group-GROUPID/group-GROUPID-hackathon.git'
+        origin: 'http://gitea.gitea.svc.cluster.local:3000/group-GROUPID/group-GROUPID-hackathon.git'
 
 components:
   - name: tooling-container

@@ -55,7 +55,7 @@ spec:
           echo "-- Creating group-$i-hackathon repository --"
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u group-$i:ansible \
-            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "'"group-$i-hackathon"'","private": true,"trust_model": "default"}' \
+            -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "'"group-$i-hackathon"'","private": false,"trust_model": "default"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/user/repos)
 

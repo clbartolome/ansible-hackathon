@@ -1,17 +1,3 @@
----
-- name: OpenShift Hackathon Setup
-  hosts: localhost
-  gather_facts: false
-
-  vars:
-    api_server: "{{ lookup('ansible.builtin.pipe', 'oc whoami --show-server') }}"
-    base_domain: "{{ api_server | urlsplit('hostname') | regex_replace('^api\\.', '') }}"
-    password: "ansible"
-    output_file: ".htpasswd"
-    argo_user: "admin"
-
-  tasks:
-
     - name: Create htpasswd file
       ansible.builtin.file:
         path: "{{ output_file }}"
@@ -19,9 +5,10 @@
 
     - name: Create Gitea Project
       kubernetes.core.k8s:
+        name: gitea
         api_version: v1
         kind: Namespace
-        name: gitea
+        state: present
 
     - name: Create Group Projects and ConfigMaps
       loop: "{{ range(1, 11) | list }}"
@@ -43,7 +30,7 @@
             labels:
               app: exchange
           data:
-            REACT_CONFIG: '{"REACT_APP_BACKEND": "http://backend-group-{{ item }}.apps.{{ base_domain }}"'
+            REACT_CONFIG: '{"REACT_APP_BACKEND": "http://backend-group-{{ item }}.apps.{{ base_domain }}"}'
       loop: "{{ range(1, 11) | list }}"
 
     - name: Create htpasswd users
@@ -91,7 +78,7 @@
     - name: Deploy Hackathon Environment via GitOps
       kubernetes.core.k8s:
         state: present
-        src: "deploy/hackathon-environment.yaml"
+        src: "../deploy/hackathon-environment.yaml"
 
     - name: Get ArgoCD Route
       kubernetes.core.k8s_info:

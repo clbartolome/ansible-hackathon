@@ -1,10 +1,3 @@
----
-- name: Deploy Hackathon Controller Objects
-  hosts: localhost
-  connection: local
-  gather_facts: no
-
-  tasks:
     - name: Create Organizations
       awx.awx.organization:
         name: "group-{{ item }}"
@@ -86,11 +79,10 @@
 
     - name: Add host Windows Inventory
       awx.awx.host:
-        name: ec2-34-247-81-218.eu-west-1.compute.amazonaws.com # windows host here
+        name: "{{ instance.instances[0].public_dns_name }}"
         description: "Windows Host"
         inventory: "Windows Inventory for group-{{ item }}"
         state: present
-        va
       loop: "{{ range(10) | list }}"
 
     - name: Add host for localhost
@@ -102,9 +94,3 @@
           ansible_connection: local
         state: present
       loop: "{{ range(10) | list }}"
-
-
-
-
-
-      

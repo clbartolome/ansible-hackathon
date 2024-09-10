@@ -1,29 +1,3 @@
----
-- name: Deploy VPC, Subnet, Security Group, Keypair, and Windows Instance in AWS
-  hosts: localhost
-  connection: local
-  gather_facts: no
-  vars:
-    region: eu-west-1
-    cidr_block: "10.0.0.0/16"
-    subnet_cidr_block: "10.0.1.0/24"
-    availability_zone: "eu-west-1a"
-    vpc_name: "AnsibleVPC"
-    subnet_name: "AnsibleSubnet"
-    sg_name: "AnsibleGroup"
-    instance_type: "t3.medium"
-    ami: "ami-0dafe364659bd5eb6"
-    allowed_ports:
-      - { port: 22, name: "SSH" }
-      - { port: 80, name: "HTTP" }
-      - { port: 443, name: "HTTPS" }
-      - { port: 3389, name: "RDP" }
-      - { port: 5985, name: "WINRM" }
-      - { port: 5986, name: "WINRM" }
-    purpose:
-      project: AnsibleDemo
-
-  tasks:
     - name: Create a VPC
       amazon.aws.ec2_vpc_net:
         name: "{{ vpc_name }}"
@@ -107,12 +81,12 @@
         tags: "{{ purpose }}"
       register: key
 
-    - name: Download private key
+    - name: Create private key file
       ansible.builtin.copy: 
         content: "{{ key.key.private_key }}" 
         dest: administrator.pem 
         mode: 0600
-      when: lookup('file', 'administrator.pem') is false
+      when: key.changed
 
     - name: Launch Windows Instance
       amazon.aws.ec2_instance:
@@ -142,7 +116,3 @@
         key_file: administrator.pem
         wait: true
       register: password
-
-    - name: Show Administrator password
-      debug:
-        msg: "Administrator password: {{ password.win_password }}"
