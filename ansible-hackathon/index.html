@@ -20,7 +20,8 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('aap_url').href = "https://aap-lab.apps." + server;
+      document.getElementById('aap_url').href = "https://controller01-aap.apps." + server;
+      document.getElementById('hub_url').href = "https://hub01-aap.apps." + server;
       document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
       document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
@@ -91,6 +92,7 @@
         <a class="navbar-item" id="gitea_url" href="" target="_blank">Repositorio</a>
         <a class="navbar-item" id="ide_url" href="" target="_blank">IDE</a>
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="hub_url" href="" target="_blank">Ansible Automation Hub</a>
 
     </div>
   </nav>
@@ -115,10 +117,10 @@
     <a class="nav-link" href="environment.html">2. Entorno</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="01-challenge-1.html">3. Reto 1 TODO</a>
+    <a class="nav-link" href="01-challenge-1.html">3. Reto CrowdStrike</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="02-challenge-2.html">4. Reto 2 TODO</a>
+    <a class="nav-link" href="02-challenge-2.html">4. Reto Tipos de Cambio</a>
   </li>
 </ul>
   </li>
@@ -162,11 +164,14 @@
 <div class="sect1">
 <h2>Introducción</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>Bienvenidos al <strong>Hackathon</strong> de Ansible, en el que os plantearemos dos retos para poner a prueba vuestros conocimientos de automatización mediante el uso de Ansible y Ansible Automation Platform.</p>
+</div>
+<div class="paragraph">
+<p>Para comenzar, solo teneís que estar divididos en Grupos, <strong>quejaros a vuestros instructores si aun no lo han hecho!!</strong></p>
 </div>
 </div>
-<h1 class="sect0">Pendiente de añadir contenido</h1>
-
+</div>
 <nav class="pagination">
   <span class="next"><a href="user-configuration.html" class="query-params-link">1. Configuración Inicial</a></span>
 </nav>

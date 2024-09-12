@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Reto 2 :: Ansible Hackathon</title>
+    <title>Reto Tipos de Cambio :: Ansible Hackathon</title>
     <link rel="canonical" href="https://clbartolome.github.io/ansible-hackathon/ansible-hackathon/02-challenge-2.html">
     <link rel="prev" href="01-challenge-1.html">
     <meta name="generator" content="Antora 3.0.0">
@@ -20,7 +20,8 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('aap_url').href = "https://aap-lab.apps." + server;
+      document.getElementById('aap_url').href = "https://controller01-aap.apps." + server;
+      document.getElementById('hub_url').href = "https://hub01-aap.apps." + server;
       document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
       document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
@@ -91,6 +92,7 @@
         <a class="navbar-item" id="gitea_url" href="" target="_blank">Repositorio</a>
         <a class="navbar-item" id="ide_url" href="" target="_blank">IDE</a>
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="hub_url" href="" target="_blank">Ansible Automation Hub</a>
 
     </div>
   </nav>
@@ -115,10 +117,10 @@
     <a class="nav-link" href="environment.html">2. Entorno</a>
   </li>
   <li class="nav-item" data-depth="1">
-    <a class="nav-link" href="01-challenge-1.html">3. Reto 1 TODO</a>
+    <a class="nav-link" href="01-challenge-1.html">3. Reto CrowdStrike</a>
   </li>
   <li class="nav-item is-current-page" data-depth="1">
-    <a class="nav-link" href="02-challenge-2.html">4. Reto 2 TODO</a>
+    <a class="nav-link" href="02-challenge-2.html">4. Reto Tipos de Cambio</a>
   </li>
 </ul>
   </li>
@@ -151,22 +153,190 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="index.html">Ansible Hackathon</a></li>
-    <li><a href="02-challenge-2.html">4. Reto 2 TODO</a></li>
+    <li><a href="02-challenge-2.html">4. Reto Tipos de Cambio</a></li>
   </ul>
 </nav>
   <div class="edit-this-page"><a href="https://github.com/clbartolome/ansible-hackathon/edit/master/guide/documentation/modules/ROOT/pages/02-challenge-2.adoc">Edit this Page</a></div>
   </div>
   <div class="content">
 <article class="doc">
-<h1 class="page">Reto 2</h1>
-<div class="sect1">
-<h2 id="_test_nav"><a class="anchor" href="#_test_nav"></a>test_nav</h2>
+<h1 class="page">Reto Tipos de Cambio</h1>
+<div id="preamble">
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>En este reto, mediante el uso de diferentes APIs y módulos de Ansible, se tendrá que crear un automatismo de ejecución periódica que compruebe el valor de diferentes tipos de cambio del BCE y actualice/fije los valores de la web de Banco de España teniendo en cuenta uno.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+El detalle de las puntuaciones os puede servir como ayuda
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_detalle_del_reto"><a class="anchor" href="#_detalle_del_reto"></a>Detalle del reto</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>El reto consiste en la implementacion de un playbook que realice el siguiente flujo:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Recupere el listado de monedas del Banco de España (incluye los valores actuales y los límites)</p>
+</li>
+<li>
+<p>Para cada moneda, recupere la información del Banco Central Europeo (incluye el valor actual)</p>
+</li>
+<li>
+<p>Dependiendo de los valores recibidos actualizar el valor de las moneda en Banco de España por:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Si el valor recuperado del BCE es mayor que el limite establecido por el BdE &#8594; límite establecido</p>
+</li>
+<li>
+<p>Si el valor recuperado del BCE es menor o igual que el limite establecido por el BdE &#8594; valor del BCE</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>La web de Banco de España donde se muestran los tipos de cabio se puede visitar en: <a href="http://frontend-%USER%.apps.%SERVER%" class="bare">http://frontend-%USER%.apps.%SERVER%</a></p>
+</div>
+<div class="paragraph">
+<p>La información de la API de Banco de España es:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>URL: <a href="http://backend-%USER%.apps.%SERVER%" class="bare">http://backend-%USER%.apps.%SERVER%</a></p>
+</li>
+<li>
+<p>Endpoints:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>[GET] <code>/app_rates</code></p>
+</li>
+<li>
+<p>[POST] <code>/app_rates</code> with json body: <code>{"currency": "&lt;currency&gt;","value": value}</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>La información de la API del Banco Central Europeo es:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>URL: <a href="http://backend-%USER%.apps.%SERVER%" class="bare">http://backend-%USER%.apps.%SERVER%</a></p>
+</li>
+<li>
+<p>Endpoints:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>[GET] <code>/bce_rates/&lt;currency&gt;</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>El playbook debe estar en Gitea y ser ejecutado desde Ansible Automation Platform.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_puntuación"><a class="anchor" href="#_puntuación"></a>Puntuación</h2>
+<div class="sectionbody">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+No es necesario realizar todos los items, algunos de los items son opcionales y el reto se puede conseguir sin ellos
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear playbook en Gitea - [10 puntos]</p>
+</li>
+<li>
+<p>Crear proyecto en AAP para leer del repositorio del grupo de Gitea - [15 puntos]</p>
+</li>
+<li>
+<p>Crear job template en AAP - [10 puntos]</p>
+</li>
+<li>
+<p>Realizar el reto utilizando la colección <strong>bde.hackathon</strong> que se encuentra en el Automation Hub - [50 puntos]</p>
+</li>
+<li>
+<p>Realizar el reto sin utilizar la colección <strong>bde.hackathon</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Realizar el playbook para una unica moneda - [10 puntos]</p>
+</li>
+<li>
+<p>Realizar el playbook para todas las monedas (bucle) recuperadas de BdE - [30 puntos]</p>
+</li>
+<li>
+<p>Recuperar la información de BdE - [15 puntos]</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Mostrar la información recuperada de BdE - [5 puntos]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Recuperar la información del BCE - [15 puntos]</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Mostrar la información recuperada del BCE - [5 puntos]</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Utilizar el módulo <code>ansible.builtin.uri</code> - [10 puntos]</p>
+</li>
+<li>
+<p>Actualizar el valor de BdE con la lógica explicada en la descripción del reto - [25 puntos]</p>
+</li>
+<li>
+<p>Controlar errores (mostrando un mensaje y cancelando el playbook) - [10 puntos]</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="01-challenge-1.html" class="query-params-link">3. Reto 1 TODO</a></span>
+  <span class="prev"><a href="01-challenge-1.html" class="query-params-link">3. Reto CrowdStrike</a></span>
 </nav>
 </article>
 <aside class="toc sidebar" data-title="Contents" data-levels="2">
