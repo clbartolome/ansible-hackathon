@@ -22,7 +22,7 @@ jobs:
           site_sources_path: guide
           antora_docsearch_enabled: true
       - name: "Upload generated site"
-        uses: actions/upload-artifact@v1.0.0
+        uses: actions/upload-artifact@v4.0.0
         with:
           name: site
           path: "${{ github.workspace }}/guide/${{ env.SITE_DIR }}"
