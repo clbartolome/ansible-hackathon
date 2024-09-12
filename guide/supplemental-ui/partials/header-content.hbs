@@ -6,7 +6,8 @@
 
       const server = urlParams.get('SERVER');
       
-      document.getElementById('aap_url').href = "https://aap-lab.apps." + server;
+      document.getElementById('aap_url').href = "https://controller01-aap.apps." + server;
+      document.getElementById('hub_url').href = "https://hub01-aap.apps." + server;
       document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
       document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
@@ -77,6 +78,7 @@
         <a class="navbar-item" id="gitea_url" href="" target="_blank">Repositorio</a>
         <a class="navbar-item" id="ide_url" href="" target="_blank">IDE</a>
         <a class="navbar-item" id="aap_url" href="" target="_blank">Ansible Automation Platform</a>
+        <a class="navbar-item" id="hub_url" href="" target="_blank">Ansible Automation Hub</a>
 
     </div>
   </nav>

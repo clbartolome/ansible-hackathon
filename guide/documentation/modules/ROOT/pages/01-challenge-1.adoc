@@ -1,5 +1,33 @@
-= Reto 1
-include::_attributes.adoc[]
+= Reto Reto CrowdStrike
+include::_attributes.adoc[ puntos]
 
+Teniendo en cuenta la incidencia que sucedió el pasado 19 de julio con la actualización de Falcon Sensor de CrowdStrike, que contenía un fallo que obligaba a los computadores con el sistema operativo Windows de Microsoft a bloquearse, en este primer reto se implementará un automatismo para eliminar un fichero dañado en máquinas windows.
 
-== test_nav
+TIP: El detalle de las puntuaciones os puede servir como ayuda
+
+== Detalle del reto
+
+El reto consiste en la implementacion de un playbook que acceda a un servidor windows y elimine los ficheros que cumplan estos requisitos:
+
+* Se encuentren dentro de la carpeta ``Crowdstrike`` en vuestro home de usuario
+* Tienen extension ``.sys``
+* Su fecha de creación es ``2024-07-22T13:17:00Z``
+
+El playbook debe estar en Gitea y ser ejecutado desde Ansible Automation Platform.
+
+El servidor windows ya esta configurado dentro del inventario ``Windows`` en AAP.
+
+== Puntuacion
+
+NOTE: No es necesario realizar todos los items, algunos de los items son opcionales y el reto se puede conseguir sin ellos
+
+* Crear playbook en Gitea - [10 puntos]
+* Crear proyecto en AAP para leer del repositorio del grupo de Gitea - [15 puntos]
+* Crear job template en AAP:
+** Utiizar credenciales proporcionados en AAP - [5 puntos]
+** Utilizar inventario ``Windows`` proporcionado en AAP - [5 puntos]
+* Mostrar en la ejecucion del playbook los ficheros ``.sys`` dentro de la carpeta ``Crowdstrike`` - [5 puntos]
+* Mostrar en la ejecucion del playbook los ficheros ``.sys`` dentro de la carpeta ``Crowdstrike`` junto con su fecha de creación - [10 puntos]
+* Utilizar un diccionario para la ejecucion del reto - [20 puntos]
+* Borrar el fichero - [20 puntos]
+* Utilizar la colección ansible.windows - [10 puntos]

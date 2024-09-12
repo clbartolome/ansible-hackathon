@@ -4,8 +4,8 @@
 
 * xref:environment.adoc[2. Entorno]
 
-* xref:01-challenge-1.adoc[3. Reto 1 TODO]
+* xref:01-challenge-1.adoc[3. Reto CrowdStrike]
 
-* xref:02-challenge-2.adoc[4. Reto 2 TODO]
+* xref:02-challenge-2.adoc[4. Reto Tipos de Cambio]
 
 

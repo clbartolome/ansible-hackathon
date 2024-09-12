@@ -1,5 +1,52 @@
-= Reto 2
-include::_attributes.adoc[]
+= Reto Tipos de Cambio
+include::_attributes.adoc[ puntos]
 
+En este reto, mediante el uso de diferentes APIs y módulos de Ansible, se tendrá que crear un automatismo de ejecución periódica que compruebe el valor de diferentes tipos de cambio del BCE y actualice/fije los valores de la web de Banco de España teniendo en cuenta uno.
 
-== test_nav
+TIP: El detalle de las puntuaciones os puede servir como ayuda
+
+== Detalle del reto
+
+El reto consiste en la implementacion de un playbook que realice el siguiente flujo:
+
+. Recupere el listado de monedas del Banco de España (incluye los valores actuales y los límites)
+. Para cada moneda, recupere la información del Banco Central Europeo (incluye el valor actual)
+. Dependiendo de los valores recibidos actualizar el valor de las moneda en Banco de España por:
+.. Si el valor recuperado del BCE es mayor que el limite establecido por el BdE -> límite establecido
+.. Si el valor recuperado del BCE es menor o igual que el limite establecido por el BdE -> valor del BCE
+
+La web de Banco de España donde se muestran los tipos de cabio se puede visitar en: http://frontend-%USER%.apps.%SERVER%
+
+La información de la API de Banco de España es:
+
+* URL: http://backend-%USER%.apps.%SERVER%
+* Endpoints: 
+** [GET] ``/app_rates``
+** [POST] ``/app_rates`` with json body: ``{"currency": "<currency>","value": value}``
+
+La información de la API del Banco Central Europeo es:
+
+* URL: http://backend-%USER%.apps.%SERVER%
+* Endpoints: 
+** [GET] ``/bce_rates/<currency>``
+
+El playbook debe estar en Gitea y ser ejecutado desde Ansible Automation Platform.
+
+== Puntuación
+
+NOTE: No es necesario realizar todos los items, algunos de los items son opcionales y el reto se puede conseguir sin ellos
+
+* Crear playbook en Gitea - [10 puntos]
+* Crear proyecto en AAP para leer del repositorio del grupo de Gitea - [15 puntos]
+* Crear job template en AAP - [10 puntos]
+* Realizar el reto utilizando la colección **bde.hackathon** que se encuentra en el Automation Hub - [50 puntos]
+* Realizar el reto sin utilizar la colección **bde.hackathon**:
+** Realizar el playbook para una unica moneda - [10 puntos]
+** Realizar el playbook para todas las monedas (bucle) recuperadas de BdE - [30 puntos]
+** Recuperar la información de BdE - [15 puntos]
+*** Mostrar la información recuperada de BdE - [5 puntos]
+** Recuperar la información del BCE - [15 puntos]
+*** Mostrar la información recuperada del BCE - [5 puntos]
+** Utilizar el módulo ``ansible.builtin.uri`` - [10 puntos]
+** Actualizar el valor de BdE con la lógica explicada en la descripción del reto - [25 puntos]
+** Controlar errores (mostrando un mensaje y cancelando el playbook) - [10 puntos]

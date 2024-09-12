@@ -7,4 +7,6 @@ endif::[]
 
 == Introducción
 
-# Pendiente de añadir contenido
+Bienvenidos al **Hackathon** de Ansible, en el que os plantearemos dos retos para poner a prueba vuestros conocimientos de automatización mediante el uso de Ansible y Ansible Automation Platform.
+
+Para comenzar, solo teneís que estar divididos en Grupos, **quejaros a vuestros instructores si aun no lo han hecho!!**
