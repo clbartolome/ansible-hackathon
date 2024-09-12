@@ -7,7 +7,9 @@ endif::[]
 
 Todas las aplicaciones y servicios que vais a necesitar para afrontar los retos que se van a plantear ya han sido desplegados y configurados.
 
-A continuacion se indica como acceder, credenciales y algunos consejos. Recomendamos ir accediendo a todos ellos a medida que los reviseis para asegurarnos que todo esta configurado correctamente.
+A continuacion se indica como acceder, credenciales y algunos consejos. 
+
+TIP: Recomendamos ir accediendo a medida que reviseis los componentes para asegurarnos que todo esta configurado correctamente.
 
 == Repositorio de Código 
 
@@ -70,9 +72,49 @@ Una vez cargado el entorno de desarrollo podreis ver que vuestro proyecto ``%USE
 
 == Ansible Automation Platform
 
-TODO
+image::aap.png[Gitea,100,100,role=right]
+
+Red Hat Ansible Automation Platform es una solución unificada para la automatización estratégica. Combina la seguridad, las funciones, las integraciones y la flexibilidad que se necesitan para ajustar ese proceso en todas las áreas, organizar los flujos de trabajo importantes y optimizar las operaciones de TI para adoptar la inteligencia artificial empresarial con éxito. 
+
+Para este Hackathon se ha desplegado una instancia en la que tendreis ya configurados los siguientes elementos:
+
+* Una organización independiente por cada grupo participante
+* Los inventarios requeridos en los retos
+* Un proyecto ya configurado y conectado a vuestro repositorio en Gitea
+* Los credenciales requeridos en los retos
+
+TIP: Revisad los elementos descritos anteriormente ya que serán clave para la realización de los retos
+
+.Ejemplo repositorio
+image::gitea_repo.png[Sunset]
+
+El acceso a AAP se realiza a traves del botón ``Ansible Automation Platform`` situado en la barra de menu superior, al lado derecho.
+
+[IMPORTANT]
+====
+Vuestros credenciales para acceder a AAP son:
+
+* Usuario: *%USER%* 
+* Contraseña: *ansible*
+====
 
 == Ansible Automation Hub
 
-TODO
+image::hub.png[Gitea,100,100,role=right]
 
+Red Hat Ansible Automation Hub es un repositorio que permite a las empresas gestionar, compartir y organizar el contenido generado de forma interna y controlar el acceso al contenido creado por Red Hat y sus partners.
+
+Para este Hackathon se ha desplegado una instancia en la que tendreis ya TODO
+
+.Ejemplo repositorio
+image::gitea_repo.png[Sunset]
+
+El acceso al Automation Hub se realiza a traves del botón ``Ansible Automation Hub`` situado en la barra de menu superior, al lado derecho.
+
+[IMPORTANT]
+====
+Vuestros credenciales para acceder a AAP son:
+
+* Usuario: *%USER%* 
+* Contraseña: *ansible*
+====

@@ -1,5 +1,5 @@
 = Reto Reto CrowdStrike
-include::_attributes.adoc[ puntos]
+include::_attributes.adoc[ puntos__**
 
 Teniendo en cuenta la incidencia que sucedió el pasado 19 de julio con la actualización de Falcon Sensor de CrowdStrike, que contenía un fallo que obligaba a los computadores con el sistema operativo Windows de Microsoft a bloquearse, en este primer reto se implementará un automatismo para eliminar un fichero dañado en máquinas windows.
 
@@ -21,13 +21,14 @@ El servidor windows ya esta configurado dentro del inventario ``Windows`` en AAP
 
 NOTE: No es necesario realizar todos los items, algunos de los items son opcionales y el reto se puede conseguir sin ellos
 
-* Crear playbook en Gitea - [10 puntos]
-* Crear proyecto en AAP para leer del repositorio del grupo de Gitea - [15 puntos]
+* Crear playbook en Gitea - **__10 puntos__**
+* Crear proyecto en AAP para leer del repositorio del grupo de Gitea - **__15 puntos__**
 * Crear job template en AAP:
-** Utiizar credenciales proporcionados en AAP - [5 puntos]
-** Utilizar inventario ``Windows`` proporcionado en AAP - [5 puntos]
-* Mostrar en la ejecucion del playbook los ficheros ``.sys`` dentro de la carpeta ``Crowdstrike`` - [5 puntos]
-* Mostrar en la ejecucion del playbook los ficheros ``.sys`` dentro de la carpeta ``Crowdstrike`` junto con su fecha de creación - [10 puntos]
-* Utilizar un diccionario para la ejecucion del reto - [20 puntos]
-* Borrar el fichero - [20 puntos]
-* Utilizar la colección ansible.windows - [10 puntos]
+** Utiizar credenciales proporcionados en AAP - **__5 puntos__**
+** Utilizar inventario ``Windows`` proporcionado en AAP - **__5 puntos__**
+* Mostrar en la ejecucion del playbook (debug):
+** Los ficheros ``.sys`` del directorio ``Crowdstrike`` - **__5 puntos__**
+** Los ficheros ``.sys`` del directorio ``Crowdstrike`` junto con su fecha de creación - **__10 puntos__**
+* Utilizar un diccionario para la ejecucion del reto - **__20 puntos__**
+* Borrar el fichero - **__20 puntos__**
+* Utilizar la colección ansible.windows - **__10 puntos__**
