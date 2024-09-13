@@ -1,61 +1,29 @@
----
-- name: Configure Windows Instance
-  hosts: windows
-  gather_facts: yes
-
-  tasks:
-
-    - name: Create a new group for WinRM Users
-      ansible.windows.win_group:
-        name: AnsibleWinRM
-        description: "Group for Ansible Users"
-        state: present
-
     - name: Create Users
       ansible.windows.win_user:
-        name: "group-{{ item }}"
+        name: "group{{ item }}"
         password: "Ansible-{{ item }}"
-        home_directory: "C:\\Users\\group-{{ item }}"
+        home_directory: "C:\\Users\\group{{ item }}"
         state: present
         groups:
-          - AnsibleWinRM
           - Users
           - "Remote Desktop Users"
       loop: "{{ range(10) | list }}"
 
     - name: Create User's Profiles
       community.windows.win_user_profile:
-        username: "group-{{ item }}"
+        username: "group{{ item }}"
         state: present
       loop: "{{ range(10) | list }}"
 
-    - name: Get current WinRM SDDL
-      ansible.windows.win_shell: |
-        winrm get winrm/config
-      register: winrm_config
-
-    - name: Display current WinRM SDDL
-      debug:
-        var: winrm_config.stdout
-
-    - name: Verify WinRM SDDL
-      ansible.windows.win_shell: |
-        winrm get winrm/config
-      register: new_winrm_config
-
-    - name: Display new WinRM SDDL
-      debug:
-        var: new_winrm_config.stdout
-
     - name: Create Crowdstrike folders
       ansible.windows.win_file:
-        path: "C:\\Users\\group-{{ item }}\\Crowdstrike"
+        path: "C:\\Users\\group{{ item }}\\Crowdstrike"
         state: directory 
       loop: "{{ range(10) | list }}"
 
     - name: Create Crowdstrike Falcon Sensor files
       ansible.windows.win_file:
-        path: "C:\\Users\\group-{{ item.0 }}\\Crowdstrike\\C-{{ '%08d' | format(item.1)}}{{ lookup('community.general.random_string', length=3, numbers=false, special=false, min_lower=3) }}.sys"
+        path: "C:\\Users\\group{{ item.0 }}\\Crowdstrike\\C-{{ '%08d' | format(item.1)}}{{ lookup('community.general.random_string', length=3, numbers=false, special=false, min_lower=3) }}.sys"
         state: touch
       loop: "{{ range(10) | product (range(1, 10)) | list }}"
 

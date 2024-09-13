@@ -90,7 +90,7 @@
 
     - name: Launch Windows Instance
       amazon.aws.ec2_instance:
-        name: windows
+        name: windows01
         vpc_subnet_id: "{{ subnet.subnet.id }}"
         image_id: "{{ ami }}"
         instance_type: "{{ instance_type }}"
@@ -115,4 +115,12 @@
         region: "{{ region }}"
         key_file: administrator.pem
         wait: true
-      register: password
+      register: admin_password
+
+    - name: Set password fact
+      ansible.builtin.set_fact:
+        admin_password: "{{ admin_password.win_password }}"
+
+    - name: Set password fact
+      ansible.builtin.debug:
+        msg: "{{ admin_password }}"

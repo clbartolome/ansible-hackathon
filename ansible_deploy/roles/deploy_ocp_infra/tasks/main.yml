@@ -17,7 +17,6 @@
         kind: Namespace
         name: "group-{{ item }}"
       register: created_projects
-      when: kk is defined
 
     - name: Create ConfigMaps for each group
       kubernetes.core.k8s:

@@ -9,7 +9,7 @@
         name: "group-{{ item }}"
         description: "group-{{ item }} organization" 
         state: present
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
 
     - name: Create Users
       awx.awx.user:
@@ -21,7 +21,7 @@
         password: "ansible"
         state: present
         organization: "group-{{ item }}"
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
 
     - name: Configure RBAC
       awx.awx.role:
@@ -33,7 +33,7 @@
         role: admin
         organization: "group-{{ item }}"
         state: present
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
 
     - name: Create SCM credential
       awx.awx.credential:
@@ -48,7 +48,7 @@
         inputs:
           username: "group-{{ item }}"
           password: "ansible"
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
 
     - name: Add Windows credential
       awx.awx.credential:
@@ -62,9 +62,9 @@
         credential_type: Machine
         inputs:
           username: "group-{{ item }}"
-          password: "ansible{{ item }}!!"
+          password: "Ansible{{ item }}!!"
         state: present
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
 
     - name: Create Projects
       awx.awx.project:
@@ -78,8 +78,9 @@
         credential: "group-{{ item }} SCM Credential" 
         state: present
         scm_type: git
-        scm_url: "https://gitea-gitea.apps.cluster-6gqg4-1.dynamic.redhatworkshops.io/group-{{ item }}/group-{{ item }}-hackathon.git"
-      loop: "{{ range(10) | list }}"
+        scm_url: "https://gitea-gitea.apps.{{ base_domain }}/group-{{ item }}/group-{{ item }}-hackathon.git"
+      loop: "{{ range(11) | list }}"
+      when: item != 0
 
     - name: Add Windows inventory
       awx.awx.inventory:
@@ -92,14 +93,12 @@
         organization: "group-{{ item }}"
         state: present
         variables:
-          ansible_user: "group{{ item }}" # change !
-          ansible_password: "ansible" #change !
           ansible_port: 5985
           ansible_connection: winrm
           ansible_winrm_transport: ntlm
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
 
-    - name: Add inventory for localhost"
+    - name: Add inventory for localhost
       awx.awx.inventory:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -109,7 +108,21 @@
         description: "Localhost Inventory"
         organization: "group-{{ item }}"
         state: present
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
+
+    - name: Add host for localhost
+      awx.awx.host:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
+        name: "localhost"
+        description: "localhost"
+        inventory: "Localhost Inventory for group-{{ item }}"
+        variables:
+          ansible_connection: local
+        state: present
+      loop: "{{ range(11) | list }}"
 
     - name: Add host Windows Inventory
       awx.awx.host:
@@ -121,18 +134,4 @@
         description: "Windows Host"
         inventory: "Windows Inventory for group-{{ item }}"
         state: present
-      loop: "{{ range(10) | list }}"
-
-    - name: Add host for localhost
-      awx.awx.host:
-        controller_host: "{{ aap_host }}"
-        controller_username: "admin"
-        controller_password: "{{ aap_pass }}"
-        validate_certs: false
-        name: localhost
-        description: "localhost"
-        inventory: "Localhost Inventory for group-{{ item }}"
-        variables:
-          ansible_connection: local
-        state: present
-      loop: "{{ range(10) | list }}"
+      loop: "{{ range(11) | list }}"
