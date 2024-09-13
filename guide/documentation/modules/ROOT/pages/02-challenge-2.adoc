@@ -30,7 +30,7 @@ La información de la API del Banco Central Europeo es:
 * Endpoints: 
 ** [GET] ``/bce_rates/<currency>``
 
-El playbook debe estar en Gitea y ser ejecutado desde Ansible Automation Platform.
+El playbook debe estar en Gitea y ser ejecutado desde Ansible Automation Platform. En Ansible Automation Hub se ha incluido una colección que realiza la comunicación con BdE, BCE e implementa la lógica descrita anteriormente, **se puede utilizar pero la puntuación será mayor si se realiza el reto sin usar dicha colección**.
 
 == Puntuación
 
