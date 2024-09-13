@@ -104,6 +104,8 @@
               volume_size: 60
               volume_type: gp2
               delete_on_termination: true
+        network:
+          assign_public_ip: true
         user_data: "{{ lookup('file', 'init.ps1') }}"
         wait: true
         tags: "{{ purpose }}"
@@ -117,10 +119,12 @@
         wait: true
       register: admin_password
 
+    - ansible.builtin.set_fact:
+        instance: "{{ instance.instances[0].public_dns_name }}"
+
     - name: Set password fact
       ansible.builtin.set_fact:
         admin_password: "{{ admin_password.win_password }}"
 
-    - name: Set password fact
-      ansible.builtin.debug:
+    - ansible.builtin.debug:
         msg: "{{ admin_password }}"

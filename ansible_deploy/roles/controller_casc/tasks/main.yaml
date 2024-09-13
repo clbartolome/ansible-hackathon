@@ -41,7 +41,7 @@
         controller_username: "admin"
         controller_password: "{{ aap_pass }}"
         validate_certs: false
-        name: "group-{{ item }} SCM Credential"
+        name: "Git Repository Credential for group-{{ item }}"
         organization: "group-{{ item }}"
         state: present
         credential_type: Source Control
@@ -56,13 +56,13 @@
         controller_username: "admin"
         controller_password: "{{ aap_pass }}"
         validate_certs: false
-        name: "group-{{ item }}"
+        name: "Windows Machine Credential for group-{{ item }}"
         description: "group-{{ item }}"
         organization: "group-{{ item }}"
         credential_type: Machine
         inputs:
           username: "group-{{ item }}"
-          password: "Ansible{{ item }}!!"
+          password: "Ansible-{{ item }}"
         state: present
       loop: "{{ range(11) | list }}"
 
@@ -72,10 +72,10 @@
         controller_username: "admin"
         controller_password: "{{ aap_pass }}"
         validate_certs: false
-        name: "group-{{ item }}"
-        description: "group-{{ item }} project"
+        name: "Project for group-{{ item }}"
+        description: "Project based on the Git repository for group-{{ item }}"
         organization: "group-{{ item }}"
-        credential: "group-{{ item }} SCM Credential" 
+        credential: "Git Repository Credential for group-{{ item }}" 
         state: present
         scm_type: git
         scm_url: "https://gitea-gitea.apps.{{ base_domain }}/group-{{ item }}/group-{{ item }}-hackathon.git"
@@ -130,7 +130,7 @@
         controller_username: "admin"
         controller_password: "{{ aap_pass }}"
         validate_certs: false
-        name: "{{ instance.instances[0].public_dns_name }}"
+        name: "{{ instance }}"
         description: "Windows Host"
         inventory: "Windows Inventory for group-{{ item }}"
         state: present

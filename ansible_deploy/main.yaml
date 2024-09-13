@@ -25,7 +25,7 @@
 
     - name: Add Windows host to in-memory inventory 
       ansible.builtin.add_host: 
-        name: "{{ instance.instances[0].public_dns_name }}"
+        name: "{{ instance }}"
         groups: windows
         ansible_user: "Administrator"
         ansible_password: "{{ admin_password }}"
