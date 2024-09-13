@@ -2,7 +2,8 @@
   - AAP
   - Openshift Gitops
   - Devspaces
-- Modify vars.yaml with the openshift api endpoint
+- Modify vars.yaml and provide the proper the openshift api endpoint and the AWS credentials
+- Login to the Openshift cluster using `oc login` command
 - Execute `ansible-playbook main.yaml`
-- When the controller is ready, activate it using user/password (if not, the controller casc will fail)
+- When the controller is ready, activate the subscription using user/password (if not, the controller casc will fail)
 - When everything is deployed, access to the windows machine via RDP and execute `winrm configSDDL default` to grant Read and Execute to the AnsibleWinRM Group
