@@ -1,0 +1,48 @@
+    - name: Wait for Ansible Hub Route to be Created
+      kubernetes.core.k8s_info:
+        api_version: route.openshift.io/v1
+        kind: Route
+        name: hub01
+        namespace: aap
+      until:
+        - hub.resources[0].spec.host is defined
+        - hub.resources[0].spec.host != ""
+      retries: 60
+      delay: 10
+      register: hub
+
+    - name: Get Hub password
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: hub01-admin-password
+        namespace: aap
+      register: hub_password
+
+    - name: Set Hub Hostname Information
+      ansible.builtin.set_fact:
+        hub_host: "{{ hub.resources[0].spec.host }}"
+
+    - name: Set hub Password Information
+      ansible.builtin.set_fact:
+        hub_pass: "{{ hub_password.resources[0].data.password | ansible.builtin.b64decode }}"
+
+    - name: Wait for Ansible Automaddion Hub API to be ready
+      ansible.builtin.uri:
+        url: "https://{{ hub_host }}/api/galaxy/_ui/v1/me/"
+        user: "admin"
+        password: "{{ hub_pass }}"
+        method: GET
+        headers:
+          Content-Type: application/json
+        body_format: json
+        validate_certs: false
+        force_basic_auth: true
+        status_code:
+          - 200
+        return_content: true
+      retries: 60
+      delay: 10
+
+
+

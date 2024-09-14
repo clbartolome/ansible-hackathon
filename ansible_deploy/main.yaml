@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   gather_facts: no
-  vars_files: vars.yaml
+  vars_files: vars/vars.yaml
   environment:
     AWS_ACCESS_KEY_ID: "{{ access_key }}"
     AWS_SECRET_ACCESS_KEY: "{{ secret_key }}"
@@ -18,6 +18,10 @@
     - name: Deploy AWS Infra
       ansible.builtin.include_role: 
         name: deploy_aws_infra
+
+    - name: Configure Automation Hub
+      ansible.builtin.include_role:
+        name: hub_casc
 
     - name: Configure Ansible Controller
       ansible.builtin.include_role:
@@ -34,5 +38,5 @@
         ansible_winrm_transport: ntlm
 
 - name: Configure Windows Host
-  ansible.builtin.import_playbook: windows.yaml
+  ansible.builtin.import_playbook: playbooks/windows.yaml
 

@@ -3,7 +3,7 @@
 */build
 node_modules
 .htpasswd
-ansible_deploy/vars.yaml
+ansible_deploy/vars/vars.yaml
 ansible_deploy/.htpasswd
 ansible_deploy/administrator.pem
 

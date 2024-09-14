@@ -1,5 +1,20 @@
     - include_tasks: prepare.yaml
 
+    - name: Create Automation Hub credential
+      awx.awx.credential:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
+        name: "Private Automation Hub Api Token for group-{{ item }}"
+        description: "Automation Hub Credential"
+        organization: "group-{{ item }}"
+        credential_type: "Ansible Galaxy/Automation Hub API Token"
+        inputs:
+          url: "https://{{ hub_host }}/api/galaxy"
+          token: "{{ ansible_facts.ah_token.token }}"
+      loop: "{{ range(11) | list }}"
+
     - name: Create Organizations
       awx.awx.organization:
         controller_host: "{{ aap_host }}"
@@ -8,6 +23,8 @@
         validate_certs: false
         name: "group-{{ item }}"
         description: "group-{{ item }} organization" 
+        galaxy_credentials:
+          - "Private Automation Hub Api Token for group-{{ item }}"
         state: present
       loop: "{{ range(11) | list }}"
 

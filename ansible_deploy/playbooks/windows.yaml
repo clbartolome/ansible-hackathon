@@ -5,11 +5,36 @@
 
   tasks:
 
-    - name: Create a new group for WinRM Users
+    - name: Create the AnsibleWinRM group for local users
       ansible.windows.win_group:
         name: AnsibleWinRM
         description: "Group for Ansible Users"
         state: present
+
+    - name: Grant Read and Execute permissions for WinRM to the AnsibleWinRM group
+      ansible.windows.win_shell: |
+        $account = "AnsibleWinRM"
+        $sddl = Get-Item -Path WSMan:\localhost\Service\RootSDDL
+        $sd = New-Object System.Security.AccessControl.RawSecurityDescriptor($sddl.Value)
+        $identity = New-Object System.Security.Principal.NTAccount($account)
+        $sid = $identity.Translate([System.Security.Principal.SecurityIdentifier])
+        # Define the generic access rights for Read and Execute
+        $GENERIC_READ = 0x80000000
+        $GENERIC_EXECUTE = 0x20000000
+        $accessMask = $GENERIC_READ -bor $GENERIC_EXECUTE
+        $ace = New-Object System.Security.AccessControl.CommonAce -ArgumentList @(
+            [System.Security.AccessControl.AceFlags]::None,
+            [System.Security.AccessControl.AceQualifier]::AccessAllowed,
+            $accessMask,
+            $sid,
+            $false,
+            $null
+        )
+        $sd.DiscretionaryAcl.InsertAce(0, $ace)
+        $newSDDL = $sd.GetSddlForm("All")
+        Set-Item -Path WSMan:\localhost\Service\RootSDDL -Value $newSDDL -Force -Confirm:$false
+      args:
+        executable: powershell
 
     - name: Create Users
       ansible.windows.win_user:
@@ -28,24 +53,6 @@
         username: "group-{{ item }}"
         state: present
       loop: "{{ range(10) | list }}"
-
-    - name: Get current WinRM SDDL
-      ansible.windows.win_shell: |
-        winrm get winrm/config
-      register: winrm_config
-
-    - name: Display current WinRM SDDL
-      debug:
-        var: winrm_config.stdout
-
-    - name: Verify WinRM SDDL
-      ansible.windows.win_shell: |
-        winrm get winrm/config
-      register: new_winrm_config
-
-    - name: Display new WinRM SDDL
-      debug:
-        var: new_winrm_config.stdout
 
     - name: Create Crowdstrike folders
       ansible.windows.win_file:
@@ -78,4 +85,3 @@
       when: '"group" in item' 
       args:
         executable: powershell.exe
-

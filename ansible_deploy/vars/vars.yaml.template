@@ -1,0 +1,28 @@
+# OCP Variables
+
+api_server: ## Openshift API Endpoint URL ##
+base_domain: "{{ api_server | urlsplit('hostname') | regex_replace('^api\\.', '') }}"
+password: "" ## Password for the Openhift Users ##
+output_file: ".htpasswd"
+argo_user: "admin"
+
+# AWS variables
+
+access_key: ## AWS Access Key ##
+secret_key: ## AWS Secret Key ##
+region: eu-west-1
+availability_zone: "eu-west-1a"
+ami: "ami-0dafe364659bd5eb6"
+
+cidr_block: "10.0.0.0/16"
+subnet_cidr_block: "10.0.1.0/24"
+vpc_name: "AnsibleVPC"
+subnet_name: "AnsibleSubnet"
+sg_name: "AnsibleGroup"
+instance_type: "t3.medium"
+allowed_ports:
+  - { port: 3389, name: "RDP" }
+  - { port: 5985, name: "WINRM" }
+  - { port: 5986, name: "WINRM" }
+purpose:
+  project: AnsibleDemo

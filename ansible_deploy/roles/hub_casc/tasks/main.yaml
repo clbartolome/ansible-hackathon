@@ -1,0 +1,113 @@
+---
+# tasks file for hub_casc
+
+    - include_tasks: prepare.yaml
+
+    - debug: msg="{{ hub_host }} {{ hub_pass }}"
+
+#    - name: Configure rh-certified repo
+#      infra.ah_configuration.collection_remote:
+#        ah_host: "https://{{ hub_host }}"
+#        ah_username: "admin"
+#        ah_password: "{{ hub_pass }}"
+#        validate_certs: true
+#        name: rh-certified
+#        url: https://console.redhat.com/api/automation-hub/content/published/
+#        token: "{{ automation_hub_token }}"
+#        auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
+#        requirements:
+#          - ansible.controller
+#
+#    - name: Sync rh-certified
+#      infra.ah_configuration.collection_repository_sync:
+#        ah_host: "https://{{ hub_host }}"
+#        ah_username: "admin"
+#        ah_password: "{{ hub_pass }}"
+#        validate_certs: true
+#        name: "rh-certified"
+#        wait: true
+
+    - name: Create Users
+      infra.ah_configuration.ah_user:
+        username: "group-{{ item }}"
+        password: "Ansible-{{ item }}"
+        is_superuser: false
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+      loop: "{{ range(11) | list }}"
+
+    - name: Build Collections
+      infra.ah_configuration.ah_build:
+        path: "../playbooks/collections/ansible_collections/bde/hackathon"
+        force: true
+        output_path: /tmp
+
+    - name: Delete collections from Automation Hub
+      infra.ah_configuration.ah_collection:
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        namespace: "bde"
+        name: "hackathon"
+        path: "/tmp/bde-hackathon-1.0.0.tar.gz"
+        state: absent
+        version: "1.0.0"
+
+    - name: Delete Automation Hub Collection Namespaces
+      infra.ah_configuration.ah_namespace:
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        name: "bde"
+        state: absent
+
+    - name: Create Automation Hub Collection Namespaces
+      infra.ah_configuration.ah_namespace:
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        name: "bde"
+        state: present
+
+    - name: Upload collections to Automation Hub
+      infra.ah_configuration.ah_collection:
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        namespace: "bde"
+        name: "hackathon"
+        path: "/tmp/bde-hackathon-1.0.0.tar.gz"
+        state: present
+        overwrite_existing: true
+        version: "1.0.0"
+      retries: 5
+      delay: 5
+
+    - name: Approve Collections
+      infra.ah_configuration.ah_approval:
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        namespace: "bde"
+        name: "hackathon"
+        version: "1.0.0"
+
+    - name: Create a new Automation Hub token
+      infra.ah_configuration.ah_token:
+        ah_host: "{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        state: present
+      register: ah_token
+
+    - name: Set token fact
+      ansible.builtin.set_fact:
+        ah_token: "{{ ah_token }}" 

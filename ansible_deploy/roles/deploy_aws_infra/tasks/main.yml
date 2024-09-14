@@ -106,7 +106,7 @@
               delete_on_termination: true
         network:
           assign_public_ip: true
-        user_data: "{{ lookup('file', 'init.ps1') }}"
+        user_data: "{{ lookup('file', 'files/init.ps1') }}"
         wait: true
         tags: "{{ purpose }}"
       register: instance
