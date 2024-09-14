@@ -21,6 +21,17 @@
         pool_id: "{{ pool_id }}"
         state: present
 
+    - name: Create Organizations
+      awx.awx.organization:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
+        name: "group-{{ item }}"
+        description: "group-{{ item }} organization" 
+        state: present
+      loop: "{{ range(11) | list }}"
+
     - name: Create Automation Hub credential
       awx.awx.credential:
         controller_host: "{{ aap_host }}"
