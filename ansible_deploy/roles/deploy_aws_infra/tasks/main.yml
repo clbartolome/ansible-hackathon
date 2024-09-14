@@ -90,7 +90,7 @@
 
     - name: Launch Windows Instance
       amazon.aws.ec2_instance:
-        name: windows01
+        name: windows-01
         vpc_subnet_id: "{{ subnet.subnet.id }}"
         image_id: "{{ ami }}"
         instance_type: "{{ instance_type }}"

@@ -2,7 +2,7 @@
   - AAP
   - Openshift Gitops
   - Devspaces
-- Modify vars/vars.yaml and provide the proper the openshift api endpoint and the AWS credentials
+- Modify vars/vars.yaml and provide the proper Red Hat portalinformation, openshift api endpoint and the AWS credentials
 - Login to the Openshift cluster using `oc login` command
 - Execute `ansible-playbook main.yaml`
 - When the controller is ready, activate the subscription using user/password (if not, the controller casc will fail)

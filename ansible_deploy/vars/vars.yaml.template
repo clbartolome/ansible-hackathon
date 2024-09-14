@@ -1,3 +1,9 @@
+# Red Hat Portal 
+
+rh_user: ## Red Hat Portal Username ##
+rh_pass: ## Red Hat Portal Password ##
+pool_id: ## AAP Subscription Pool ID ##
+
 # OCP Variables
 
 api_server: ## Openshift API Endpoint URL ##

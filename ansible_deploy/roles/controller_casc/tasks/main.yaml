@@ -1,5 +1,26 @@
     - include_tasks: prepare.yaml
 
+    - name: Fetch subscriptions from Red Hat Portal
+      awx.awx.subscriptions:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
+        username: "{{ rh_user }}"
+        password: "{{ rh_pass }}"
+        filters:
+          product_name: "Red Hat Ansible Automation Platform"
+      register: subscriptions
+
+    - name: Activate 
+      awx.awx.license:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
+        pool_id: "{{ pool_id }}"
+        state: present
+
     - name: Create Automation Hub credential
       awx.awx.credential:
         controller_host: "{{ aap_host }}"
