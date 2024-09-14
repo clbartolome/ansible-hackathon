@@ -12,7 +12,7 @@
           product_name: "Red Hat Ansible Automation Platform"
       register: subscriptions
 
-    - name: Activate 
+    - name: Activate Ansible Automation Platform
       awx.awx.license:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -47,7 +47,7 @@
           token: "{{ ansible_facts.ah_token.token }}"
       loop: "{{ range(11) | list }}"
 
-    - name: Create Organizations
+    - name: Associate Automation Hub Credentials to its organization
       awx.awx.organization:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -84,7 +84,7 @@
         state: present
       loop: "{{ range(11) | list }}"
 
-    - name: Create SCM credential
+    - name: Create SCM credentials
       awx.awx.credential:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -99,7 +99,7 @@
           password: "ansible"
       loop: "{{ range(11) | list }}"
 
-    - name: Add Windows credential
+    - name: Add Windows credentials
       awx.awx.credential:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -131,7 +131,7 @@
       loop: "{{ range(11) | list }}"
       when: item != 0
 
-    - name: Add Windows inventory
+    - name: Create Windows inventories
       awx.awx.inventory:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -147,7 +147,7 @@
           ansible_winrm_transport: ntlm
       loop: "{{ range(11) | list }}"
 
-    - name: Add inventory for localhost
+    - name: Create localhost inventories
       awx.awx.inventory:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -159,7 +159,7 @@
         state: present
       loop: "{{ range(11) | list }}"
 
-    - name: Add host for localhost
+    - name: Add hosts to localhost inventories
       awx.awx.host:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
@@ -173,7 +173,7 @@
         state: present
       loop: "{{ range(11) | list }}"
 
-    - name: Add host Windows Inventory
+    - name: Add hosts to Windows Inventories
       awx.awx.host:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
