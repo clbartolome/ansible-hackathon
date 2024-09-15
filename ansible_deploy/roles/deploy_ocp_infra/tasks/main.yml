@@ -50,7 +50,7 @@
       community.general.htpasswd:
         path: "{{ output_file }}"
         name: "goku"
-        password: "goku"
+        password: "4nsiblehackath0n!"
         crypt_scheme: "bcrypt"
 
     - name: Create htpass-secret in OpenShift

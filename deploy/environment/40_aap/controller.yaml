@@ -4,7 +4,7 @@ metadata:
   name: controller01
   namespace: aap
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "20"
 spec:
   postgres_keepalives_count: 5
   postgres_keepalives_idle: 5
@@ -34,3 +34,4 @@ spec:
   hostname: controller01
   web_replicas: 2
   task_replicas: 2
+  admin_password_secret: aap-admin-password

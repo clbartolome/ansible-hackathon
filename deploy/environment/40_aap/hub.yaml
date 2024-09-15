@@ -4,7 +4,7 @@ metadata:
   name: hub01
   namespace: aap
   annotations:
-    argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-wave: "30"
 
 spec:
   nginx_proxy_send_timeout: 120s
@@ -52,3 +52,4 @@ spec:
   worker:
     replicas: 2
   hostname: hub01
+  admin_password_secret: aap-admin-password
