@@ -34,4 +34,3 @@ spec:
   hostname: controller01
   web_replicas: 2
   task_replicas: 2
-  admin_password_secret: aap-admin-password

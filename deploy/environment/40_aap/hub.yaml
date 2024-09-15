@@ -52,4 +52,3 @@ spec:
   worker:
     replicas: 2
   hostname: hub01
-  admin-password-secret: aap-admin-password
