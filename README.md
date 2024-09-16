@@ -7,7 +7,16 @@
 Prerequisites:
 - OpenShift cluster with admin rights
 - OpenShift GitOps installed with default configuration
+- OpenShift DevSpaces with default instance settings
+    - Checluster Instance  created
 - Ansible Automation Platform installed in OpenShift as an operator
+
+Installation Steps:
+
+- Install operators described above
+- Modify `ansible_deploy/vars/vars.yaml` and provide the Openshift api endpoint and the Red Hat portal and AWS credentials
+- Login to the Openshift cluster using `oc login` command
+- Execute `ansible_deploy/ansible-playbook main.yaml`
 
 ## Exchange Rates Application
 

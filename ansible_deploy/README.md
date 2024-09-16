@@ -1,7 +1,0 @@
-- Install operators
-  - AAP
-  - Openshift Gitops
-  - Devspaces
-- Modify vars/vars.yaml and provide the Openshift api endpoint and the Red Hat portal and AWS credentials
-- Login to the Openshift cluster using `oc login` command
-- Execute `ansible-playbook main.yaml`
