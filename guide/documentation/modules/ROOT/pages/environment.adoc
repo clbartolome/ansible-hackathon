@@ -104,10 +104,10 @@ image::hub.png[Hub,100,100,role=right]
 
 Red Hat Ansible Automation Hub es un repositorio que permite a las empresas gestionar, compartir y organizar el contenido generado de forma interna y controlar el acceso al contenido creado por Red Hat y sus partners.
 
-Para este Hackathon se ha desplegado una instancia en la que tendreis ya TODO
+Para este Hackathon se ha desplegado una instancia en la que tendreis una colección dentro del namespace BdE llamada hackathon, que os puede servir de ayuda para alguno de los retos.
 
 .TODO
-image::TODO.png[Sunset]
+image::hub_home.png[Sunset]
 
 El acceso al Automation Hub se realiza a traves del botón ``Ansible Automation Hub`` situado en la barra de menu superior, al lado derecho.
 
