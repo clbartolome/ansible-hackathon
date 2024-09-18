@@ -32,18 +32,34 @@
         state: present
       loop: "{{ range(11) | list }}"
 
-    - name: Create Automation Hub credential
+    - name: Create Automation Hub credential for community content
       awx.awx.credential:
         controller_host: "{{ aap_host }}"
         controller_username: "admin"
         controller_password: "{{ aap_pass }}"
         validate_certs: false
-        name: "Private Automation Hub Api Token for group-{{ item }}"
-        description: "Automation Hub Credential"
+        name: "Private Automation Hub Api Token (community content) for group-{{ item }}"
+        description: "Automation Hub Community Content Credential"
         organization: "group-{{ item }}"
         credential_type: "Ansible Galaxy/Automation Hub API Token"
         inputs:
-          url: "https://{{ hub_host }}/api/galaxy"
+          url: "https://{{ hub_host }}/api/galaxy/content/community/"
+          token: "{{ ansible_facts.ah_token.token }}"
+      loop: "{{ range(11) | list }}"
+
+
+    - name: Create Automation Hub credential for custom content
+      awx.awx.credential:
+        controller_host: "{{ aap_host }}"
+        controller_username: "admin"
+        controller_password: "{{ aap_pass }}"
+        validate_certs: false
+        name: "Private Automation Hub Api Token (custom content) for group-{{ item }}"
+        description: "Automation Hub Custom Content Credential"
+        organization: "group-{{ item }}"
+        credential_type: "Ansible Galaxy/Automation Hub API Token"
+        inputs:
+          url: "https://{{ hub_host }}/api/galaxy/"
           token: "{{ ansible_facts.ah_token.token }}"
       loop: "{{ range(11) | list }}"
 
@@ -56,7 +72,8 @@
         name: "group-{{ item }}"
         description: "group-{{ item }} organization" 
         galaxy_credentials:
-          - "Private Automation Hub Api Token for group-{{ item }}"
+          - "Private Automation Hub Api Token (custom content) for group-{{ item }}"
+          - "Private Automation Hub Api Token (community content) for group-{{ item }}"
         state: present
       loop: "{{ range(11) | list }}"
 

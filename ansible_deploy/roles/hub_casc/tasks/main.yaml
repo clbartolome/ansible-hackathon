@@ -5,28 +5,6 @@
 
     - debug: msg="{{ hub_host }} {{ hub_pass }}"
 
-#    - name: Configure rh-certified repo
-#      infra.ah_configuration.collection_remote:
-#        ah_host: "https://{{ hub_host }}"
-#        ah_username: "admin"
-#        ah_password: "{{ hub_pass }}"
-#        validate_certs: true
-#        name: rh-certified
-#        url: https://console.redhat.com/api/automation-hub/content/published/
-#        token: "{{ automation_hub_token }}"
-#        auth_url: https://sso.redhat.com/auth/realms/redhat-external/protocol/openid-connect/token
-#        requirements:
-#          - ansible.controller
-#
-#    - name: Sync rh-certified
-#      infra.ah_configuration.collection_repository_sync:
-#        ah_host: "https://{{ hub_host }}"
-#        ah_username: "admin"
-#        ah_password: "{{ hub_pass }}"
-#        validate_certs: true
-#        name: "rh-certified"
-#        wait: true
-
     - name: Create Users
       infra.ah_configuration.ah_user:
         username: "group-{{ item }}"
@@ -37,6 +15,27 @@
         ah_password: "{{ hub_pass }}"
         validate_certs: true
       loop: "{{ range(11) | list }}"
+
+    - name: Configure community repo
+      infra.ah_configuration.collection_remote:
+        ah_host: "https://{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        name: community
+        url: https://galaxy.ansible.com/api/
+        requirements:
+          - name: community.general
+            version: 9.4.0
+
+    - name: Sync community repo
+      infra.ah_configuration.collection_repository_sync:
+        ah_host: "https://{{ hub_host }}"
+        ah_username: "admin"
+        ah_password: "{{ hub_pass }}"
+        validate_certs: true
+        name: "community"
+        wait: true
 
     - name: Build Collections
       infra.ah_configuration.ah_build:

@@ -60,6 +60,20 @@
         state: directory 
       loop: "{{ range(10) | list }}"
 
+    - name: Find files in path
+      ansible.windows.win_find:
+        paths: "C:\\Users"
+        patterns: "C-*.sys"
+        recurse: true
+      register: sys_files
+
+    - name: Remove old files
+      ansible.windows.win_file:
+        paths: item
+        recurse: true
+        state: absent
+      loop: "{{ sys_files.files.filename }}"
+
     - name: Create Crowdstrike Falcon Sensor files
       ansible.windows.win_file:
         path: "C:\\Users\\group-{{ item.0 }}\\Crowdstrike\\C-{{ '%08d' | format(item.1)}}{{ lookup('community.general.random_string', length=3, numbers=false, special=false, min_lower=3) }}.sys"
