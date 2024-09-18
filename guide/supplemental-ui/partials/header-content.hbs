@@ -8,7 +8,7 @@
       
       document.getElementById('aap_url').href = "https://controller01-aap.apps." + server;
       document.getElementById('hub_url').href = "https://hub01-aap.apps." + server;
-      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
+      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + "group-" + user + "/" + "group-" + user + "-hackathon/raw/branch/master/devfile.yaml";
       document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
 
@@ -23,7 +23,7 @@
     function showUser( user ) {
       document.getElementById('navbar-form-project-empty').style.display = "none";
       document.getElementById('navbar-form-project-filled').style.display = "flex";
-      document.getElementById('project').textContent = user;
+      document.getElementById('project').textContent = "group-" + user;
       document.getElementById('projectfield2').value = user;
     }
 
@@ -60,7 +60,7 @@
               class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
 
           <form action="javascript:void(0);" onsubmit="goWithUser();">
-            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input size="40" id="projectfield" type="text" placeholder="Enter group number">
             <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
           </form>
         </div>

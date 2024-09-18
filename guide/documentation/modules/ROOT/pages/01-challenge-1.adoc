@@ -22,7 +22,7 @@ El servidor windows ya esta configurado dentro del inventario ``Windows`` en AAP
 NOTE: No es necesario realizar todos los items, algunos de los items son opcionales y el reto se puede conseguir sin ellos
 
 * Crear playbook en Gitea - **__10 puntos__**
-* Crear proyecto en AAP para leer del repositorio del grupo de Gitea - **__15 puntos__**
+* Sincronizar el proyecto en AAP para tener los ultimos cambios del repositorio del grupo de Gitea - **__15 puntos__**
 * Crear job template en AAP:
 ** Utiizar credenciales proporcionados en AAP - **__5 puntos__**
 ** Utilizar inventario ``Windows`` proporcionado en AAP - **__5 puntos__**

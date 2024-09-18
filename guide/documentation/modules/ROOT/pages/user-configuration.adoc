@@ -4,10 +4,10 @@
 
 Al comienzo del hackathon, los organizadores os proporcionarán vuestro id de grupo. 
 
-Lo único que teneis que hacer, es introducir vuestro *grupo* y pulsar *enter* en el campo de la barra de navegación superior de esta página:
+Lo único que teneis que hacer, es introducir vuestro numero de *grupo* y pulsar *enter* en el campo de la barra de navegación superior de esta página:
 
 image::user_config.png[]
 
-*Comencemos, %USER% !!!*
+*Comencemos, group-%USER% !!!*
 
 IMPORTANT: Si tras configurar tu grupo no lo veis actualizado en el mensaje anterior, preguntad a los organizadores.

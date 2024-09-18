@@ -18,7 +18,7 @@ image::gitea.png[Gitea,100,100,role=right]
 Gitea es una plataforma web de software colaborativo para alojar el control de versiones de desarrollo de software utilizando Git.
 Incluye otras funciones colaborativas como seguimiento de errores, revisión de código, tableros kanban, tickets y wikis.
 
-Para este Hackathon se ha desplegado una instancia en la que tendreis ya creado un repositorio llamado ``%USER%-hackathon``. Este repositorio será utilizado para almacenar los recursos de Ansible que desarrolleis.
+Para este Hackathon se ha desplegado una instancia en la que tendreis ya creado un repositorio llamado ``group-%USER%-hackathon``. Este repositorio será utilizado para almacenar los recursos de Ansible que desarrolleis.
 
 .Ejemplo repositorio
 image::gitea_repo.png[Sunset]
@@ -29,8 +29,8 @@ El acceso a Gitea se realiza a traves del botón ``Repositorio`` situado en la b
 ====
 Vuestros credenciales para acceder a Gitea son:
 
-* Usuario: *%USER%* 
-* Contraseña: *ansible*
+* Usuario: *group-%USER%* 
+* Contraseña: *Ansible-%USER%*
 ====
 
 == IDE web
@@ -55,8 +55,8 @@ image::hackathon_login.png[600,600]
 +
 [IMPORTANT]
 ====
-* Usuario: *%USER%* 
-* Contraseña: *ansible*
+* Usuario: *group-%USER%* 
+* Contraseña: *Ansible-%USER%*
 ====
 . Marcar ``user:full`` y pulsar en ``Allow selected permissions``:
 +
@@ -68,7 +68,7 @@ image::ide_load.png[600,600]
 +
 image::trust_authors.png[600,600]
 
-Una vez cargado el entorno de desarrollo podreis ver que vuestro proyecto ``%USER%-hackathon`` ya esta clonado y listo para empezar a trabajar con él.
+Una vez cargado el entorno de desarrollo podreis ver que vuestro proyecto ``group-%USER%-hackathon`` ya esta clonado y listo para empezar a trabajar con él.
 
 == Ansible Automation Platform
 
@@ -94,8 +94,8 @@ El acceso a AAP se realiza a traves del botón ``Ansible Automation Platform`` s
 ====
 Vuestros credenciales para acceder a AAP son:
 
-* Usuario: *%USER%* 
-* Contraseña: *ansible*
+* Usuario: *group-%USER%* 
+* Contraseña: *Ansible-%USER%*
 ====
 
 == Ansible Automation Hub
@@ -115,6 +115,6 @@ El acceso al Automation Hub se realiza a traves del botón ``Ansible Automation 
 ====
 Vuestros credenciales para acceder a AAP son:
 
-* Usuario: *%USER%* 
-* Contraseña: *ansible*
+* Usuario: *group-%USER%* 
+* Contraseña: *Ansible-%USER%*
 ====

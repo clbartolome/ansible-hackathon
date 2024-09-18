@@ -15,18 +15,23 @@ El reto consiste en la implementacion de un playbook que realice el siguiente fl
 .. Si el valor recuperado del BCE es mayor que el limite establecido por el BdE -> límite establecido
 .. Si el valor recuperado del BCE es menor o igual que el limite establecido por el BdE -> valor del BCE
 
-La web de Banco de España donde se muestran los tipos de cabio se puede visitar en ``\http://frontend-%USER%.apps.%SERVER%``
+[IMPORTANT]
+====
+La web de Banco de España donde se muestran los tipos de cabio se puede visitar en:
+**``\http://frontend-group-%USER%.apps.%SERVER%``**
+====
+ 
 
 La información de la API de Banco de España es:
 
-* URL: ``\http://backend-%USER%.apps.%SERVER%``
+* URL: ``\http://backend-group-%USER%.apps.%SERVER%``
 * Endpoints: 
 ** [GET] ``/app_rates``
 ** [POST] ``/app_rates`` with json body: ``{"currency": "<currency>","value": value}``
 
 La información de la API del Banco Central Europeo es:
 
-* URL: ``\http://backend-%USER%.apps.%SERVER%``
+* URL: ``\http://backend-group-%USER%.apps.%SERVER%``
 * Endpoints: 
 ** [GET] ``/bce_rates/<currency>``
 
@@ -37,9 +42,11 @@ El playbook debe estar en Gitea y ser ejecutado desde Ansible Automation Platfor
 NOTE: No es necesario realizar todos los items, algunos de los items son opcionales y el reto se puede conseguir sin ellos
 
 * Crear playbook en Gitea - **__10 puntos__**
-* Crear proyecto en AAP para leer del repositorio del grupo de Gitea - **__15 puntos__**
+* Sincronizar el proyecto en AAP para tener los ultimos cambios del repositorio del grupo de Gitea - **__15 puntos__**
 * Crear job template en AAP - **__10 puntos__**
-* Realizar el reto utilizando la colección ``bde.hackathon`` que se encuentra en el Automation Hub - **__50 puntos__**
+* Realizar el reto utilizando la colección ``bde.hackathon`` que se encuentra en el Automation Hub:
+** Crear fichero ``collections/requirements.yml`` - **__10 puntos__** 
+** Realizar el playbook - **__50 puntos__**
 * Realizar el reto sin utilizar la colección ``bde.hackathon``:
 ** Realizar el playbook para una unica moneda - **__10 puntos__**
 ** Realizar el playbook para todas las monedas (bucle) recuperadas de BdE - **__30 puntos__**
