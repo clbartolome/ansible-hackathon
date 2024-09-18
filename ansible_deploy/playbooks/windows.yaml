@@ -63,16 +63,16 @@
     - name: Find files in path
       ansible.windows.win_find:
         paths: "C:\\Users"
-        patterns: "C-*.sys"
+        patterns: 
+          - '*.sys'
         recurse: true
       register: sys_files
 
     - name: Remove old files
       ansible.windows.win_file:
-        paths: item
-        recurse: true
+        path: "{{ item.path }}"
         state: absent
-      loop: "{{ sys_files.files.filename }}"
+      loop: "{{ sys_files.files }}"
 
     - name: Create Crowdstrike Falcon Sensor files
       ansible.windows.win_file:
