@@ -3,36 +3,42 @@
         "currency": "USD",
         "title": "Dolar estadounidense (USD) / Euro (EUR)",
         "value": 1.0888,
-        "limit": 1.2
+        "limit": 1.2,
+        "last_modified": "2024-09-18 22:00:00"
     },
     {
         "currency": "JPY",
         "title": "Yen japones (JPY) / Euro (EUR)",
-        "value": 170.80,
-        "limit": 200
+        "value": 200,
+        "limit": 200,
+        "last_modified": "2024-09-18 22:00:00"
     },
     {
         "currency": "GBP",
         "title": "Libra esterlina (GBP) / Euro (EUR)",
-        "value": 0.84215,
-        "limit": 0.95
+        "value": 0.9,
+        "limit": 0.95,
+        "last_modified": "2024-09-18 22:00:00"
     },
     {
         "currency": "CHF",
         "title": "Franco suizo (CHF) / Euro (EUR)",
         "value": 0.9671,
-        "limit": 10
+        "limit": 10,
+        "last_modified": "2024-09-18 22:00:00"
     },
     {
         "currency": "CNY",
         "title": "Yuan renminbi chino (CNY) / Euro (EUR)",
-        "value": 7.9191,
-        "limit": 8
+        "value": 8,
+        "limit": 8,
+        "last_modified": "2024-09-18 22:00:00"
     },
     {
         "currency": "MXN",
         "title": "Peso mexicano (MXN) / Euro (EUR)",
-        "value": 19.6457,
-        "limit": 20
+        "value": 20,
+        "limit": 20,
+        "last_modified": "2024-09-18 22:00:00"
     }
 ]

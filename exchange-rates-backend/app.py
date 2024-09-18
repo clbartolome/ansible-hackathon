@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import json
 import os
+from datetime import datetime
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -55,6 +56,7 @@ def update_exchange_rate():
             if new_title is not None:
                 rate['title'] = new_title
             save_app_rates(app_rates)
+            rate['last_modified'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             return jsonify({"message": "Exchange rate updated successfully"}), 200
 
     return jsonify({"error": "Currency not found"}), 404
