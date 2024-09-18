@@ -84,7 +84,7 @@
         controller_password: "{{ aap_pass }}"
         validate_certs: false
         username: "group-{{ item }}"
-        password: "ansible"
+        password: "Ansible-{{ item }}"
         state: present
         organization: "group-{{ item }}"
       loop: "{{ range(11) | list }}"
