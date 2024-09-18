@@ -22,7 +22,7 @@
       
       document.getElementById('aap_url').href = "https://controller01-aap.apps." + server;
       document.getElementById('hub_url').href = "https://hub01-aap.apps." + server;
-      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + user + "/" + user + "-hackathon/raw/branch/master/devfile.yaml";
+      document.getElementById('ide_url').href = "https://devspaces.apps." + server + "/#https://gitea-gitea.apps." + server + "/" + "group-" + user + "/" + "group-" + user + "-hackathon/raw/branch/master/devfile.yaml";
       document.getElementById('gitea_url').href = "http://gitea-gitea.apps." + server;
     
 
@@ -37,7 +37,7 @@
     function showUser( user ) {
       document.getElementById('navbar-form-project-empty').style.display = "none";
       document.getElementById('navbar-form-project-filled').style.display = "flex";
-      document.getElementById('project').textContent = user;
+      document.getElementById('project').textContent = "group-" + user;
       document.getElementById('projectfield2').value = user;
     }
 
@@ -74,7 +74,7 @@
               class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
 
           <form action="javascript:void(0);" onsubmit="goWithUser();">
-            <input size="40" id="projectfield" type="text" placeholder="Enter User">
+            <input size="40" id="projectfield" type="text" placeholder="Enter group number">
             <input type="hidden" id="clusterfield2" name="clusterfield2" value="">
           </form>
         </div>
@@ -209,8 +209,20 @@ El detalle de las puntuaciones os puede servir como ayuda
 </li>
 </ol>
 </div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>La web de Banco de España donde se muestran los tipos de cabio se puede visitar en <code>http://frontend-%USER%.apps.%SERVER%</code></p>
+<p>La web de Banco de España donde se muestran los tipos de cabio se puede visitar en:
+<strong><code>http://frontend-group-%USER%.apps.%SERVER%</code></strong></p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>La información de la API de Banco de España es:</p>
@@ -218,7 +230,7 @@ El detalle de las puntuaciones os puede servir como ayuda
 <div class="ulist">
 <ul>
 <li>
-<p>URL: <code>http://backend-%USER%.apps.%SERVER%</code></p>
+<p>URL: <code>http://backend-group-%USER%.apps.%SERVER%</code></p>
 </li>
 <li>
 <p>Endpoints:</p>
@@ -241,7 +253,7 @@ El detalle de las puntuaciones os puede servir como ayuda
 <div class="ulist">
 <ul>
 <li>
-<p>URL: <code>http://backend-%USER%.apps.%SERVER%</code></p>
+<p>URL: <code>http://backend-group-%USER%.apps.%SERVER%</code></p>
 </li>
 <li>
 <p>Endpoints:</p>
@@ -281,13 +293,23 @@ No es necesario realizar todos los items, algunos de los items son opcionales y 
 <p>Crear playbook en Gitea - <strong><em>10 puntos</em></strong></p>
 </li>
 <li>
-<p>Crear proyecto en AAP para leer del repositorio del grupo de Gitea - <strong><em>15 puntos</em></strong></p>
+<p>Sincronizar el proyecto en AAP para tener los ultimos cambios del repositorio del grupo de Gitea - <strong><em>15 puntos</em></strong></p>
 </li>
 <li>
 <p>Crear job template en AAP - <strong><em>10 puntos</em></strong></p>
 </li>
 <li>
-<p>Realizar el reto utilizando la colección <code>bde.hackathon</code> que se encuentra en el Automation Hub - <strong><em>50 puntos</em></strong></p>
+<p>Realizar el reto utilizando la colección <code>bde.hackathon</code> que se encuentra en el Automation Hub:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear fichero <code>collections/requirements.yml</code> - <strong><em>10 puntos</em></strong></p>
+</li>
+<li>
+<p>Realizar el playbook - <strong><em>50 puntos</em></strong></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
 <p>Realizar el reto sin utilizar la colección <code>bde.hackathon</code>:</p>
