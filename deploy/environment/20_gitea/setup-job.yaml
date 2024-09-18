@@ -43,7 +43,7 @@ spec:
 
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
             -u gitea:openshift \
-            -d '{"email":"'"group-$i@example.com"'","full_name": "'"group-$i"'","login_name": "'"group-$i"'","must_change_password": false,"password": "ansible","restricted": false,"send_notify": false,"username": "'"group-$i"'"}' \
+            -d '{"email":"'"group-$i@example.com"'","full_name": "'"group-$i"'","login_name": "'"group-$i"'","must_change_password": false,"password": "'"Ansible-$i"'","restricted": false,"send_notify": false,"username": "'"group-$i"'"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/admin/users)
 
@@ -54,7 +54,7 @@ spec:
 
           echo "-- Creating group-$i-hackathon repository --"
           RESPONSE=$(curl -o /dev/null -s -w "%{http_code}\n" -X POST \
-            -u group-$i:ansible \
+            -u group-$i:Ansible-$i \
             -d '{"auto_init": true,"default_branch": "master","gitignores": "VisualStudioCode","name": "'"group-$i-hackathon"'","private": false,"trust_model": "default"}' \
             -H "Content-Type: application/json" \
             http://$GITEA_HOSTNAME/api/v1/user/repos)
@@ -64,7 +64,7 @@ spec:
               exit 1
           fi
 
-          git clone http://group-$i:ansible@$GITEA_HOSTNAME/group-$i/group-$i-hackathon
+          git clone http://group-$i:Ansible-$i@$GITEA_HOSTNAME/group-$i/group-$i-hackathon
           sed -e "s/GROUPID/${i}/g" devfile.yaml > group-$i-hackathon/devfile.yaml
           cd group-$i-hackathon
           git config user.email "group-$i@example.com"
