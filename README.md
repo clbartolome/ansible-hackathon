@@ -28,8 +28,8 @@ This application consists of two parts:
 
 Application images has already been generated and uploaded to Quay.io:
 
-- **Backend**: quay.io/calopezb/exchange-rates-back:1.0.1
-- **Fronend**: quay.io/calopezb/exchange-rates-front:1.0.1
+- **Backend**: quay.io/calopezb/exchange-rates-back:1.0.2
+- **Fronend**: quay.io/calopezb/exchange-rates-front:1.0.2
 
 ### Deploy locally with Podman (demo)
 
