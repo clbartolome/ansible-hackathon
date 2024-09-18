@@ -42,6 +42,7 @@ const ExchangeRateList = () => {
             currency={rate.currency}
             value={rate.value}
             limit={rate.limit}
+            lastModified={rate.last_modified}
           />
         ))}
       </div>
